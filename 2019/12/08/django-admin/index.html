@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>test - Hexo</title>
+    <title>Django admin 操作 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"akaj\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T12:13:53+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"test","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/test/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/test/"}</script>
-    <meta name="description" content="akaj">
-<meta name="keywords" content="hexo,javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"localhost:port/admin 是Django框架管理数据库的界面\n\n创建超级用户1python3 manage.py createsuperuser # 创建管理员账户\n自定义admin界面的显示内容\n要想管理数据库，要把模型类注册进去配置admin.py\n\n\n\n1from app01 import models23class BookAdmin(admin.ModelAdmin):4    list_display=('id','name','price')  # book表显示哪些字段5    list_editable=('name','price')      # book表哪些字段可编辑6    filter_horizontal = ('author',)     # 编辑book的时候，作者以水平方向进行展示7    list_per_page = 4                   # 每页显示的记录个数8    # filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示9    search_fields = ('id', 'name', 'price', 'publish__name')    # 搜索框可以进行哪些字段的搜索10    list_filter = ('pub_date', 'publish')   # 指定列表过滤器11    ordering = ('price',)   # 根据什么来默认排序12    fieldsets = [13        (None, &#123;'fields': ['name']&#125;),14        ('show all', &#123;'fields': ['price', 'publish', 'author'], 'classes': ['collapse']&#125;)15    ]   # 在编辑book的时候，默认只显示name，price和publish折叠1617admin.site.register(models.Book,BookAdmin)  # Book表可在admin中管理，且自定义book的显示方式18admin.site.register(models.Publish) # Publish表可在admin中管理19admin.site.register(models.Author)  # Author表可在admin中管理\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T16:22:03+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django admin 操作","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-admin/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-admin/","keywords":"django, admin"}</script>
+    <meta name="description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin):4">
+<meta name="keywords" content="django,admin">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="test">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;test&#x2F;index.html">
+<meta property="og:title" content="Django admin 操作">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-admin&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="akaj">
+<meta property="og:description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin):4">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T04:13:53.963Z">
+<meta property="og:updated_time" content="2019-12-08T08:22:03.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,7 +250,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            test
+            Django admin 操作
         </h1>
     
     
@@ -269,7 +269,16 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>akaj</p>
+            <p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p>
+<ul>
+<li>创建超级用户<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py createsuperuser <span class="comment"># 创建管理员账户</span></span></pre></td></tr></table></figure></li>
+<li>自定义admin界面的显示内容<blockquote>
+<p>要想管理数据库，要把模型类注册进去<br>配置<code>admin.py</code></p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01 <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    list_display=(<span class="string">'id'</span>,<span class="string">'name'</span>,<span class="string">'price'</span>)  <span class="comment"># book表显示哪些字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    list_editable=(<span class="string">'name'</span>,<span class="string">'price'</span>)      <span class="comment"># book表哪些字段可编辑</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    filter_horizontal = (<span class="string">'author'</span>,)     <span class="comment"># 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    list_per_page = <span class="number">4</span>                   <span class="comment"># 每页显示的记录个数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    search_fields = (<span class="string">'id'</span>, <span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'publish__name'</span>)    <span class="comment"># 搜索框可以进行哪些字段的搜索</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    list_filter = (<span class="string">'pub_date'</span>, <span class="string">'publish'</span>)   <span class="comment"># 指定列表过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    ordering = (<span class="string">'price'</span>,)   <span class="comment"># 根据什么来默认排序</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    fieldsets = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        (<span class="literal">None</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'name'</span>]&#125;),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        (<span class="string">'show all'</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'price'</span>, <span class="string">'publish'</span>, <span class="string">'author'</span>], <span class="string">'classes'</span>: [<span class="string">'collapse'</span>]&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    ]   <span class="comment"># 在编辑book的时候，默认只显示name，price和publish折叠</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Book,BookAdmin)  <span class="comment"># Book表可在admin中管理，且自定义book的显示方式</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Publish) <span class="comment"># Publish表可在admin中管理</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Author)  <span class="comment"># Author表可在admin中管理</span></span></pre></td></tr></table></figure>
+
 
             
 
@@ -277,6 +286,13 @@
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/admin/" rel="tag">admin</a> <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+
+            </div>
         
         
             <div class="post-actions-wrap">
@@ -287,9 +303,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="Django admin 操作"
-                    aria-label="PREVIOUS: Django admin 操作"
+                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
+                    data-tooltip="算法"
+                    aria-label="PREVIOUS: 算法"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -298,11 +314,14 @@
             </li>
             <li class="post-action">
                 
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/test/"
+                    data-tooltip="test"
+                    aria-label="NEXT: test"
+                >
+                    
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -325,7 +344,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/test/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -338,7 +357,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/test/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -351,7 +370,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/test/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -399,9 +418,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="Django admin 操作"
-                    aria-label="PREVIOUS: Django admin 操作"
+                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
+                    data-tooltip="算法"
+                    aria-label="PREVIOUS: 算法"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -410,11 +429,14 @@
             </li>
             <li class="post-action">
                 
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/test/"
+                    data-tooltip="test"
+                    aria-label="NEXT: test"
+                >
+                    
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -437,7 +459,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/test/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -450,7 +472,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/test/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -463,7 +485,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/test/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -497,7 +519,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/test/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -510,7 +532,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/test/"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -523,7 +545,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/test/"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
