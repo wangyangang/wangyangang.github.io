@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
     <title>django基础1 - Hexo</title>
-    <meta name="author" content="John Doe">
+    <meta name="author" content="王延刚">
     
         <meta name="keywords" content="hexo,javascript,">
     
     
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+    
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n1.虚拟环境的搭建\n为什么需要虚拟环境\n\n\ndjango是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和python包来工作。（虚拟环境还能方便的管理项目依赖的python包）\n\n\n安装虚拟环境\n1sudo pip install virtualenv\n\n安装虚拟环境扩展包\n\n\n1sudo pip3 install virtualenvwrapper\n\n安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境\n\n配置虚拟环境修改用户家目录下的配置文件.bashrc，添加如下内容：1export WORKON_HOME=$HOME/.virtualenvs2source /usr/local/bin/virtualenvwrapper.sh\n使用source .bashrc命令使配置文件生效。创建python3虚拟环境的命令如下：\n\n1mkvirtualenv -p python3 虚拟环境名称2# 例如：3mkvirtualenv -p python3 test14# 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境\n查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键使用某个虚拟环境的命令如下：\n1workon 虚拟环境名称2例如：3workon test1\n删除虚拟环境，需要先退出再删除\n\n退出：\n\n1deactivate\n\n删除：\n\n1rmvirtualenv test1\n\n在虚拟环境中安装python包\n\n1pip install 包名称\n\n注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里\n\n\n安装django\n\n1pip3 install django\n\ndjango基础1.终端创建django项目\n创建django项目\n\n1django-admin startproject 项目名\n\n创建应用1python3 manage.py startapp app名\n\n\n\n\n注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里\n\n\n启动django开发服务器\n\n1python3 manage.py runserver\n\n2.pycharm创建django项目\n直接新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T17:58:31+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django基础1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-primary/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-primary/","keywords":"django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1.虚拟环境的搭建\n为什么需要虚拟环境\n\n\ndjango是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和python包来工作。（虚拟环境还能方便的管理项目依赖的python包）\n\n\n安装虚拟环境\n1sudo pip install virtualenv\n\n安装虚拟环境扩展包\n\n\n1sudo pip3 install virtualenvwrapper\n\n安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境\n\n配置虚拟环境修改用户家目录下的配置文件.bashrc，添加如下内容：1export WORKON_HOME=$HOME/.virtualenvs2source /usr/local/bin/virtualenvwrapper.sh\n使用source .bashrc命令使配置文件生效。创建python3虚拟环境的命令如下：\n\n1mkvirtualenv -p python3 虚拟环境名称2# 例如：3mkvirtualenv -p python3 test14# 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境\n查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键使用某个虚拟环境的命令如下：\n1workon 虚拟环境名称2例如：3workon test1\n删除虚拟环境，需要先退出再删除\n\n退出：\n\n1deactivate\n\n删除：\n\n1rmvirtualenv test1\n\n在虚拟环境中安装python包\n\n1pip install 包名称\n\n注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里\n\n\n安装django\n\n1pip3 install django\n\ndjango基础1.终端创建django项目\n创建django项目\n\n1django-admin startproject 项目名\n\n创建应用1python3 manage.py startapp app名\n\n\n\n\n注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里\n\n\n启动django开发服务器\n\n1python3 manage.py runserver\n\n2.pycharm创建django项目\n直接新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T17:58:31+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django基础1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-primary/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-primary/","keywords":"django"}</script>
     <meta name="description" content="1.虚拟环境的搭建 为什么需要虚拟环境   django是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和p">
 <meta name="keywords" content="django">
 <meta property="og:type" content="blog">
@@ -28,11 +30,13 @@
 <meta property="og:updated_time" content="2019-12-08T09:58:31.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-primary&#x2F;1.png">
-<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
+<meta name="twitter:creator" content="@yangangwang">
     
     
         
     
+    
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -49,6 +53,8 @@
 
     
         
+            <link rel="stylesheet" href="/assets/css/gitalk.css">
+        
     
 </head>
 
@@ -57,6 +63,10 @@
             <!-- Define author's picture -->
 
 
+    
+        
+            
+        
     
 
 <header id="header" data-behavior="4">
@@ -79,6 +89,8 @@
             >
         
         
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+        
         </a>
     
 </header>
@@ -86,8 +98,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+                </a>
+                <h4 class="sidebar-profile-name">王延刚</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>不疯魔,不成话</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -367,9 +397,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-orm-2/"
-                    data-tooltip="Django ORM 操作2"
-                    aria-label="PREVIOUS: Django ORM 操作2"
+                    href="/2019/12/08/django-CBV/"
+                    data-tooltip="django类视图"
+                    aria-label="PREVIOUS: django类视图"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -381,9 +411,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-CBV/"
-                    data-tooltip="django类视图"
-                    aria-label="NEXT: django类视图"
+                    href="/2019/12/08/django-router/"
+                    data-tooltip="django路由url分发"
+                    aria-label="NEXT: django路由url分发"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -443,6 +473,16 @@
             </li>
         
         
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
             
         
         <li class="post-action">
@@ -459,6 +499,10 @@
         
         
             
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
         
     </div>
 </article>
@@ -467,7 +511,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 John Doe. All Rights Reserved.
+        Copyrights &copy; 2019 王延刚. All Rights Reserved.
     </span>
 </footer>
 
@@ -482,9 +526,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-orm-2/"
-                    data-tooltip="Django ORM 操作2"
-                    aria-label="PREVIOUS: Django ORM 操作2"
+                    href="/2019/12/08/django-CBV/"
+                    data-tooltip="django类视图"
+                    aria-label="PREVIOUS: django类视图"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -496,9 +540,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-CBV/"
-                    data-tooltip="django类视图"
-                    aria-label="NEXT: django类视图"
+                    href="/2019/12/08/django-router/"
+                    data-tooltip="django路由url分发"
+                    aria-label="NEXT: django路由url分发"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -558,6 +602,16 @@
             </li>
         
         
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
             
         
         <li class="post-action">
@@ -625,25 +679,37 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
-            <h4 id="about-card-name">John Doe</h4>
+            <img id="about-card-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <h4 id="about-card-name">王延刚</h4>
+        
+            <div id="about-card-bio"><p>不疯魔,不成话</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>web developer</p>
 
             </div>
         
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Shanghai
+            </div>
         
     </div>
 </div>
@@ -659,6 +725,23 @@
 <!--SCRIPTS END-->
 
 
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-primary/';
+              
+            this.page.identifier = '2019/12/08/django-primary/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'wangyangang-blog';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
     
 
 

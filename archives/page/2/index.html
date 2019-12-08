@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
     <title>Archives - Hexo</title>
-    <meta name="author" content="John Doe">
+    <meta name="author" content="王延刚">
     
         <meta name="keywords" content="hexo,javascript,">
     
+    
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
@@ -23,11 +25,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
+<meta name="twitter:creator" content="@yangangwang">
     
     
         
     
+    
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -51,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="1">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -72,6 +80,8 @@
             >
         
         
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+        
         </a>
     
 </header>
@@ -79,8 +89,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="1">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+                </a>
+                <h4 class="sidebar-profile-name">王延刚</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>不疯魔,不成话</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -363,10 +391,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/django-primary2/"
-                            aria-label=": django基础2"
+                            href="/2019/12/08/django-primary/"
+                            aria-label=": django基础1"
                         >
-                            django基础2
+                            django基础1
                         </a>
                     
                 </h1>
@@ -388,80 +416,72 @@
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Django多表操作之多对多查询记录"><span class="toc-text">Django多表操作之多对多查询记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Django多表操作之多对多关系"><span class="toc-text">Django多表操作之多对多关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-通过ManyToManyField建立-推荐"><span class="toc-text">1.通过ManyToManyField建立(推荐)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-通过在models-py文件里新建第三张表建立"><span class="toc-text">2.通过在models.py文件里新建第三张表建立</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分页"><span class="toc-text">分页</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Paginator类实例对象"><span class="toc-text">Paginator类实例对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Page类实例对象"><span class="toc-text">Page类实例对象</span></a></li></ol></li></ol></li></ol>
+                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-虚拟环境的搭建"><span class="toc-text">1.虚拟环境的搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django基础"><span class="toc-text">django基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-终端创建django项目"><span class="toc-text">1.终端创建django项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pycharm创建django项目"><span class="toc-text">2.pycharm创建django项目</span></a></li></ol></li></ol>
 
-<h2 id="Django多表操作之多对多查询记录"><a href="#Django多表操作之多对多查询记录" class="headerlink" title="Django多表操作之多对多查询记录"></a>Django多表操作之多对多查询记录</h2><ul>
-<li>正向查找</li>
+<h2 id="1-虚拟环境的搭建"><a href="#1-虚拟环境的搭建" class="headerlink" title="1.虚拟环境的搭建"></a>1.虚拟环境的搭建</h2><ul>
+<li>为什么需要虚拟环境</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.get(id=<span class="number">3</span>).authors.all(i)</span></pre></td></tr></table></figure>
-
-<ul>
-<li>反向查找</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Author.objects.get(id=<span class="number">2</span>).book_set.all()</span></pre></td></tr></table></figure>
-
 <blockquote>
-<p>利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果<br>  如果不想放到缓存里，可以这么写</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ret.exists():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ... <span class="comment"># 这样写不会把ret放到缓存里</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>或者使用迭代器 (iterator)</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=ret.iterator()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    print(i.name)   <span class="comment"># 这样不会用缓存</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>querySet的cache是用于减少程序对数据库的查询，在通常的使用下会保证只有在需要的时候才会查询数据库。<br>使用exists()和iterator()方法可以优化程序对内存的使用。不过由于他们并不会生成queryet cache,可能会造成额外的数据库查询。</p>
+<p><code>django</code>是一个用来开发<code>python</code>网站的框架。因为在开发过程中要用到很多的<code>python</code>包，而<code>python</code>包和<code>django</code>框架本身以来特定的<code>python</code>版本的，当系统的<code>python</code>版本改变的时候，对应的<code>python</code>包和<code>django</code>框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装<code>django</code>和python包来工作。（虚拟环境还能方便的管理项目依赖的<code>python</code>包）</p>
 </blockquote>
 <ul>
-<li>聚合函数 aggregate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models <span class="keyword">import</span> Avg, Min, Sum, Max</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Sum(<span class="string">'price'</span>))  <span class="comment"># 所有书的价格总和</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Avg(<span class="string">'price'</span>))  <span class="comment"># 所有书的平均价格</span></span></pre></td></tr></table></figure></li>
-<li>分组函数 anonotate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.values(<span class="string">'authors__name'</span>).anonotate(Sum(<span class="string">'price'</span>))    <span class="comment"># 计算每一个人出版的所有书的总价格</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Publish.objects.values(<span class="string">'name'</span>).anonotate(Min())</span></pre></td></tr></table></figure></li>
-<li>F查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.all().update(price=F(<span class="string">'price'</span>)+<span class="number">10</span>)  <span class="comment">#把每本书的价格加10</span></span></pre></td></tr></table></figure></li>
-<li>Q查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(~Q(name=<span class="string">'GO'</span>)|Q(price=<span class="number">100</span>)) <span class="comment">#把所有的书，name不等于GO或price等于100的，全查出来</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>如果要用Q查询和关键字查询一起用，那么Q查询要放在前面</p>
-</blockquote>
+<li><p>安装虚拟环境</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo pip install virtualenv</span></pre></td></tr></table></figure>
+</li>
+<li><p>安装虚拟环境扩展包</p>
 </li>
 </ul>
-<hr>
-<h3 id="Django多表操作之多对多关系"><a href="#Django多表操作之多对多关系" class="headerlink" title="Django多表操作之多对多关系"></a>Django多表操作之多对多关系</h3><ul>
-<li>添加多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.add(*author_objs)</span></pre></td></tr></table></figure></li>
-<li>删除多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(*author_objs)   <span class="comment"># 删除所有的关系</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(<span class="number">2</span>)              <span class="comment"># 删除id=2的作者关系</span></span></pre></td></tr></table></figure></li>
-<li>建立多对的关系</li>
-</ul>
-<h4 id="1-通过ManyToManyField建立-推荐"><a href="#1-通过ManyToManyField建立-推荐" class="headerlink" title="1.通过ManyToManyField建立(推荐)"></a>1.通过ManyToManyField建立(推荐)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    author=models.ManyToManyField(<span class="string">'Author'</span>)</span></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo pip3 install virtualenvwrapper</span></pre></td></tr></table></figure>
 
-<blockquote>
-<p>此时会自动在数据库创建第三张表，来存放Book和Author的对应关系<br>  这时候查询这么用<br>  eg:查询alex写过的所有书的name和price</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(authors__name=<span class="string">'alex'</span>).values(<span class="string">'name'</span>,<span class="string">'price'</span>)</span></pre></td></tr></table></figure>
-<h4 id="2-通过在models-py文件里新建第三张表建立"><a href="#2-通过在models-py文件里新建第三张表建立" class="headerlink" title="2.通过在models.py文件里新建第三张表建立"></a>2.通过在models.py文件里新建第三张表建立</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book_Author</span><span class="params">(models.Model)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    book=models.ForeignKey("Book")</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    author=models.ForeignKey(<span class="string">"Author"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Book_Author.objects.create(book_id=<span class="number">2</span>,author_id=<span class="number">2</span>)</span></pre></td></tr></table></figure>
-<blockquote>
-<p>这时候查询这么用：</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">obj=Book.objects.get(id=<span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">obj.book_author_set.all()[<span class="number">0</span>].author</span></pre></td></tr></table></figure>
-<blockquote>
-<p>或者</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(book_author__author_name=<span class="string">'alex'</span>)</span></pre></td></tr></table></figure>
-<blockquote>
-<p>推荐使用第一种方法，即ManyToMany的方式建立关系</p>
-</blockquote>
-<h1 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h1><p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p>
-<h4 id="Paginator类实例对象"><a href="#Paginator类实例对象" class="headerlink" title="Paginator类实例对象"></a>Paginator类实例对象</h4><ul>
-<li>方法<em>init</em>(列表,int)：返回分页对象，第一个参数为列表数据，第二个参数为每页数据的条数。</li>
-<li>属性count：返回对象总数。</li>
-<li>属性num_pages：返回页面总数。</li>
-<li>属性page_range：返回页码列表，从1开始，例如[1, 2, 3, 4]。</li>
-<li>方法page(m)：返回Page类实例对象，表示第m页的数据，下标以1开始。</li>
+<p>安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境</p>
+<ul>
+<li>配置虚拟环境<br>修改用户家目录下的配置文件.bashrc，添加如下内容：<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">export WORKON_HOME=$HOME/.virtualenvs</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">source /usr/local/bin/virtualenvwrapper.sh</span></pre></td></tr></table></figure>
+使用<code>source .bashrc</code>命令使配置文件生效。<br>创建python3虚拟环境的命令如下：</li>
 </ul>
-<h4 id="Page类实例对象"><a href="#Page类实例对象" class="headerlink" title="Page类实例对象"></a>Page类实例对象</h4><ul>
-<li>调用Paginator对象的page()方法返回Page对象，不需要手动构造。</li>
-<li>属性object_list：返回当前页对象的列表。</li>
-<li>属性number：返回当前是第几页，从1开始。</li>
-<li>属性paginator：当前页对应的Paginator对象。</li>
-<li>方法has_next()：如果有下一页返回True。</li>
-<li>方法has_previous()：如果有上一页返回True。</li>
-<li>方法len()：返回当前页面对象的个数。</li>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mkvirtualenv -p python3 虚拟环境名称</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 例如：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">mkvirtualenv -p python3 test1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境</span></span></pre></td></tr></table></figure>
+<p>查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键<br><img src="1.png" alt=""><br>使用某个虚拟环境的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">workon 虚拟环境名称</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">例如：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">workon test1</span></pre></td></tr></table></figure>
+<p>删除虚拟环境，需要先退出再删除</p>
+<ul>
+<li>退出：</li>
 </ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">deactivate</span></pre></td></tr></table></figure>
+<ul>
+<li>删除：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">rmvirtualenv test1</span></pre></td></tr></table></figure>
+<ul>
+<li>在虚拟环境中安装python包</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pip install 包名称</span></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里</p>
+</blockquote>
+<ul>
+<li>安装django</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pip3 install django</span></pre></td></tr></table></figure>
+
+<h2 id="django基础"><a href="#django基础" class="headerlink" title="django基础"></a>django基础</h2><h3 id="1-终端创建django项目"><a href="#1-终端创建django项目" class="headerlink" title="1.终端创建django项目"></a>1.终端创建django项目</h3><ul>
+<li>创建django项目</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">django-admin startproject 项目名</span></pre></td></tr></table></figure>
+<ul>
+<li>创建应用<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py startapp app名</span></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里</p>
+</blockquote>
+<ul>
+<li>启动django开发服务器</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py runserver</span></pre></td></tr></table></figure>
+
+<h3 id="2-pycharm创建django项目"><a href="#2-pycharm创建django项目" class="headerlink" title="2.pycharm创建django项目"></a>2.pycharm创建django项目</h3><blockquote>
+<p>直接新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）</p>
+</blockquote>
 
                     
                         
@@ -471,7 +491,7 @@
                     
                         <p>
                             <a
-                                href="/2019/12/08/django-primary2/#post-footer"
+                                href="/2019/12/08/django-primary/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
@@ -494,10 +514,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/gist/"
-                            aria-label=": Gist"
+                            href="/2019/12/08/django-router/"
+                            aria-label=": django路由url分发"
                         >
-                            Gist
+                            django路由url分发
                         </a>
                     
                 </h1>
@@ -510,7 +530,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/gist/">gist</a>
+    <a class="category-link" href="/categories/django/">django</a>
 
 
     
@@ -519,22 +539,24 @@
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#向前端返回json格式的数据"><span class="toc-text">向前端返回json格式的数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django中ajax的使用"><span class="toc-text">django中ajax的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于ajax的csrf验证："><span class="toc-text">关于ajax的csrf验证：</span></a></li></ol></li></ol>
+                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本使用"><span class="toc-text">1. 基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-获取参数"><span class="toc-text">2. 获取参数</span></a></li></ol>
 
-<h2 id="向前端返回json格式的数据"><a href="#向前端返回json格式的数据" class="headerlink" title="向前端返回json格式的数据"></a>向前端返回json格式的数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_house_index</span><span class="params">()</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        ret = redis_store.get(<span class="string">'home_page_data'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.error(e)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        ret = <span class="literal">None</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.info(<span class="string">'hit house index info redis'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;"errno": 0, "errmsg": "OK", "data": %s&#125;'</span> % ret, <span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>&#125;</span></pre></td></tr></table></figure>
-
-<h2 id="django中ajax的使用"><a href="#django中ajax的使用" class="headerlink" title="django中ajax的使用"></a>django中ajax的使用</h2><pre><code>*post：*</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#btn2'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> new_session_value = $(<span class="string">'#new_session_value'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> csrf = $(<span class="string">'input[name="csrfmiddlewaretoken"]'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">      &#123;#var args = &#123;'name': new_session_value, 'csrfmiddlewaretoken': csrf&#125;;#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> args = &#123;<span class="attr">name</span>: new_session_value&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> json_args = <span class="built_in">JSON</span>.stringify(args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">      <span class="built_in">console</span>.log(json_args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">      $.ajax(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            url: <span class="string">'/app01/sessions/'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            type: <span class="string">'post'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            data: json_args,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &#123;#contentType:'application/json',#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            dataType: <span class="string">'json'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            headers:&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">              <span class="string">'X-CSRFTOKEN'</span>: csrf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            &#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">var</span> resno = data[<span class="string">'resno'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">if</span>(resno == <span class="number">1</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                    <span class="keyword">var</span> val = data[<span class="string">'name'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(resno == <span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(data[<span class="string">'errmsg'</span>]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">      &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">&#125;)</span></pre></td></tr></table></figure>
-<ul>
-<li>url地址前要有 “/“</li>
+<h2 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1. 基本使用"></a>1. 基本使用</h2><ul>
+<li>项目的urls.py文件</li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$.post(<span class="string">'/order/pay'</span>, params, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>), '<span class="title">json</span>')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">  ...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function">// 以下是<span class="title">jquery</span>中<span class="title">ajax</span> <span class="title">post</span>的部分定义：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">// jQuery[ method ] = function( url, data, callback, type ) &#123;&#125;</span></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, re_path, include</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^app01/'</span>, include((<span class="string">'app01.urls'</span>, <span class="string">'app01'</span>), namespace=<span class="string">'app01'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
 
-<h3 id="关于ajax的csrf验证："><a href="#关于ajax的csrf验证：" class="headerlink" title="关于ajax的csrf验证："></a>关于ajax的csrf验证：</h3><ul>
-<li>传的数据不是json，那么可以把<code>csrfmiddlewaretoken</code>作为键放到参数里</li>
-<li>传的数据是json，不能把<code>csrfmiddlewaretoken</code>放到参数里，放进去也不起作用。只能用ajax的常规写法，把<code>csrf</code>放到请求头里。</li>
-<li>后台获取json数据，用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">json_body = json.loads(request.body)</span></pre></td></tr></table></figure>
-获取单个数据也可以用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">name = request.POST.get(<span class="string">'name'</span>)</span></pre></td></tr></table></figure>
+<ul>
+<li>应用的urls.py文件</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, re_path</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01.views <span class="keyword">import</span> IndexView, BookInfoListView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^index'</span>, IndexView.as_view(), name=<span class="string">'index'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^books'</span>, BookInfoListView.as_view(template_name=<span class="string">'books.html'</span>), name=<span class="string">'books'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
 
+<h2 id="2-获取参数"><a href="#2-获取参数" class="headerlink" title="2. 获取参数"></a>2. 获取参数</h2><ul>
+<li>位置参数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^delete(\d+)/$'</span>,views.show_arg),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_arg</span><span class="params">(request,id)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'show arg %s'</span>%id)</span></pre></td></tr></table></figure></li>
+<li>关键字参数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^delete(?P&lt;id1&gt;\d+)/$'</span>,views.show_arg),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_arg</span><span class="params">(request,id1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'show %s'</span>%id1)</span></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：视图show_arg此时必须要有一个参数名为id1，否则报错。</p>
+</blockquote>
 </li>
 </ul>
 
@@ -546,7 +568,7 @@
                     
                         <p>
                             <a
-                                href="/2019/12/08/gist/#post-footer"
+                                href="/2019/12/08/django-router/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
@@ -594,8 +616,7 @@
             </div>
             
                 <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1>
+                    <h1 id="table-of-contents">Table of Contents</h1>
 
 <ul>
 <li>一个年轻人要成长必须过两关：<ul>
@@ -604,6 +625,7 @@
 </ul>
 </li>
 </ul>
+
                     
                         
 
@@ -618,7 +640,7 @@
             <div class="photo-box">
                 <a
                     class="photo-box-inner fancybox"
-                    data-fancybox="gallery-ck3xl3tok0016gks638h9a577"
+                    data-fancybox="gallery-ck3xnvni70017h1s66p0744zl"
                     data-caption="New York"
                     title="New York"
                     href="https://wangyangang.github.io/2019/12/08/index/java.jpg"
@@ -827,58 +849,6 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/test/"
-                            aria-label=": test"
-                        >
-                            test
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>akaj</p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/test/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
                             href="/2019/12/08/spider-primary/"
                             aria-label=": 初识爬虫"
                         >
@@ -1006,6 +976,58 @@
                         <p>
                             <a
                                 href="/2019/12/08/css-primary/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2019/12/08/test/"
+                            aria-label=": test"
+                        >
+                            test
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>akaj</p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2019/12/08/test/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
@@ -1277,7 +1299,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 John Doe. All Rights Reserved.
+        Copyrights &copy; 2019 王延刚. All Rights Reserved.
     </span>
 </footer>
 
@@ -1287,25 +1309,37 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
-            <h4 id="about-card-name">John Doe</h4>
+            <img id="about-card-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <h4 id="about-card-name">王延刚</h4>
+        
+            <div id="about-card-bio"><p>不疯魔,不成话</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>web developer</p>
 
             </div>
         
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Shanghai
+            </div>
         
     </div>
 </div>

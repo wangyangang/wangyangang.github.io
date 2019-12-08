@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
     <title>django路由url分发 - Hexo</title>
-    <meta name="author" content="John Doe">
+    <meta name="author" content="王延刚">
     
         <meta name="keywords" content="hexo,javascript,">
     
     
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+    
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n1. 基本使用\n项目的urls.py文件\n\n1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns = [5    path('admin/', admin.site.urls),6    re_path(r'^app01/', include(('app01.urls', 'app01'), namespace='app01'))7]\n\n\n应用的urls.py文件\n\n1from django.urls import path, re_path2from app01.views import IndexView, BookInfoListView34urlpatterns = [5    re_path(r'^index', IndexView.as_view(), name='index'),6    re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),7]\n\n2. 获取参数\n位置参数1url(r'^delete(\\d+)/$',views.show_arg),23def show_arg(request,id):4    return HttpResponse('show arg %s'%id)\n关键字参数1url(r'^delete(?P&lt;id1&gt;\\d+)/$',views.show_arg),23def show_arg(request,id1):4    return HttpResponse('show %s'%id1)\n\n注意：视图show_arg此时必须要有一个参数名为id1，否则报错。\n\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:05:40+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django路由url分发","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-router/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-router/","keywords":"django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1. 基本使用\n项目的urls.py文件\n\n1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns = [5    path('admin/', admin.site.urls),6    re_path(r'^app01/', include(('app01.urls', 'app01'), namespace='app01'))7]\n\n\n应用的urls.py文件\n\n1from django.urls import path, re_path2from app01.views import IndexView, BookInfoListView34urlpatterns = [5    re_path(r'^index', IndexView.as_view(), name='index'),6    re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),7]\n\n2. 获取参数\n位置参数1url(r'^delete(\\d+)/$',views.show_arg),23def show_arg(request,id):4    return HttpResponse('show arg %s'%id)\n关键字参数1url(r'^delete(?P&lt;id1&gt;\\d+)/$',views.show_arg),23def show_arg(request,id1):4    return HttpResponse('show %s'%id1)\n\n注意：视图show_arg此时必须要有一个参数名为id1，否则报错。\n\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:05:40+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django路由url分发","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-router/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-router/","keywords":"django"}</script>
     <meta name="description" content="1. 基本使用 项目的urls.py文件  1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns &#x3D; [5    path(&amp;apos;admin&#x2F;&amp;apos;, admin.site.urls),6    re_path(r&amp;apos;^app01&#x2F;&amp;apos;, include((&amp;apos;app01.u">
 <meta name="keywords" content="django">
 <meta property="og:type" content="blog">
@@ -26,11 +28,13 @@
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2019-12-08T10:05:40.439Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
+<meta name="twitter:creator" content="@yangangwang">
     
     
         
     
+    
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -47,6 +51,8 @@
 
     
         
+            <link rel="stylesheet" href="/assets/css/gitalk.css">
+        
     
 </head>
 
@@ -55,6 +61,10 @@
             <!-- Define author's picture -->
 
 
+    
+        
+            
+        
     
 
 <header id="header" data-behavior="4">
@@ -77,6 +87,8 @@
             >
         
         
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+        
         </a>
     
 </header>
@@ -84,8 +96,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+                </a>
+                <h4 class="sidebar-profile-name">王延刚</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>不疯魔,不成话</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -319,9 +349,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
-                    data-tooltip="算法基础"
-                    aria-label="PREVIOUS: 算法基础"
+                    href="/2019/12/08/django-primary/"
+                    data-tooltip="django基础1"
+                    aria-label="PREVIOUS: django基础1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -333,9 +363,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin2/"
-                    data-tooltip="django-admin的使用2"
-                    aria-label="NEXT: django-admin的使用2"
+                    href="/2019/12/08/index/"
+                    data-tooltip="index"
+                    aria-label="NEXT: index"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -395,6 +425,16 @@
             </li>
         
         
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
             
         
         <li class="post-action">
@@ -411,6 +451,10 @@
         
         
             
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
         
     </div>
 </article>
@@ -419,7 +463,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 John Doe. All Rights Reserved.
+        Copyrights &copy; 2019 王延刚. All Rights Reserved.
     </span>
 </footer>
 
@@ -434,9 +478,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
-                    data-tooltip="算法基础"
-                    aria-label="PREVIOUS: 算法基础"
+                    href="/2019/12/08/django-primary/"
+                    data-tooltip="django基础1"
+                    aria-label="PREVIOUS: django基础1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -448,9 +492,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin2/"
-                    data-tooltip="django-admin的使用2"
-                    aria-label="NEXT: django-admin的使用2"
+                    href="/2019/12/08/index/"
+                    data-tooltip="index"
+                    aria-label="NEXT: index"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -510,6 +554,16 @@
             </li>
         
         
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
             
         
         <li class="post-action">
@@ -577,25 +631,37 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
-            <h4 id="about-card-name">John Doe</h4>
+            <img id="about-card-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <h4 id="about-card-name">王延刚</h4>
+        
+            <div id="about-card-bio"><p>不疯魔,不成话</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>web developer</p>
 
             </div>
         
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Shanghai
+            </div>
         
     </div>
 </div>
@@ -611,6 +677,23 @@
 <!--SCRIPTS END-->
 
 
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-router/';
+              
+            this.page.identifier = '2019/12/08/django-router/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'wangyangang-blog';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
     
 
 

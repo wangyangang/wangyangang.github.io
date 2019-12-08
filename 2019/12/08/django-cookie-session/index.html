@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
     <title>Django Cookie Session 操作 - Hexo</title>
-    <meta name="author" content="John Doe">
+    <meta name="author" content="王延刚">
     
         <meta name="keywords" content="hexo,javascript,">
     
     
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+    
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n1.COOKIE1def login(request):2    is_login = request.COOKIES.get('is_login')34    if request.method == 'GET':5        if is_login:6            return redirect('/index')7    else:8        username = request.POST.get('username')9        password = request.POST.get('password')1011        if username == 'wyg' and password == 'wyg':12            ret = redirect('/index/')13            ret.set_cookie('is_login', True)14            # ret.set_cookie('is_login',True,max_age=10)# 有效期10秒15            # ret.set_cookie('is_login',True,expires=datetime.datetime.utcnow()+datetime.timedelta(days=3)) # 3天有效期16            return ret1718    return render(request, 'login.html')1920def index(request):21is_login = request.COOKIES.get('is_login')2223    if is_login:24        return render(request, 'index.html')25    else:26        return redirect('/login/')\n2.session\nsession在django用的时候可能会出问题，这时候，把settings.py里的MIDDLEWARE_CLASS改为MIDDLEWARE，把\n\n1'django.contrib.auth.middleware.AuthenticationMiddleware'\n注释掉。session在服务器默认保存15天\n\n获取session: request.session[key]\n设置session: request.session[key]=value\n删除session: del request.session[key]（这个删除其实是把session_data更新为一个其他的值了，并没有立即删除）\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T16:31:51+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django Cookie Session 操作","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-cookie-session/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-cookie-session/","keywords":"django, cookie, session"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1.COOKIE1def login(request):2    is_login = request.COOKIES.get('is_login')34    if request.method == 'GET':5        if is_login:6            return redirect('/index')7    else:8        username = request.POST.get('username')9        password = request.POST.get('password')1011        if username == 'wyg' and password == 'wyg':12            ret = redirect('/index/')13            ret.set_cookie('is_login', True)14            # ret.set_cookie('is_login',True,max_age=10)# 有效期10秒15            # ret.set_cookie('is_login',True,expires=datetime.datetime.utcnow()+datetime.timedelta(days=3)) # 3天有效期16            return ret1718    return render(request, 'login.html')1920def index(request):21is_login = request.COOKIES.get('is_login')2223    if is_login:24        return render(request, 'index.html')25    else:26        return redirect('/login/')\n2.session\nsession在django用的时候可能会出问题，这时候，把settings.py里的MIDDLEWARE_CLASS改为MIDDLEWARE，把\n\n1'django.contrib.auth.middleware.AuthenticationMiddleware'\n注释掉。session在服务器默认保存15天\n\n获取session: request.session[key]\n设置session: request.session[key]=value\n删除session: del request.session[key]（这个删除其实是把session_data更新为一个其他的值了，并没有立即删除）\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T16:31:51+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django Cookie Session 操作","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-cookie-session/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-cookie-session/","keywords":"django, cookie, session"}</script>
     <meta name="description" content="1.COOKIE1def login(request):2    is_login &#x3D; request.COOKIES.get(&amp;apos;is_login&amp;apos;)34    if request.method &#x3D;&#x3D; &amp;apos;GET&amp;apos;:5        if is_login:6            return redirect(&amp;apos;&#x2F;index&amp;apos;)7    else:8        username &#x3D; r">
 <meta name="keywords" content="django,cookie,session">
 <meta property="og:type" content="blog">
@@ -26,11 +28,13 @@
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2019-12-08T08:31:51.308Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
+<meta name="twitter:creator" content="@yangangwang">
     
     
         
     
+    
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -47,6 +51,8 @@
 
     
         
+            <link rel="stylesheet" href="/assets/css/gitalk.css">
+        
     
 </head>
 
@@ -55,6 +61,10 @@
             <!-- Define author's picture -->
 
 
+    
+        
+            
+        
     
 
 <header id="header" data-behavior="4">
@@ -77,6 +87,8 @@
             >
         
         
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+        
         </a>
     
 </header>
@@ -84,8 +96,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+                </a>
+                <h4 class="sidebar-profile-name">王延刚</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>不疯魔,不成话</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -389,6 +419,16 @@
         
         
             
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
         
         <li class="post-action">
             
@@ -404,6 +444,10 @@
         
         
             
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
         
     </div>
 </article>
@@ -412,7 +456,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 John Doe. All Rights Reserved.
+        Copyrights &copy; 2019 王延刚. All Rights Reserved.
     </span>
 </footer>
 
@@ -504,6 +548,16 @@
         
         
             
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
         
         <li class="post-action">
             
@@ -570,25 +624,37 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
-            <h4 id="about-card-name">John Doe</h4>
+            <img id="about-card-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <h4 id="about-card-name">王延刚</h4>
+        
+            <div id="about-card-bio"><p>不疯魔,不成话</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>web developer</p>
 
             </div>
         
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Shanghai
+            </div>
         
     </div>
 </div>
@@ -604,6 +670,23 @@
 <!--SCRIPTS END-->
 
 
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-cookie-session/';
+              
+            this.page.identifier = '2019/12/08/django-cookie-session/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'wangyangang-blog';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
     
 
 

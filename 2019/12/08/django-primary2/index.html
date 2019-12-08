@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
     <title>django基础2 - Hexo</title>
-    <meta name="author" content="John Doe">
+    <meta name="author" content="王延刚">
     
         <meta name="keywords" content="hexo,javascript,">
     
     
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+    
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\nDjango多表操作之多对多查询记录\n正向查找\n\n1Book.objects.get(id=3).authors.all(i)\n\n\n反向查找\n\n1Author.objects.get(id=2).book_set.all()\n\n\n利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果  如果不想放到缓存里，可以这么写\n\n1ret=Book.objects.all()2if ret.exists():3    ... # 这样写不会把ret放到缓存里\n\n或者使用迭代器 (iterator)\n\n1ret=Book.objects.all()2ret=ret.iterator()3for i in ret:4    print(i.name)   # 这样不会用缓存\n\nquerySet的cache是用于减少程序对数据库的查询，在通常的使用下会保证只有在需要的时候才会查询数据库。使用exists()和iterator()方法可以优化程序对内存的使用。不过由于他们并不会生成queryet cache,可能会造成额外的数据库查询。\n\n\n聚合函数 aggregate1from django.db.models import Avg, Min, Sum, Max2ret=Book.objects.all().aggregate(Sum('price'))  # 所有书的价格总和3ret=Book.objects.all().aggregate(Avg('price'))  # 所有书的平均价格\n分组函数 anonotate1Book.objects.values('authors__name').anonotate(Sum('price'))    # 计算每一个人出版的所有书的总价格2Publish.objects.values('name').anonotate(Min())\nF查询1Book.objects.all().update(price=F('price')+10)  #把每本书的价格加10\nQ查询1Book.objects.filter(~Q(name='GO')|Q(price=100)) #把所有的书，name不等于GO或price等于100的，全查出来\n\n如果要用Q查询和关键字查询一起用，那么Q查询要放在前面\n\n\n\n\nDjango多表操作之多对多关系\n添加多对多关系1book_obj=Book.objects.get(id=4)2author_objs=Author.objects.all()3book_obj.authors.add(*author_objs)\n删除多对多关系1book_obj=Book.objects.get(id=4)2author_objs=Author.objects.all()3book_obj.authors.remove(*author_objs)   # 删除所有的关系4book_obj.authors.remove(2)              # 删除id=2的作者关系\n建立多对的关系\n\n1.通过ManyToManyField建立(推荐)1class Book(models.Model):2    author=models.ManyToManyField('Author')\n\n\n此时会自动在数据库创建第三张表，来存放Book和Author的对应关系  这时候查询这么用  eg:查询alex写过的所有书的name和price\n\n1Book.objects.filter(authors__name='alex').values('name','price')\n2.通过在models.py文件里新建第三张表建立1class Book_Author(models.Model)2    book=models.ForeignKey(\"Book\")3    author=models.ForeignKey(\"Author\")45Book_Author.objects.create(book_id=2,author_id=2)\n\n这时候查询这么用：\n\n1obj=Book.objects.get(id=2)2obj.book_author_set.all()[0].author\n\n或者\n\n1Book.objects.filter(book_author__author_name='alex')\n\n推荐使用第一种方法，即ManyToMany的方式建立关系\n\n分页Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。\nPaginator类实例对象\n方法init(列表,int)：返回分页对象，第一个参数为列表数据，第二个参数为每页数据的条数。\n属性count：返回对象总数。\n属性num_pages：返回页面总数。\n属性page_range：返回页码列表，从1开始，例如[1, 2, 3, 4]。\n方法page(m)：返回Page类实例对象，表示第m页的数据，下标以1开始。\n\nPage类实例对象\n调用Paginator对象的page()方法返回Page对象，不需要手动构造。\n属性object_list：返回当前页对象的列表。\n属性number：返回当前是第几页，从1开始。\n属性paginator：当前页对应的Paginator对象。\n方法has_next()：如果有下一页返回True。\n方法has_previous()：如果有上一页返回True。\n方法len()：返回当前页面对象的个数。\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T05:53:37+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django基础2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-primary2/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-primary2/","keywords":"django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\nDjango多表操作之多对多查询记录\n正向查找\n\n1Book.objects.get(id=3).authors.all(i)\n\n\n反向查找\n\n1Author.objects.get(id=2).book_set.all()\n\n\n利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果  如果不想放到缓存里，可以这么写\n\n1ret=Book.objects.all()2if ret.exists():3    ... # 这样写不会把ret放到缓存里\n\n或者使用迭代器 (iterator)\n\n1ret=Book.objects.all()2ret=ret.iterator()3for i in ret:4    print(i.name)   # 这样不会用缓存\n\nquerySet的cache是用于减少程序对数据库的查询，在通常的使用下会保证只有在需要的时候才会查询数据库。使用exists()和iterator()方法可以优化程序对内存的使用。不过由于他们并不会生成queryet cache,可能会造成额外的数据库查询。\n\n\n聚合函数 aggregate1from django.db.models import Avg, Min, Sum, Max2ret=Book.objects.all().aggregate(Sum('price'))  # 所有书的价格总和3ret=Book.objects.all().aggregate(Avg('price'))  # 所有书的平均价格\n分组函数 anonotate1Book.objects.values('authors__name').anonotate(Sum('price'))    # 计算每一个人出版的所有书的总价格2Publish.objects.values('name').anonotate(Min())\nF查询1Book.objects.all().update(price=F('price')+10)  #把每本书的价格加10\nQ查询1Book.objects.filter(~Q(name='GO')|Q(price=100)) #把所有的书，name不等于GO或price等于100的，全查出来\n\n如果要用Q查询和关键字查询一起用，那么Q查询要放在前面\n\n\n\n\nDjango多表操作之多对多关系\n添加多对多关系1book_obj=Book.objects.get(id=4)2author_objs=Author.objects.all()3book_obj.authors.add(*author_objs)\n删除多对多关系1book_obj=Book.objects.get(id=4)2author_objs=Author.objects.all()3book_obj.authors.remove(*author_objs)   # 删除所有的关系4book_obj.authors.remove(2)              # 删除id=2的作者关系\n建立多对的关系\n\n1.通过ManyToManyField建立(推荐)1class Book(models.Model):2    author=models.ManyToManyField('Author')\n\n\n此时会自动在数据库创建第三张表，来存放Book和Author的对应关系  这时候查询这么用  eg:查询alex写过的所有书的name和price\n\n1Book.objects.filter(authors__name='alex').values('name','price')\n2.通过在models.py文件里新建第三张表建立1class Book_Author(models.Model)2    book=models.ForeignKey(\"Book\")3    author=models.ForeignKey(\"Author\")45Book_Author.objects.create(book_id=2,author_id=2)\n\n这时候查询这么用：\n\n1obj=Book.objects.get(id=2)2obj.book_author_set.all()[0].author\n\n或者\n\n1Book.objects.filter(book_author__author_name='alex')\n\n推荐使用第一种方法，即ManyToMany的方式建立关系\n\n分页Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。\nPaginator类实例对象\n方法init(列表,int)：返回分页对象，第一个参数为列表数据，第二个参数为每页数据的条数。\n属性count：返回对象总数。\n属性num_pages：返回页面总数。\n属性page_range：返回页码列表，从1开始，例如[1, 2, 3, 4]。\n方法page(m)：返回Page类实例对象，表示第m页的数据，下标以1开始。\n\nPage类实例对象\n调用Paginator对象的page()方法返回Page对象，不需要手动构造。\n属性object_list：返回当前页对象的列表。\n属性number：返回当前是第几页，从1开始。\n属性paginator：当前页对应的Paginator对象。\n方法has_next()：如果有下一页返回True。\n方法has_previous()：如果有上一页返回True。\n方法len()：返回当前页面对象的个数。\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T05:53:37+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django基础2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-primary2/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-primary2/","keywords":"django"}</script>
     <meta name="description" content="Django多表操作之多对多查询记录 正向查找  1Book.objects.get(id&#x3D;3).authors.all(i)   反向查找  1Author.objects.get(id&#x3D;2).book_set.all()   利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果  如果不想放到缓存里，可以这么写  1ret&#x3D;Boo">
 <meta name="keywords" content="django">
 <meta property="og:type" content="blog">
@@ -26,11 +28,13 @@
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2019-12-08T21:53:37.478Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
+<meta name="twitter:creator" content="@yangangwang">
     
     
         
     
+    
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -47,6 +51,8 @@
 
     
         
+            <link rel="stylesheet" href="/assets/css/gitalk.css">
+        
     
 </head>
 
@@ -55,6 +61,10 @@
             <!-- Define author's picture -->
 
 
+    
+        
+            
+        
     
 
 <header id="header" data-behavior="4">
@@ -77,6 +87,8 @@
             >
         
         
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+        
         </a>
     
 </header>
@@ -84,8 +96,26 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+                </a>
+                <h4 class="sidebar-profile-name">王延刚</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>不疯魔,不成话</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -373,9 +403,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-CBV/"
-                    data-tooltip="django类视图"
-                    aria-label="PREVIOUS: django类视图"
+                    href="/2019/12/08/django-form-component/"
+                    data-tooltip="django form 组件"
+                    aria-label="PREVIOUS: django form 组件"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -387,9 +417,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/gist/"
-                    data-tooltip="Gist"
-                    aria-label="NEXT: Gist"
+                    href="/2019/12/08/django-orm-1/"
+                    data-tooltip="Django ORM 操作1"
+                    aria-label="NEXT: Django ORM 操作1"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -449,6 +479,16 @@
             </li>
         
         
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
             
         
         <li class="post-action">
@@ -465,6 +505,10 @@
         
         
             
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
         
     </div>
 </article>
@@ -473,7 +517,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 John Doe. All Rights Reserved.
+        Copyrights &copy; 2019 王延刚. All Rights Reserved.
     </span>
 </footer>
 
@@ -488,9 +532,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-CBV/"
-                    data-tooltip="django类视图"
-                    aria-label="PREVIOUS: django类视图"
+                    href="/2019/12/08/django-form-component/"
+                    data-tooltip="django form 组件"
+                    aria-label="PREVIOUS: django form 组件"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -502,9 +546,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/gist/"
-                    data-tooltip="Gist"
-                    aria-label="NEXT: Gist"
+                    href="/2019/12/08/django-orm-1/"
+                    data-tooltip="Django ORM 操作1"
+                    aria-label="NEXT: Django ORM 操作1"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -564,6 +608,16 @@
             </li>
         
         
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
             
         
         <li class="post-action">
@@ -631,25 +685,37 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
-            <h4 id="about-card-name">John Doe</h4>
+            <img id="about-card-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <h4 id="about-card-name">王延刚</h4>
+        
+            <div id="about-card-bio"><p>不疯魔,不成话</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>web developer</p>
 
             </div>
         
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Shanghai
+            </div>
         
     </div>
 </div>
@@ -665,6 +731,23 @@
 <!--SCRIPTS END-->
 
 
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-primary2/';
+              
+            this.page.identifier = '2019/12/08/django-primary2/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'wangyangang-blog';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
     
 
 
