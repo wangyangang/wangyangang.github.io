@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangyangang.github.io/"/>
-  <updated>2019-12-08T09:23:26.482Z</updated>
+  <updated>2019-12-08T09:34:16.334Z</updated>
   <id>https://wangyangang.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>django-custom-tags-and-filters</title>
+    <link href="https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"/>
+    <id>https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/</id>
+    <published>2019-12-08T09:34:16.334Z</published>
+    <updated>2019-12-08T09:34:16.334Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="django自定义标签和过滤器"><a href="#django自定义标签和过滤器" class="headerlink" title="django自定义标签和过滤器"></a>django自定义标签和过滤器</h1><blockquote><p>当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用</p></blockquote><ol><li>在app下创建一个python包，须包含<code>__init__.py</code>文件<br><img src="django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png" alt=""></li><li>在包内建一个py文件，用来定义标签和过滤器</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> template</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">register = template.Library()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod2</span><span class="params">(num1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % <span class="number">2</span> == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod4</span><span class="params">(num1, num2)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % num2 == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.simple_tag</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod3</span><span class="params">(num1, num2, num3)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> num1 + num2 + num3</span></pre></td></tr></table></figure><ol start="3"><li>在html文件里的开头处，导入要用到的python包里的py文件</li></ol><figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">mod3</span> 1 3 5 %&#125;</span><span class="xml"> # 自定义标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="template-variable">&#123;&#123; book.id|mod2 &#125;&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr></table></figure><blockquote><p>注意：</p><ul><li>自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数</li><li>也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。</li><li>自定义过滤器必须有返回值</li><li>自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用</li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;django自定义标签和过滤器&quot;&gt;&lt;a href=&quot;#django自定义标签和过滤器&quot; class=&quot;headerlink&quot; title=&quot;django自定义标签和过滤器&quot;&gt;&lt;/a&gt;django自定义标签和过滤器&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;当djan
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>django-primary</title>
@@ -52,29 +75,6 @@
       
       
         &lt;h1 id=&quot;Gist&quot;&gt;&lt;a href=&quot;#Gist&quot; class=&quot;headerlink&quot; title=&quot;Gist&quot;&gt;&lt;/a&gt;Gist&lt;/h1&gt;&lt;!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 ordered
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>django-custom-tags-and-filters</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/</id>
-    <published>2019-12-08T08:50:55.039Z</published>
-    <updated>2019-12-08T08:50:55.039Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="django自定义标签和过滤器"><a href="#django自定义标签和过滤器" class="headerlink" title="django自定义标签和过滤器"></a>django自定义标签和过滤器</h1><blockquote><p>当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用</p></blockquote><ol><li>在app下创建一个python包，须包含<code>__init__.py</code>文件<br><img src="imgs/django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png" alt=""></li><li>在包内建一个py文件，用来定义标签和过滤器</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> template</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">register = template.Library()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod2</span><span class="params">(num1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % <span class="number">2</span> == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod4</span><span class="params">(num1, num2)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % num2 == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.simple_tag</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod3</span><span class="params">(num1, num2, num3)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> num1 + num2 + num3</span></pre></td></tr></table></figure><ol start="3"><li>在html文件里的开头处，导入要用到的python包里的py文件</li></ol><figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">mod3</span> 1 3 5 %&#125;</span><span class="xml"> # 自定义标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="template-variable">&#123;&#123; book.id|mod2 &#125;&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr></table></figure><blockquote><p>注意：</p><ul><li>自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数</li><li>也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。</li><li>自定义过滤器必须有返回值</li><li>自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用</li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;django自定义标签和过滤器&quot;&gt;&lt;a href=&quot;#django自定义标签和过滤器&quot; class=&quot;headerlink&quot; title=&quot;django自定义标签和过滤器&quot;&gt;&lt;/a&gt;django自定义标签和过滤器&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;当djan
       
     
     </summary>
@@ -381,6 +381,57 @@
   </entry>
   
   <entry>
+    <title>Django admin 操作</title>
+    <link href="https://wangyangang.github.io/2019/12/08/django-admin/"/>
+    <id>https://wangyangang.github.io/2019/12/08/django-admin/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-08T08:22:03.978Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p><ul><li>创建超级用户<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py createsuperuser <span class="comment"># 创建管理员账户</span></span></pre></td></tr></table></figure></li><li>自定义admin界面的显示内容<blockquote><p>要想管理数据库，要把模型类注册进去<br>配置<code>admin.py</code></p></blockquote></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01 <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    list_display=(<span class="string">'id'</span>,<span class="string">'name'</span>,<span class="string">'price'</span>)  <span class="comment"># book表显示哪些字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    list_editable=(<span class="string">'name'</span>,<span class="string">'price'</span>)      <span class="comment"># book表哪些字段可编辑</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    filter_horizontal = (<span class="string">'author'</span>,)     <span class="comment"># 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    list_per_page = <span class="number">4</span>                   <span class="comment"># 每页显示的记录个数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    search_fields = (<span class="string">'id'</span>, <span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'publish__name'</span>)    <span class="comment"># 搜索框可以进行哪些字段的搜索</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    list_filter = (<span class="string">'pub_date'</span>, <span class="string">'publish'</span>)   <span class="comment"># 指定列表过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    ordering = (<span class="string">'price'</span>,)   <span class="comment"># 根据什么来默认排序</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    fieldsets = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        (<span class="literal">None</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'name'</span>]&#125;),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        (<span class="string">'show all'</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'price'</span>, <span class="string">'publish'</span>, <span class="string">'author'</span>], <span class="string">'classes'</span>: [<span class="string">'collapse'</span>]&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    ]   <span class="comment"># 在编辑book的时候，默认只显示name，price和publish折叠</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Book,BookAdmin)  <span class="comment"># Book表可在admin中管理，且自定义book的显示方式</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Publish) <span class="comment"># Publish表可在admin中管理</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Author)  <span class="comment"># Author表可在admin中管理</span></span></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;localhost:port/admin&lt;/strong&gt; 是Django框架管理数据库的界面&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建超级用户&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+    
+      <category term="admin" scheme="https://wangyangang.github.io/tags/admin/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>test</title>
+    <link href="https://wangyangang.github.io/2019/12/08/test/"/>
+    <id>https://wangyangang.github.io/2019/12/08/test/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-08T04:13:53.963Z</updated>
+    
+    <content type="html"><![CDATA[<p>akaj</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;akaj&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>Django Cookie Session 操作</title>
     <link href="https://wangyangang.github.io/2019/12/08/django-cookie-session/"/>
     <id>https://wangyangang.github.io/2019/12/08/django-cookie-session/</id>
@@ -409,57 +460,6 @@
       <category term="cookie" scheme="https://wangyangang.github.io/tags/cookie/"/>
     
       <category term="session" scheme="https://wangyangang.github.io/tags/session/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>test</title>
-    <link href="https://wangyangang.github.io/2019/12/08/test/"/>
-    <id>https://wangyangang.github.io/2019/12/08/test/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-08T04:13:53.963Z</updated>
-    
-    <content type="html"><![CDATA[<p>akaj</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;akaj&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Django admin 操作</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-admin/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-admin/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-08T08:22:03.978Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p><ul><li>创建超级用户<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py createsuperuser <span class="comment"># 创建管理员账户</span></span></pre></td></tr></table></figure></li><li>自定义admin界面的显示内容<blockquote><p>要想管理数据库，要把模型类注册进去<br>配置<code>admin.py</code></p></blockquote></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01 <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    list_display=(<span class="string">'id'</span>,<span class="string">'name'</span>,<span class="string">'price'</span>)  <span class="comment"># book表显示哪些字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    list_editable=(<span class="string">'name'</span>,<span class="string">'price'</span>)      <span class="comment"># book表哪些字段可编辑</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    filter_horizontal = (<span class="string">'author'</span>,)     <span class="comment"># 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    list_per_page = <span class="number">4</span>                   <span class="comment"># 每页显示的记录个数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    search_fields = (<span class="string">'id'</span>, <span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'publish__name'</span>)    <span class="comment"># 搜索框可以进行哪些字段的搜索</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    list_filter = (<span class="string">'pub_date'</span>, <span class="string">'publish'</span>)   <span class="comment"># 指定列表过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    ordering = (<span class="string">'price'</span>,)   <span class="comment"># 根据什么来默认排序</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    fieldsets = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        (<span class="literal">None</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'name'</span>]&#125;),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        (<span class="string">'show all'</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'price'</span>, <span class="string">'publish'</span>, <span class="string">'author'</span>], <span class="string">'classes'</span>: [<span class="string">'collapse'</span>]&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    ]   <span class="comment"># 在编辑book的时候，默认只显示name，price和publish折叠</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Book,BookAdmin)  <span class="comment"># Book表可在admin中管理，且自定义book的显示方式</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Publish) <span class="comment"># Publish表可在admin中管理</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Author)  <span class="comment"># Author表可在admin中管理</span></span></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;localhost:port/admin&lt;/strong&gt; 是Django框架管理数据库的界面&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;创建超级用户&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
-      
-    
-    </summary>
-    
-    
-    
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
-    
-      <category term="admin" scheme="https://wangyangang.github.io/tags/admin/"/>
     
   </entry>
   
