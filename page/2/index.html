@@ -249,10 +249,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/django-CBV/"
-                            aria-label=": django类视图"
+                            href="/2019/12/08/css-primary/"
+                            aria-label=": css基础"
                         >
-                            django类视图
+                            css基础
                         </a>
                     
                 </h1>
@@ -265,120 +265,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本视图"><span class="toc-text">1 基本视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#View"><span class="toc-text">View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TemplateView"><span class="toc-text">TemplateView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RedirectView"><span class="toc-text">RedirectView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-通用的显示视图"><span class="toc-text">2 通用的显示视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-列表视图（ListView）"><span class="toc-text">2.1 列表视图（ListView）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-显示对象的一个列表（一般用ListView的子类）"><span class="toc-text">1 显示对象的一个列表（一般用ListView的子类）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-过滤数据"><span class="toc-text">2 过滤数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-后台过滤"><span class="toc-text">2.1 后台过滤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-动态过滤（根据url参数过滤）（一般用DetailView的子类）"><span class="toc-text">2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-执行额外的操作（比如更新last-accessed字段）"><span class="toc-text">3 执行额外的操作（比如更新last_accessed字段）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-详细视图（DetailView）"><span class="toc-text">2.2 详细视图（DetailView）</span></a></li></ol></li></ol>
-
-<h2 id="1-基本视图"><a href="#1-基本视图" class="headerlink" title="1 基本视图"></a>1 基本视图</h2><h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><blockquote>
-<p>类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）</p>
-</blockquote>
-<p>示例views.py:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> HttpResponse</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views <span class="keyword">import</span> views</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IndexView</span><span class="params">(View)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, *args, **kwargs)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'index page'</span>)</span></pre></td></tr></table></figure>
-<p>示例urls.py:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">re_path(<span class="string">r'^index'</span>, IndexView.as_view(), name=<span class="string">'index'</span>)</span></pre></td></tr></table></figure>
-
-<h3 id="TemplateView"><a href="#TemplateView" class="headerlink" title="TemplateView"></a>TemplateView</h3><p>类django.views.generic.base.TemplateView</p>
-<blockquote>
-<p>渲染一个给定的模板,其上下文包含从URL捕获的参数<br>示例views.py：</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.generic.base <span class="keyword">import</span> TemplateView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoListView</span><span class="params">(TemplateView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    template_name = <span class="string">'books.html'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_context_data</span><span class="params">(self, **kwargs)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        books = BookInfo.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        context = super().get_context_data(**kwargs)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        context[<span class="string">'books'</span>] = books</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> context</span></pre></td></tr></table></figure>
-<p>示例urls.py:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">   re_path(<span class="string">r'^books'</span>, BookInfoListView.as_view(), name=<span class="string">'books'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   ]</span></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：如果在url的TemplateView的as_view函数里，传了template_name参数，那么TemplateView类里，可以不给template_name字段赋值；<br>如果url没传该参数，那么Template_View类里必须赋值，否则会报错.</p>
-</blockquote>
-<h3 id="RedirectView"><a href="#RedirectView" class="headerlink" title="RedirectView"></a>RedirectView</h3><hr>
-<h2 id="2-通用的显示视图"><a href="#2-通用的显示视图" class="headerlink" title="2 通用的显示视图"></a>2 通用的显示视图</h2><h3 id="2-1-列表视图（ListView）"><a href="#2-1-列表视图（ListView）" class="headerlink" title="2.1 列表视图（ListView）"></a>2.1 列表视图（ListView）</h3><h4 id="1-显示对象的一个列表（一般用ListView的子类）"><a href="#1-显示对象的一个列表（一般用ListView的子类）" class="headerlink" title="1 显示对象的一个列表（一般用ListView的子类）"></a>1 显示对象的一个列表（一般用ListView的子类）</h4><blockquote>
-<p>视图里定义一个集成ListView的视图，并指定model</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoListView2</span><span class="params">(ListView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    model = BookInfo</span></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">re_path(<span class="string">r'^books/'</span>, BookInfoListView2.as_view(), name=<span class="string">'books'</span>),</span></pre></td></tr></table></figure>
-<blockquote>
-<p>我们可以通过向视图中添加template_name属性来明确地告诉视图使用哪个模板，或者在url里写明模板名称:<code>BookInfoListView2.as_view(template_name=&#39;abc.html&#39;)</code>.但是如果没有显式模板，Django会从对象的名称中推断出一个模板。 在这种情况下，推断的模板将为”app01/bookinfo_list.html” - “app01”部分来自定义模型的应用程序名称，而“bookinfo”是小写的模型名称。</p>
-</blockquote>
-<blockquote>
-<p>这个模板将会依据于一个上下文来渲染，这个上下文包含一个名为object_list包含所有publisher对象的变量 :</p>
-</blockquote>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> book <span class="keyword">in</span> object_list %&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="xml">            </span><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><span class="template-variable">&#123;&#123; book.id &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><span class="template-variable">&#123;&#123; book.name &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span></pre></td></tr></table></figure>
-<p>以上就是一个最简单的对象的通用视图</p>
-<ul>
-<li>制作友好模板上下文<blockquote>
-<p>在视图里添加context_object_name字段，以后模板在使用时，就可以访问该字段来取数据了</p>
-</blockquote>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoListView2</span><span class="params">(ListView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    model = BookInfo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    context_object_name = <span class="string">'book_list'</span></span></pre></td></tr></table></figure>
-
-<h4 id="2-过滤数据"><a href="#2-过滤数据" class="headerlink" title="2 过滤数据"></a>2 过滤数据</h4><blockquote>
-<p>我们只给类视图的model赋值，相当于：<code>queryset = BookInfo.objects.all()</code>.相当于取出所有的数据，如果想对数据进行过滤，可以给queryset字段赋值</p>
-</blockquote>
-<h5 id="2-1-后台过滤"><a href="#2-1-后台过滤" class="headerlink" title="2.1 后台过滤"></a>2.1 后台过滤</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoList</span><span class="params">(ListView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    queryset = BookInfo.objects.filter(name=<span class="string">'三国演义'</span>)</span></pre></td></tr></table></figure>
-<h5 id="2-2-动态过滤（根据url参数过滤）（一般用DetailView的子类）"><a href="#2-2-动态过滤（根据url参数过滤）（一般用DetailView的子类）" class="headerlink" title="2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）"></a>2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url(<span class="string">r'^authors/(?P&lt;pk&gt;[0-9]+)/$'</span>, AuthorDetailView.as_view(), name=<span class="string">'author-detail'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
-<blockquote>
-<p>pk是主键的意思，这样就根据数据库中的id列进行过滤，url正则分组名必须叫pk才能根据id进行筛选。这样在url里写好后，后台得到的数据，就是根据pk值进行过滤之后的数据了</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    url(<span class="string">r'^(?P&lt;slug&gt;[-\w]+)/$'</span>, ArticleDetailView.as_view(), name=<span class="string">'article-detail'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
-<blockquote>
-<p>这里的slug，是数据库里的字段名，该字段一般作为博客文章的静态名称存在。也必须叫这个名字，不能更改，数据库没有这个slug字段，就会报错。</p>
-</blockquote>
-<h4 id="3-执行额外的操作（比如更新last-accessed字段）"><a href="#3-执行额外的操作（比如更新last-accessed字段）" class="headerlink" title="3 执行额外的操作（比如更新last_accessed字段）"></a>3 执行额外的操作（比如更新last_accessed字段）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthorDetailView</span><span class="params">(DetailView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    queryset = Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_object</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Call the superclass</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        object = super(AuthorDetailView, self).get_object()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Record the last accessed date</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        object.last_accessed = timezone.now()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        object.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Return the object</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> object</span></pre></td></tr></table></figure>
-
-<h3 id="2-2-详细视图（DetailView）"><a href="#2-2-详细视图（DetailView）" class="headerlink" title="2.2 详细视图（DetailView）"></a>2.2 详细视图（DetailView）</h3>
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-CBV/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/mysql-primary/"
-                            aria-label=": mysql基础知识"
-                        >
-                            mysql基础知识
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/mysql/">mysql</a>
+    <a class="category-link" href="/categories/css/">css</a>
 
 
     
@@ -389,12 +276,10 @@
                 <div class="postShorten-content">
                     <h1 id="table-of-contents">Table of Contents</h1>
 
-<ul>
-<li>查看mysql数据库日志<br>查看mysql数据库日志可以查看对数据库的操作记录。 mysql日志文件默认没有产生，需要做如下配置：<br><code>sudo vi /etc/mysql/mysql.conf.d/mysqld.conf</code><br><img src="%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE.png" alt=""><br>把68，69行前面的#去除，然后保存并使用如下命令重启mysql服务。<br><code>sudo service mysql restart</code><br>使用如下命令打开mysql日志文件。<br><code>sudo tail -f /var/log/mysql/mysql.log #可以实时查看数据库的日志内容</code><blockquote>
-<p>适用于ubuntu</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">table</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border-collapse</span>: collapse;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">margin</span>:<span class="number">0</span> auto;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">300px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="selector-tag">td</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">height</span>:<span class="number">50px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">100px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">text-align</span>: center;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr></table></figure>
+<blockquote>
+<p>table设置border-collapse为collapse即可。</p>
 </blockquote>
-</li>
-</ul>
 
                     
                         
@@ -404,7 +289,7 @@
                     
                         <p>
                             <a
-                                href="/2019/12/08/mysql-primary/#post-footer"
+                                href="/2019/12/08/css-primary/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
@@ -558,6 +443,146 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/2019/12/08/gist/"
+                            aria-label=": Gist"
+                        >
+                            Gist
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/gist/">gist</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#向前端返回json格式的数据"><span class="toc-text">向前端返回json格式的数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django中ajax的使用"><span class="toc-text">django中ajax的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于ajax的csrf验证："><span class="toc-text">关于ajax的csrf验证：</span></a></li></ol></li></ol>
+
+<h2 id="向前端返回json格式的数据"><a href="#向前端返回json格式的数据" class="headerlink" title="向前端返回json格式的数据"></a>向前端返回json格式的数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_house_index</span><span class="params">()</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        ret = redis_store.get(<span class="string">'home_page_data'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.error(e)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        ret = <span class="literal">None</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.info(<span class="string">'hit house index info redis'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;"errno": 0, "errmsg": "OK", "data": %s&#125;'</span> % ret, <span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>&#125;</span></pre></td></tr></table></figure>
+
+<h2 id="django中ajax的使用"><a href="#django中ajax的使用" class="headerlink" title="django中ajax的使用"></a>django中ajax的使用</h2><pre><code>*post：*</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#btn2'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> new_session_value = $(<span class="string">'#new_session_value'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> csrf = $(<span class="string">'input[name="csrfmiddlewaretoken"]'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">      &#123;#var args = &#123;'name': new_session_value, 'csrfmiddlewaretoken': csrf&#125;;#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> args = &#123;<span class="attr">name</span>: new_session_value&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> json_args = <span class="built_in">JSON</span>.stringify(args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">      <span class="built_in">console</span>.log(json_args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">      $.ajax(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            url: <span class="string">'/app01/sessions/'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            type: <span class="string">'post'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            data: json_args,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &#123;#contentType:'application/json',#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            dataType: <span class="string">'json'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            headers:&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">              <span class="string">'X-CSRFTOKEN'</span>: csrf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            &#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">var</span> resno = data[<span class="string">'resno'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">if</span>(resno == <span class="number">1</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                    <span class="keyword">var</span> val = data[<span class="string">'name'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(resno == <span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(data[<span class="string">'errmsg'</span>]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">      &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">&#125;)</span></pre></td></tr></table></figure>
+<ul>
+<li>url地址前要有 “/“</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$.post(<span class="string">'/order/pay'</span>, params, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>), '<span class="title">json</span>')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">  ...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function">// 以下是<span class="title">jquery</span>中<span class="title">ajax</span> <span class="title">post</span>的部分定义：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">// jQuery[ method ] = function( url, data, callback, type ) &#123;&#125;</span></pre></td></tr></table></figure>
+
+<h3 id="关于ajax的csrf验证："><a href="#关于ajax的csrf验证：" class="headerlink" title="关于ajax的csrf验证："></a>关于ajax的csrf验证：</h3><ul>
+<li>传的数据不是json，那么可以把<code>csrfmiddlewaretoken</code>作为键放到参数里</li>
+<li>传的数据是json，不能把<code>csrfmiddlewaretoken</code>放到参数里，放进去也不起作用。只能用ajax的常规写法，把<code>csrf</code>放到请求头里。</li>
+<li>后台获取json数据，用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">json_body = json.loads(request.body)</span></pre></td></tr></table></figure>
+获取单个数据也可以用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">name = request.POST.get(<span class="string">'name'</span>)</span></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2019/12/08/gist/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2019/12/08/mysql-primary/"
+                            aria-label=": mysql基础知识"
+                        >
+                            mysql基础知识
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/mysql/">mysql</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="table-of-contents">Table of Contents</h1>
+
+<ul>
+<li>查看mysql数据库日志<br>查看mysql数据库日志可以查看对数据库的操作记录。 mysql日志文件默认没有产生，需要做如下配置：<br><code>sudo vi /etc/mysql/mysql.conf.d/mysqld.conf</code><br><img src="%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE.png" alt=""><br>把68，69行前面的#去除，然后保存并使用如下命令重启mysql服务。<br><code>sudo service mysql restart</code><br>使用如下命令打开mysql日志文件。<br><code>sudo tail -f /var/log/mysql/mysql.log #可以实时查看数据库的日志内容</code><blockquote>
+<p>适用于ubuntu</p>
+</blockquote>
+</li>
+</ul>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2019/12/08/mysql-primary/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/2019/12/08/python-primary/"
                             aria-label=": python基础"
                         >
@@ -646,10 +671,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/index/"
-                            aria-label=": index"
+                            href="/2019/12/08/spider-primary/"
+                            aria-label=": 初识爬虫"
                         >
-                            index
+                            初识爬虫
                         </a>
                     
                 </h1>
@@ -662,7 +687,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/index/">index</a>
+    <a class="category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
 
 
     
@@ -671,90 +696,35 @@
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1>
+                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬虫requests"><span class="toc-text">爬虫requests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-参数"><span class="toc-text">1. 参数</span></a></li></ol>
 
 <ul>
-<li>一个年轻人要成长必须过两关：<ul>
-<li>第一，跟优秀的老年人聊天</li>
-<li>第二，谈一场或成功或失败的轰轰烈烈的恋爱<br>– 木心（白岩松某演讲）   2019-07-20</li>
+<li>把网页的照片保存</li>
 </ul>
-</li>
-</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">response = requests.get(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'https://movie.douban.com/chart'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">response.encoding = response.apparent_encoding  <span class="comment"># 根据来源网站的编码方式进行解码,一般不需要</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(response.text, features=<span class="string">'html.parser'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">target = soup.find(id=<span class="string">'content'</span>)  <span class="comment"># 根据id找标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">tables = target.find_all(<span class="string">'table'</span>) <span class="comment"># 根据类型找标签.也可以组合查:soup.find('div',id='abc')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> tb <span class="keyword">in</span> tables:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> tb:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        a_tags = tb.find_all(<span class="string">'a'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> a_tag <span class="keyword">in</span> a_tags:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            title = a_tag.attrs.get(<span class="string">'title'</span>)  <span class="comment"># 用attrs来获取属性;用.text来获取文本</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> title:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                img = a_tag.find(<span class="string">'img'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                file_path = img.attrs.get(<span class="string">'src'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                img_response = requests.get(url=file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                print(title, file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                <span class="keyword">with</span> open(title+<span class="string">'.jpg'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    f.write(img_response.content)</span></pre></td></tr></table></figure>
 
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/index/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/gist/"
-                            aria-label=": Gist"
-                        >
-                            Gist
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/gist/">gist</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#向前端返回json格式的数据"><span class="toc-text">向前端返回json格式的数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django中ajax的使用"><span class="toc-text">django中ajax的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于ajax的csrf验证："><span class="toc-text">关于ajax的csrf验证：</span></a></li></ol></li></ol>
-
-<h2 id="向前端返回json格式的数据"><a href="#向前端返回json格式的数据" class="headerlink" title="向前端返回json格式的数据"></a>向前端返回json格式的数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_house_index</span><span class="params">()</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        ret = redis_store.get(<span class="string">'home_page_data'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.error(e)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        ret = <span class="literal">None</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.info(<span class="string">'hit house index info redis'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;"errno": 0, "errmsg": "OK", "data": %s&#125;'</span> % ret, <span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>&#125;</span></pre></td></tr></table></figure>
-
-<h2 id="django中ajax的使用"><a href="#django中ajax的使用" class="headerlink" title="django中ajax的使用"></a>django中ajax的使用</h2><pre><code>*post：*</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#btn2'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> new_session_value = $(<span class="string">'#new_session_value'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> csrf = $(<span class="string">'input[name="csrfmiddlewaretoken"]'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">      &#123;#var args = &#123;'name': new_session_value, 'csrfmiddlewaretoken': csrf&#125;;#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> args = &#123;<span class="attr">name</span>: new_session_value&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> json_args = <span class="built_in">JSON</span>.stringify(args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">      <span class="built_in">console</span>.log(json_args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">      $.ajax(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            url: <span class="string">'/app01/sessions/'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            type: <span class="string">'post'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            data: json_args,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &#123;#contentType:'application/json',#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            dataType: <span class="string">'json'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            headers:&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">              <span class="string">'X-CSRFTOKEN'</span>: csrf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            &#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">var</span> resno = data[<span class="string">'resno'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">if</span>(resno == <span class="number">1</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                    <span class="keyword">var</span> val = data[<span class="string">'name'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(resno == <span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(data[<span class="string">'errmsg'</span>]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">      &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">&#125;)</span></pre></td></tr></table></figure>
+<h2 id="爬虫requests"><a href="#爬虫requests" class="headerlink" title="爬虫requests"></a>爬虫requests</h2><blockquote>
+<h2 id="1-参数"><a href="#1-参数" class="headerlink" title="1. 参数"></a>1. 参数</h2></blockquote>
 <ul>
-<li>url地址前要有 “/“</li>
+<li>requests.request</li>
+<li>method:提交方式</li>
+<li>url:    提交地址</li>
+<li>headers:请求头.里面有个referer,是上次访问的网站</li>
+<li>cookies:放在请求头里</li>
+<li>files：在请求体里上传文件</li>
+<li>params: 在url中传递的参数，GET</li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$.post(<span class="string">'/order/pay'</span>, params, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>), '<span class="title">json</span>')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">  ...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function">// 以下是<span class="title">jquery</span>中<span class="title">ajax</span> <span class="title">post</span>的部分定义：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">// jQuery[ method ] = function( url, data, callback, type ) &#123;&#125;</span></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'GET'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
 
-<h3 id="关于ajax的csrf验证："><a href="#关于ajax的csrf验证：" class="headerlink" title="关于ajax的csrf验证："></a>关于ajax的csrf验证：</h3><ul>
-<li>传的数据不是json，那么可以把<code>csrfmiddlewaretoken</code>作为键放到参数里</li>
-<li>传的数据是json，不能把<code>csrfmiddlewaretoken</code>放到参数里，放进去也不起作用。只能用ajax的常规写法，把<code>csrf</code>放到请求头里。</li>
-<li>后台获取json数据，用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">json_body = json.loads(request.body)</span></pre></td></tr></table></figure>
-获取单个数据也可以用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">name = request.POST.get(<span class="string">'name'</span>)</span></pre></td></tr></table></figure>
-
-</li>
+<ul>
+<li>data  在请求体里传里数据</li>
 </ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    data=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;    <span class="comment"># 或者data="user=alex&amp;pwd=123"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
+
+<ul>
+<li>json 在请求体里传递数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    json=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
 
                     
                         
@@ -764,70 +734,7 @@
                     
                         <p>
                             <a
-                                href="/2019/12/08/gist/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/css-primary/"
-                            aria-label=": css基础"
-                        >
-                            css基础
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/css/">css</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">table</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border-collapse</span>: collapse;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">margin</span>:<span class="number">0</span> auto;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">300px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="selector-tag">td</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">height</span>:<span class="number">50px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">100px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">text-align</span>: center;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr></table></figure>
-<blockquote>
-<p>table设置border-collapse为collapse即可。</p>
-</blockquote>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/css-primary/#post-footer"
+                                href="/2019/12/08/spider-primary/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
@@ -902,10 +809,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/spider-primary/"
-                            aria-label=": 初识爬虫"
+                            href="/2019/12/08/django-admin/"
+                            aria-label=": django-admin的使用1"
                         >
-                            初识爬虫
+                            django-admin的使用1
                         </a>
                     
                 </h1>
@@ -918,7 +825,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
+    <a class="category-link" href="/categories/django/">django</a>
 
 
     
@@ -927,35 +834,18 @@
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬虫requests"><span class="toc-text">爬虫requests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-参数"><span class="toc-text">1. 参数</span></a></li></ol>
+                    <h1 id="table-of-contents">Table of Contents</h1>
 
+<p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p>
 <ul>
-<li>把网页的照片保存</li>
+<li>创建超级用户<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py createsuperuser <span class="comment"># 创建管理员账户</span></span></pre></td></tr></table></figure></li>
+<li>自定义admin界面的显示内容<blockquote>
+<p>要想管理数据库，要把模型类注册进去<br>配置<code>admin.py</code></p>
+</blockquote>
+</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">response = requests.get(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'https://movie.douban.com/chart'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">response.encoding = response.apparent_encoding  <span class="comment"># 根据来源网站的编码方式进行解码,一般不需要</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(response.text, features=<span class="string">'html.parser'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">target = soup.find(id=<span class="string">'content'</span>)  <span class="comment"># 根据id找标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">tables = target.find_all(<span class="string">'table'</span>) <span class="comment"># 根据类型找标签.也可以组合查:soup.find('div',id='abc')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> tb <span class="keyword">in</span> tables:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> tb:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        a_tags = tb.find_all(<span class="string">'a'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> a_tag <span class="keyword">in</span> a_tags:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            title = a_tag.attrs.get(<span class="string">'title'</span>)  <span class="comment"># 用attrs来获取属性;用.text来获取文本</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> title:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                img = a_tag.find(<span class="string">'img'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                file_path = img.attrs.get(<span class="string">'src'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                img_response = requests.get(url=file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                print(title, file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                <span class="keyword">with</span> open(title+<span class="string">'.jpg'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    f.write(img_response.content)</span></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01 <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    list_display=(<span class="string">'id'</span>,<span class="string">'name'</span>,<span class="string">'price'</span>)  <span class="comment"># book表显示哪些字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    list_editable=(<span class="string">'name'</span>,<span class="string">'price'</span>)      <span class="comment"># book表哪些字段可编辑</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    filter_horizontal = (<span class="string">'author'</span>,)     <span class="comment"># 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    list_per_page = <span class="number">4</span>                   <span class="comment"># 每页显示的记录个数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    search_fields = (<span class="string">'id'</span>, <span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'publish__name'</span>)    <span class="comment"># 搜索框可以进行哪些字段的搜索</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    list_filter = (<span class="string">'pub_date'</span>, <span class="string">'publish'</span>)   <span class="comment"># 指定列表过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    ordering = (<span class="string">'price'</span>,)   <span class="comment"># 根据什么来默认排序</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    fieldsets = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        (<span class="literal">None</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'name'</span>]&#125;),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        (<span class="string">'show all'</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'price'</span>, <span class="string">'publish'</span>, <span class="string">'author'</span>], <span class="string">'classes'</span>: [<span class="string">'collapse'</span>]&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    ]   <span class="comment"># 在编辑book的时候，默认只显示name，price和publish折叠</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Book,BookAdmin)  <span class="comment"># Book表可在admin中管理，且自定义book的显示方式</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Publish) <span class="comment"># Publish表可在admin中管理</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Author)  <span class="comment"># Author表可在admin中管理</span></span></pre></td></tr></table></figure>
 
-<h2 id="爬虫requests"><a href="#爬虫requests" class="headerlink" title="爬虫requests"></a>爬虫requests</h2><blockquote>
-<h2 id="1-参数"><a href="#1-参数" class="headerlink" title="1. 参数"></a>1. 参数</h2></blockquote>
-<ul>
-<li>requests.request</li>
-<li>method:提交方式</li>
-<li>url:    提交地址</li>
-<li>headers:请求头.里面有个referer,是上次访问的网站</li>
-<li>cookies:放在请求头里</li>
-<li>files：在请求体里上传文件</li>
-<li>params: 在url中传递的参数，GET</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'GET'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
-
-<ul>
-<li>data  在请求体里传里数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    data=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;    <span class="comment"># 或者data="user=alex&amp;pwd=123"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
-
-<ul>
-<li>json 在请求体里传递数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    json=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
 
                     
                         
@@ -965,7 +855,7 @@
                     
                         <p>
                             <a
-                                href="/2019/12/08/spider-primary/#post-footer"
+                                href="/2019/12/08/django-admin/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
@@ -1201,6 +1091,85 @@
         
     </article>
     
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2019/12/08/preface-of-three-body/"
+                            aria-label=": 心事浩渺连广宇"
+                        >
+                            心事浩渺连广宇
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/%E6%9D%82%E6%96%87/">杂文</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="table-of-contents">Table of Contents</h1>
+
+<blockquote>
+<p>三体Ⅲ·死神永生  序</p>
+</blockquote>
+<p><img src="dead-end.jpg" alt=""></p>
+<p>多年以后，我还会记得看完《三体》的那个秋夜，我走出家门，在小区里盘桓。铅灰色的上丅海夜空几乎看不到几颗星星，但是我的心中却仿佛有无限的星光在涌动。这是一种奇异的感受，我的视觉、听觉和思维好像都被放大、重组和牵引，指向一个浩瀚的所在。</p>
+<p>即使没有光污染，身在北半球中纬度的我也不可能看到半人马座。但是在《三体》之后，我却觉得自己与那看不见的星系中子虚乌有的三星有了一种近乎真实的联系。</p>
+<p>从一开始，刘慈欣就被人视为中国的硬科幻代表。要知道，这是一桩吃力不讨好的活儿，在当今这个微小化、朋克化和奇幻化的世界科幻文坛，相当不与时俱进。但大刘仿佛是下定决心要为中国科幻补课一般，执著地用坚实的物理法则和潮水一般的细节为我们打造全新的世界。这些世界卓然成形，栩栩如生地向我们猛扑过来。</p>
+<p>《三体》是一部多重旋律的作品：此岸、彼岸与红岸，过去、现在与未来，交织成中国文学中罕见的复调。故事的核心竟然是我们既熟悉又陌生的文革。当主流文学渐渐远离了这个沉重的话题，大刘竟然以太空史诗的方式重返历史的现场，用光年的尺度来重新衡量那永远的伤痕，在超越性的视野上审视苦难、救赎与背叛。这一既幻想又现实还科学的中国版《天路历程》，疯狂而冷静，沉重而壮阔，绝望而超脱。</p>
+<p>文革仅仅是《三体》的起点。我个人认为，书中最精彩的部分是以虚拟游戏方式展示的三体世界历史。三体星系由于拥有三颗太阳，其不规则运动使得三体文明的生存条件极为严酷。为了应对变幻莫测的自然环境，他们随时可以将自己体内的水分完全排出，变成干燥的纤维状物体，以躲过完全不适合生存的恶劣气候。对于这个极为奇幻的想象世界，大刘充分发挥了他在硬科学上的特长，赋予这个世界完全真实可信的物理特性和演化发展规律。作为一个电脑工程师，大刘甚至设计了一个三体程序，来模拟宇宙文明间的相互关系。</p>
+<p>这是一个游戏，游戏背后是一个遥远星际文明二百次毁灭与重生的传奇，游戏中的人物却是孔子、墨子、秦始皇、伽利略、葛力高利教皇、牛顿、爱因斯坦……古今中外各路人马走马灯似的上场。这是一场跨越时空的狂欢，历史、文革、三体又构成了另一个意义上的三体关系，它们之间遥相辉映而又扑朔迷离，在最不可思议的生存景象中蕴涵着触手可及的现实针对性，把三体系统的复杂性发挥得淋漓尽致。</p>
+<p>要是换了别人，《三体》写到这个程度，大可满意收场了，但是对大刘来说，好戏才刚刚开始。在《三体Ⅱ·黑暗森林》中，地球、三体和宇宙更高级文明构成了一个更大规模的三体结构。面对三体人令人难以置信的科技和前来毁灭地球的庞大舰队，人类举全球之力，制订了“面壁计划”，由四位“面壁人”独立设计四套反击方案。说真的，其中每一套对策都构思独特、气势磅礴，令人拍案叫绝。放到其他人的作品中，每个都可以作为构筑大结局的终极解决方案。但对大刘来说，这些都只不过是铺垫和浮云。</p>
+<p>假如在太空中存在着无数的文明，它们之间应该是什么样的关系？大刘别出心裁地设想了一门“宇宙社会学”，专门研究这个问题。宇宙社会学设定两条公理：“第一，生存是文明的第一需要；第二，文明不断增长和扩张，但宇宙中的物质总量保持不变。”乍一看这“公理”很俗很平淡很没意思，但等到最后底牌翻出来绝对震死你。在《三体Ⅱ·黑暗森林》的结尾，我体验到了多年未在文学作品中体验到的完美高潮，一种启示性的震撼，一种极致的满足。而这种满足，正来自“宇宙社会学公理”那出人意料的合理展开和推衍，经过了漫长的准备和铺垫，与作品的开头形成绝妙呼应。我想，这也就是马克思推崇的“逻辑与历史的统一”吧。在我们的中国文学中，又有多少这样的“逻辑与历史的统一”呢？</p>
+<p>当《三体Ⅱ·黑暗森林》问世的时候，我们这些三体迷的心态相当矛盾。一方面，我们觉得《三体Ⅱ·黑暗森林》近于完美，难以想象这之后还能整出些什么来。另一方面，我们又希望大刘能够再整出些什么来。之后，又听说他在工作上遇到了一点问题，曾经考虑放弃《三体Ⅲ》的写作，着实令我们担忧不已。但最终，身处僻壤的他，又写出一本放眼宇宙的大作，这本身就是一件颇有科幻色彩的事。谢天谢地，他终于坚持了下来。</p>
+<p>当大刘提出让我来为《三体Ⅲ》写序的时候，我的内心是一片抑制不住的狂喜，不仅是为了这份难得的荣耀，更是为了能抢在第一时间先睹为快。在一个剧透被视为不可饶恕的罪行的年代，我必须非常小心。长话短说吧，我认为《三体Ⅲ》在许多方面都超越了前两部，而且这种超越不是一点点。前面对宇宙的黑暗森林只是迂回虚写，第三部就是正面强攻了，这难度极大。我真是很佩服大刘毫不取巧的勇气，更佩服他对宇宙风景得心应手的描写，那真可以说是“精骛八极，心游万仞”。看到《三体Ⅲ》的结尾，我忍不住想起阿西莫夫的《最后的问题》，那也是对宇宙终点的描写，大家可以比较一下，看看谁的想象力走得更远，谁的细节更丰富，谁的宇宙更宏大。</p>
+<p>《三体Ⅲ》很硬科幻，对普通读者来说，流畅度和可读性可能会不如前两部。其中一些段落甚至有一些晦涩（如对“神”的描写），但是对科幻爱好者和大刘的粉丝而言，纷至沓来的宇宙细节一定会让他们更加过瘾。而且我们理解，大刘的“硬”并非铁板一块，而是软硬相兼、虚实相间，其内在逻辑可以这样解读：越是疯狂虚幻的想象，越是超越性的思维，背后越是需要坚实的细节和强大的逻辑。刘氏宇宙学的基础是技术，而在这林林总总技术化的冷酷思考背后，有一颗柔软温暖的心。从《三体》开始，大刘越走越远，但他并非一去不回，即使在最远的地方，我们也能看到他对人类的关爱。《三体Ⅲ》始于一个近乎琼瑶式的爱情故事，一个人为自己暗恋的对象买一颗遥远的星星，这故事是如此的寂寞无助、浪漫彻骨。最终，这颗星星将为无尽的黑暗森林带来一丝光亮，卑微绝望的单恋也将成为播撒宇宙的大爱。</p>
+<p>在整个三部曲中，我个人认为第一部最有历史感和现实性；第二部的完成度最高，结构最完整，线索最清晰，也最华丽好看；而《三体Ⅲ》则是把宇宙视野和本质性的思考推向了极致，这方面目前无人能及。在一个思想淡出文学（以及其他领域）的年代，我们看到中国的科幻界有人在默默地补位，而且远不止大刘一个人。《三体》对历史的反思，对道德的超越，到《三体Ⅲ》发展成为对全面的宇宙社会学、宇宙心理学、宇宙生态学的建构。这是屠龙之术吗？看看斯蒂芬·霍金最近的警告，也许我们会对“杞人忧天”这个成语做出全新的理解。</p>
+<p>有时候我会忍不住想，假如有一天三体人真的降临，人类应该请大刘出山，参加地球危机委员会的工作。无论是威慑博弈、防卫反击，还是宇宙公关，大刘都是领先一步的专家。如果说天机不可泄露的话，大刘应该是我们这个世界最知晓天机的人之一了。三体人如果有一份追杀名单的话，他也绝对会名列前茅。小心啊，大刘！</p>
+<p>当然，这只不过是幻想，只不过是神话……可是，说到神话，这难道不正是我们这个时代的奢侈品吗？坦率地说，系统性的史诗与神话一直是中国文学的弱项。在遭受后现代丅文化的洗礼之后，我们的作家更是如获至宝，把缺失视为强项，奉行“躲避崇高”的策略，鄙视宏大叙事，消解终极追问。我推崇大刘的作品，也因为他逆流而上，发扬理性主义和人文精神，为中国文学注入整体性的思维和超越性的视野。这种终极的关怀和追问，又建立在科学的逻辑和逼真的细节之上，这就让浩瀚的幻想插上了坚实的翅膀。</p>
+<p>当尼采向世界发出“上帝已死”的宣告时，一些价值解体了，但另一些依然存在。旧的神话消失了，新的神话依然在不断诞生。人类从来没有停下追赶神话的脚步。我们惊奇地发现，在一个崭新的世纪，无尽的宇宙依然是无尽的神话的无尽的沃壤，而科学与技术已经悄然在这新神话中扮演了越来越重要的角色。大刘的世界，涵盖了从奇点到宇宙边际的所有尺度，跨越了从白垩纪到未来亿万年的漫长时光，其思想的速度和广度，早已超越了“可上九天揽月，可下五洋捉鳖”的传统境界。《三体Ⅲ》对宇宙结构的想象，已经开始涉及时间的本质和创世的秘密，但看得出大刘有意与西方的神话保持距离，走的是一条新的中国神话的道路。这是前所未有的工作。关于宇宙之始，之终，之真相，他猜了、他想了、他写了，至于是否正确，已经不重要了。虽说人类一思考，上帝就发笑，可人类如果不思考，上帝连发笑都不屑。</p>
+<p>严锋<br>复旦大学中文系副教授<br>《新发现》杂志主编</p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2019/12/08/preface-of-three-body/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -1216,18 +1185,7 @@
           </li>
         
         
-          <li class="pagination-next">
-            <a
-                class="btn btn--default btn--small"
-                href="/page/3/"
-                aria-label="OLDER POSTS"
-            >
-              <span>OLDER POSTS</span>
-              <i class="fa fa-angle-right text-base icon-ml"></i>
-            </a>
-          </li>
-        
-        <li class="pagination-number">page 2 of 3</li>
+        <li class="pagination-number">page 2 of 2</li>
     </ul>
 </div>
 
