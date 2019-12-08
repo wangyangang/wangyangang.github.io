@@ -250,6 +250,75 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/2019/12/08/django-admin/"
+                            aria-label=": django-admin的使用1"
+                        >
+                            django-admin的使用1
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="table-of-contents">Table of Contents</h1>
+
+<p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p>
+<ul>
+<li>创建超级用户<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py createsuperuser <span class="comment"># 创建管理员账户</span></span></pre></td></tr></table></figure></li>
+<li>自定义admin界面的显示内容<blockquote>
+<p>要想管理数据库，要把模型类注册进去<br>配置<code>admin.py</code></p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01 <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    list_display=(<span class="string">'id'</span>,<span class="string">'name'</span>,<span class="string">'price'</span>)  <span class="comment"># book表显示哪些字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    list_editable=(<span class="string">'name'</span>,<span class="string">'price'</span>)      <span class="comment"># book表哪些字段可编辑</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    filter_horizontal = (<span class="string">'author'</span>,)     <span class="comment"># 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    list_per_page = <span class="number">4</span>                   <span class="comment"># 每页显示的记录个数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    search_fields = (<span class="string">'id'</span>, <span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'publish__name'</span>)    <span class="comment"># 搜索框可以进行哪些字段的搜索</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    list_filter = (<span class="string">'pub_date'</span>, <span class="string">'publish'</span>)   <span class="comment"># 指定列表过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    ordering = (<span class="string">'price'</span>,)   <span class="comment"># 根据什么来默认排序</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    fieldsets = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        (<span class="literal">None</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'name'</span>]&#125;),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        (<span class="string">'show all'</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'price'</span>, <span class="string">'publish'</span>, <span class="string">'author'</span>], <span class="string">'classes'</span>: [<span class="string">'collapse'</span>]&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    ]   <span class="comment"># 在编辑book的时候，默认只显示name，price和publish折叠</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Book,BookAdmin)  <span class="comment"># Book表可在admin中管理，且自定义book的显示方式</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Publish) <span class="comment"># Publish表可在admin中管理</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Author)  <span class="comment"># Author表可在admin中管理</span></span></pre></td></tr></table></figure>
+
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2019/12/08/django-admin/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/2019/12/08/django-admin2/"
                             aria-label=": django-admin的使用2"
                         >
@@ -324,74 +393,15 @@
             
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-admin/"
-                            aria-label=": django-admin的使用1"
-                        >
-                            django-admin的使用1
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1>
-
-<p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p>
-<ul>
-<li>创建超级用户<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py createsuperuser <span class="comment"># 创建管理员账户</span></span></pre></td></tr></table></figure></li>
-<li>自定义admin界面的显示内容<blockquote>
-<p>要想管理数据库，要把模型类注册进去<br>配置<code>admin.py</code></p>
-</blockquote>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01 <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    list_display=(<span class="string">'id'</span>,<span class="string">'name'</span>,<span class="string">'price'</span>)  <span class="comment"># book表显示哪些字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    list_editable=(<span class="string">'name'</span>,<span class="string">'price'</span>)      <span class="comment"># book表哪些字段可编辑</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    filter_horizontal = (<span class="string">'author'</span>,)     <span class="comment"># 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    list_per_page = <span class="number">4</span>                   <span class="comment"># 每页显示的记录个数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    search_fields = (<span class="string">'id'</span>, <span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'publish__name'</span>)    <span class="comment"># 搜索框可以进行哪些字段的搜索</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    list_filter = (<span class="string">'pub_date'</span>, <span class="string">'publish'</span>)   <span class="comment"># 指定列表过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    ordering = (<span class="string">'price'</span>,)   <span class="comment"># 根据什么来默认排序</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    fieldsets = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        (<span class="literal">None</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'name'</span>]&#125;),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        (<span class="string">'show all'</span>, &#123;<span class="string">'fields'</span>: [<span class="string">'price'</span>, <span class="string">'publish'</span>, <span class="string">'author'</span>], <span class="string">'classes'</span>: [<span class="string">'collapse'</span>]&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    ]   <span class="comment"># 在编辑book的时候，默认只显示name，price和publish折叠</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Book,BookAdmin)  <span class="comment"># Book表可在admin中管理，且自定义book的显示方式</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Publish) <span class="comment"># Publish表可在admin中管理</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">admin.site.register(models.Author)  <span class="comment"># Author表可在admin中管理</span></span></pre></td></tr></table></figure>
-
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-admin/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
+            <a
+                href="/2019/12/08/django-admin2/"
+                aria-label=": django-admin的使用2"
+            >
+                <div class="postShorten-thumbnailimg">
+                    <img alt="" src="https://wangyangang.github.io/2019/12/08/django-admin2/lasa.JPG"/>
                 </div>
+            </a>
             
-        </div>
         
     </article>
     
