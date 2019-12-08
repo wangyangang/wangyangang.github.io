@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>django-primary - Hexo</title>
+    <title>django基础1 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,17 +15,17 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"django入门\n\n\ndjango入门\n1.虚拟环境的搭建\ndjango基础\n1.终端创建django项目\n2.pycharm创建django项目\n\n\n\n\n\n\n1.虚拟环境的搭建\n为什么需要虚拟环境\n\n\ndjango是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和python包来工作。（虚拟环境还能方便的管理项目依赖的python包）\n\n\n安装虚拟环境\n1sudo pip install virtualenv\n\n安装虚拟环境扩展包\n\n\n1sudo pip3 install virtualenvwrapper\n\n安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境\n\n配置虚拟环境修改用户家目录下的配置文件.bashrc，添加如下内容：1export WORKON_HOME=$HOME/.virtualenvs2source /usr/local/bin/virtualenvwrapper.sh\n使用source .bashrc命令使配置文件生效。创建python3虚拟环境的命令如下：\n\n1mkvirtualenv -p python3 虚拟环境名称2# 例如：3mkvirtualenv -p python3 test14# 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境\n查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键使用某个虚拟环境的命令如下：\n1workon 虚拟环境名称2例如：3workon test1\n删除虚拟环境，需要先退出再删除\n\n退出：\n\n1deactivate\n\n删除：\n\n1rmvirtualenv test1\n\n在虚拟环境中安装python包\n\n1pip install 包名称\n\n注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里\n\n\n安装django\n\n1pip3 install django\n\ndjango基础1.终端创建django项目\n创建django项目\n\n1django-admin startproject 项目名\n\n创建应用1python3 manage.py startapp app名\n\n\n\n\n注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里\n\n\n启动django开发服务器\n\n1python3 manage.py runserver\n\n2.pycharm创建django项目\n直接新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）\n\n","dateCreated":"2019-12-08T17:23:26+08:00","dateModified":"2019-12-08T17:23:26+08:00","datePublished":"2019-12-08T17:23:26+08:00","description":"","headline":"django-primary","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-primary/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-primary/"}</script>
-    <meta name="description" content="django入门   django入门 1.虚拟环境的搭建 django基础 1.终端创建django项目 2.pycharm创建django项目       1.虚拟环境的搭建 为什么需要虚拟环境   django是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候">
-<meta name="keywords" content="hexo,javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n1.虚拟环境的搭建\n为什么需要虚拟环境\n\n\ndjango是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和python包来工作。（虚拟环境还能方便的管理项目依赖的python包）\n\n\n安装虚拟环境\n1sudo pip install virtualenv\n\n安装虚拟环境扩展包\n\n\n1sudo pip3 install virtualenvwrapper\n\n安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境\n\n配置虚拟环境修改用户家目录下的配置文件.bashrc，添加如下内容：1export WORKON_HOME=$HOME/.virtualenvs2source /usr/local/bin/virtualenvwrapper.sh\n使用source .bashrc命令使配置文件生效。创建python3虚拟环境的命令如下：\n\n1mkvirtualenv -p python3 虚拟环境名称2# 例如：3mkvirtualenv -p python3 test14# 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境\n查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键使用某个虚拟环境的命令如下：\n1workon 虚拟环境名称2例如：3workon test1\n删除虚拟环境，需要先退出再删除\n\n退出：\n\n1deactivate\n\n删除：\n\n1rmvirtualenv test1\n\n在虚拟环境中安装python包\n\n1pip install 包名称\n\n注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里\n\n\n安装django\n\n1pip3 install django\n\ndjango基础1.终端创建django项目\n创建django项目\n\n1django-admin startproject 项目名\n\n创建应用1python3 manage.py startapp app名\n\n\n\n\n注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里\n\n\n启动django开发服务器\n\n1python3 manage.py runserver\n\n2.pycharm创建django项目\n直接新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T17:58:31+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django基础1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-primary/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-primary/","keywords":"django"}</script>
+    <meta name="description" content="1.虚拟环境的搭建 为什么需要虚拟环境   django是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和p">
+<meta name="keywords" content="django">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="django-primary">
+<meta property="og:title" content="django基础1">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-primary&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="django入门   django入门 1.虚拟环境的搭建 django基础 1.终端创建django项目 2.pycharm创建django项目       1.虚拟环境的搭建 为什么需要虚拟环境   django是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候">
+<meta property="og:description" content="1.虚拟环境的搭建 为什么需要虚拟环境   django是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和p">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-primary&#x2F;1.png">
-<meta property="og:updated_time" content="2019-12-08T09:23:26.482Z">
+<meta property="og:updated_time" content="2019-12-08T09:58:31.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-primary&#x2F;1.png">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
@@ -252,16 +252,22 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            django-primary
+            django基础1
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-12-08T17:23:26+08:00">
+    <time datetime="2019-12-08T12:11:06+08:00">
 	
 		    Dec 08, 2019
     	
     </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
     
 </div>
 
@@ -271,20 +277,8 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="django入门"><a href="#django入门" class="headerlink" title="django入门"></a>django入门</h1><!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-虚拟环境的搭建"><span class="toc-text">1.虚拟环境的搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django基础"><span class="toc-text">django基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-终端创建django项目"><span class="toc-text">1.终端创建django项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pycharm创建django项目"><span class="toc-text">2.pycharm创建django项目</span></a></li></ol></li></ol>
 
-<ul>
-<li><a href="#django入门">django入门</a><ul>
-<li><a href="#1虚拟环境的搭建">1.虚拟环境的搭建</a></li>
-<li><a href="#django基础">django基础</a><ul>
-<li><a href="#1终端创建django项目">1.终端创建django项目</a></li>
-<li><a href="#2pycharm创建django项目">2.pycharm创建django项目</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
 <h2 id="1-虚拟环境的搭建"><a href="#1-虚拟环境的搭建" class="headerlink" title="1.虚拟环境的搭建"></a>1.虚拟环境的搭建</h2><ul>
 <li>为什么需要虚拟环境</li>
 </ul>
@@ -357,6 +351,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
@@ -366,9 +367,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-custom-tags-and-filters/"
-                    data-tooltip="django-custom-tags-and-filters"
-                    aria-label="PREVIOUS: django-custom-tags-and-filters"
+                    href="/2019/12/08/django-orm-1/"
+                    data-tooltip="Django ORM 操作1"
+                    aria-label="PREVIOUS: Django ORM 操作1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -380,9 +381,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/gist/"
-                    data-tooltip="gist"
-                    aria-label="NEXT: gist"
+                    href="/2019/12/08/django-orm-2/"
+                    data-tooltip="Django ORM 操作2"
+                    aria-label="NEXT: Django ORM 操作2"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -446,7 +447,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -481,9 +482,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-custom-tags-and-filters/"
-                    data-tooltip="django-custom-tags-and-filters"
-                    aria-label="PREVIOUS: django-custom-tags-and-filters"
+                    href="/2019/12/08/django-orm-1/"
+                    data-tooltip="Django ORM 操作1"
+                    aria-label="PREVIOUS: Django ORM 操作1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -495,9 +496,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/gist/"
-                    data-tooltip="gist"
-                    aria-label="NEXT: gist"
+                    href="/2019/12/08/django-orm-2/"
+                    data-tooltip="Django ORM 操作2"
+                    aria-label="NEXT: Django ORM 操作2"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -561,7 +562,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

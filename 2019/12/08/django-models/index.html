@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>django-models - Hexo</title>
+    <title>django模型models的使用 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"django模型models的使用\n\n\ndjango模型models的使用\n1. 模型类基础\n1.1 创建模型类\n1.2 字段类型\n1.3 选项\n\n\n2. 模型类查询\n条件运算符\n1) 查询等\n2) 模糊查询\n3) 空查询\n4) 范围查询\n5) 比较查询\n6) 日期查询\n7) F对象\n8) Q对象\n9) 聚合函数\n10) 查询集\n\n\n\n\n3. 模型类关系- [一对多关系](#一对多关系)\n- [多对的关系](#多对的关系)\n- [一对一关系](#一对一关系)\n- [自关联](#自关联)\n关联查询\n\n\n4. 模型类扩展\n4.1 模型类管理器\n\n\n\n\n\n\n1. 模型类基础1.1 创建模型类1from django.db import models23# Create your models here.456class BookInfo(models.Model):7    name = models.CharField(max_length=20,8                            verbose_name='书籍名称',9                            null=False,10                            blank=False)11    price = models.DecimalField(name='price', verbose_name='价格', max_digits=6, decimal_places=2)12    comment = models.CharField(name='comment', verbose_name='评论', max_length=200)1314    class Meta:15        db_table = 'book_info'  # 定义模型在数据库里的表名称16        verbose_name = '书籍'   # 定义模型在后台admin里看到的名称17        verbose_name_plural = '许多书籍' # 定义模型的复数形式的名称1819    def __str__(self):20        return self.name212223class HeroInfo(models.Model):24    hname = models.CharField(max_length=20)25    hgender = models.BooleanField()26    hcomment = models.CharField(max_length=100)27    hbook = models.ForeignKey('BookInfo', on_delete=None) # 外键约束2829    class Meta:30        db_table = 'hero_info'31        verbose_name = '英雄'32        verbose_name_plural = '英雄表'\n\n1.2 字段类型\nAutoField: 自动增长的IntergerField，通常不用指定，不指定时，django会自动创建属性名为id的自动增长的属性\nBooleanField: 布尔字段，值为True或False\nNullBoleanField: 支持Null，True，False三种类型\nCharField(max_length=字段长度): 字符串。\nTextField: 大文本字段，一般超过4000个字符时使用\nIntergerField: 整数\nDecimalField(max_digits=None, decimal_places=None)：十进制浮点数。参数max_digits表示总位数。参数decimal_places表示小数位数。\nFloatField：浮点数。\nDateField[auto_now=False, auto_now_add=False])：日期。\n参数auto_now表示每次保存对象时，自动设置该字段为当前时间，用于”最后一次修改”的时间戳，它总是使用当前日期，默认为false。\n参数auto_now_add表示当对象第一次被创建时自动设置当前时间，用于创建的时间戳，它总是使用当前日期，默认为false。\n参数auto_now_add和auto_now是相互排斥的，组合将会发生错误。\n\n\nTimeField：时间，参数同DateField。\nDateTimeField：日期时间，参数同DateField。\nFileField：上传文件字段。\nImageField：继承于FileField，对上传的内容进行校验，确保是有效的图片。\n\n1.3 选项\n通过选项实现对字段的约束，选项如下：\n\n\nnull：如果为True，表示允许为空，默认值是False。\nblank：如果为True，则该字段允许为空白，默认值是False。\n对比：null是数据库范畴的概念，blank是表单验证范畴的。\n\n\ndb_column：字段的名称，如果未指定，则使用属性的名称。\ndb_index：若值为True, 则在表中会为此字段创建索引，默认值是False。\ndefault：默认值。\nprimary_key：若为True，则该字段会成为模型的主键字段，默认值是False，一般作为AutoField的选项使用。\nunique：如果为True, 这个字段在表中必须有唯一值，默认值是False。\n\n2. 模型类查询条件运算符1) 查询等exact：表示判等。\n例：查询编号为1的图书。\n1list=BookInfo.objects.filter(id__exact=1)2可简写为：3list=BookInfo.objects.filter(id=1)\n2) 模糊查询contains：是否包含。\n\n说明：如果要包含%无需转义，直接写即可。\n\n例：查询书名包含’传’的图书。\n1list = BookInfo.objects.filter(btitle__contains='传')\n\nstartswith、endswith：以指定值开头或结尾。\n例：查询书名以’部’结尾的图书\n1list = BookInfo.objects.filter(btitle__endswith='部')\n\n\n以上运算符都区分大小写，在这些运算符前加上i表示不区分大小写，如iexact、icontains、istartswith、iendswith.\n\n3) 空查询isnull：是否为null。\n例：查询书名不为空的图书。\n1list = BookInfo.objects.filter(btitle__isnull=False)\n\n4) 范围查询in：是否包含在范围内。\n例：查询编号为1或3或5的图书\n1list = BookInfo.objects.filter(id__in=[1, 3, 5])\n\n5) 比较查询gt、gte、lt、lte：大于、大于等于、小于、小于等于。\n例：查询编号大于3的图书\n1list = BookInfo.objects.filter(id__gt=3)\n\n不等于的运算符，使用exclude()过滤器。\n例：查询编号不等于3的图书\n1list = BookInfo.objects.exclude(id=3)\n\n6) 日期查询year、month、day、week_day、hour、minute、second：对日期时间类型的属性进行运算。\n例：查询1980年发表的图书。\n1list = BookInfo.objects.filter(bpub_date__year=1980)\n\n例：查询1980年1月1日后发表的图书。\n1list = BookInfo.objects.filter(bpub_date__gt=date(1990, 1, 1))\n\n7) F对象之前的查询都是对象的属性与常量值比较，两个属性怎么比较呢？ 答：使用F对象，被定义在django.db.models中。\n语法如下：\n1F(属性名)\n\n例：查询阅读量大于等于评论量的图书。\n1from django.db.models import F2...3list = BookInfo.objects.filter(bread__gte=F('bcomment'))\n可以在F对象上使用算数运算。\n例：查询阅读量大于2倍评论量的图书。\nlist = BookInfo.objects.filter(bread__gt=F(&#39;bcomment&#39;) * 2)\n8) Q对象多个过滤器逐个调用表示逻辑与关系，同sql语句中where部分的and关键字。\n例：查询阅读量大于20，并且编号小于3的图书。\n1list=BookInfo.objects.filter(bread__gt=20,id__lt=3)2或3list=BookInfo.objects.filter(bread__gt=20).filter(id__lt=3)\n如果需要实现逻辑或or的查询，需要使用Q()对象结合|运算符，Q对象被义在django.db.models中。\n语法如下：\n1Q(属性名__运算符=值)\n\n例：查询阅读量大于20的图书，改写为Q对象如下。\n1from django.db.models import Q2...3list = BookInfo.objects.filter(Q(bread__gt=20))\n\nQ对象可以使用&amp;、|连接，&amp;表示逻辑与，|表示逻辑或。\n例：查询阅读量大于20，或编号小于3的图书，只能使用Q对象实现\n1list = BookInfo.objects.filter(Q(bread__gt=20) | Q(pk__lt=3))\nQ对象前可以使用~操作符，表示非not。\n例：查询编号不等于3的图书。\n1list = BookInfo.objects.filter(~Q(pk=3))\n\n9) 聚合函数使用aggregate()过滤器调用聚合函数。聚合函数包括：Avg，Count，Max，Min，Sum，被定义在django.db.models中。\n例：查询图书的总阅读量。\n1from django.db.models import Sum2...3list = BookInfo.objects.aggregate(Sum('bread'))\n\n注意aggregate的返回值是一个字典类型，格式如下：\n1&#123;'聚合类小写__属性名':值&#125;2如:&#123;'sum__bread':3&#125;\n使用count时一般不使用aggregate()过滤器。\n例：查询图书总数。\n1list = BookInfo.objects.count()\n注意count函数的返回值是一个数字。\n10) 查询集\n查询集切片(限制查询集)\n相当于sql中的limit和offset子句。例如：\n\n1select * from table1 limit 1 offset 1;\n1BookInfo.objects.all()[1:2]2# 从所有集合中选择从索引1到索引2，总共2-1个元素。如果获取一个对象，直接用[0]，等同于[0:1].get(),如果没有数据，[0]引发IndexError异常，[0:1].get()如果没有数据引发DoesNotExist异常。\n\n\n\n3. 模型类关系三种关系\n\n一对多：ForeignKey，将字段定义在多的一端中。\n多对的：ManyToManyField，将字段定义在任意一端中。\n一对一：OneToOneField，将字段定义在任意一端中。\n\n一对多关系1class ClassInfo(models.Model):2\t\tcname = models.CharField(max_length=10)34class StudentInfo(models.Model):5\t\tsname = models.CharField(max_length=20)6\t\tclass = models.ForeignKey('ClassInfo')\n\n多对的关系\n一个新闻类下可以有多条新闻，一条新闻也可以属于多个类别\n\n1class TypeInfo(models.Model):2    name = models.CharField(max_length=20)34    def __str__(self):5        return self.name67    class Meta:8        db_table = 'typeinfo'9        verbose_name = '新闻类型'10        verbose_name_plural = '所有新闻类型'1112class NewsInfo(models.Model):13    title = models.CharField(max_length=60)14    content = models.TextField()15    pub_date = models.DateTimeField(auto_now_add=True)16    type = models.ManyToManyField('TypeInfo') # 建立TypeInfo类和NewsInfo类多对多关系1718    def __str__(self):19        return self.title2021    class Meta:22        db_table = 'newsinfo'23        verbose_name_plural = '所有新闻'24        verbose_name = '新闻'\n\n一对一关系1class Account(models.Model):2    name = models.CharField(max_length=20)345class Contact(models.Model):6    name = models.CharField(max_length=20)7    account = models.OneToOneField(Account, on_delete=models.CASCADE)\n\n自关联对于地区信息、分类信息等数据，表结构非常类似，每个表的数据量十分有限，为了充分利用数据表的大量数据存储功能，可以设计成一张表，内部的关系字段指向本表的主键，这就是自关联的表结构。\n\n说明：关系属性使用self指向本类，要求null和blank允许为空，因为一级数据是没有父级的。\n\n1#定义地区模型类，存储省、市、区县信息2class AreaInfo(models.Model):3    atitle=models.CharField(max_length=30)#名称4    aParent=models.ForeignKey('self',null=True,blank=True)#关系\n\n关联查询\n由一到多的访问语法：1b = BookInfo.objects.get(id=1)2b.heroinfo_set.all()\n由多到一的访问语法1h = HeroInfo.objects.get(id=1)2h.hbook # hbook是一对多的关系属性名\n关联查询\n\n由多查一语法：\n1关联类型类名小写__属性名__条件运算符=值\n例：查询图书，要求图书中英雄的描述包含’八‘\n1list = BookInfo.objects.filter(heroinfo_hcontent__contains='八')\n\n由一查多语法：\n1一模型类关联属性名__模型类属性名__条件运算符=值\n例：查询书名为’天龙八部‘的所有英雄\n1list = HeroInfo.objects.filter(hbook_btitle='天龙八部')\n\n4. 模型类扩展4.1 模型类管理器\n每个模型类都有一个默认的管理器对象，默认为objects。我们可以自定义自己的模型类管理器，继承自models.Manager，一般用来自定义查询和插入对象例子：\n\n1# 1.定义管理器类2class BookInfoManager(models.Manager):3    def all(self):4\t\t\t\treturn super().all().filter(isDelete=False)56    #创建模型类，接收参数为属性赋值7    def create_book(self, title, pub_date):8        #创建模型类对象self.model可以获得模型类9        book = self.model()10        book.btitle = title11        book.bpub_date = pub_date12        book.bread=013        book.bcommet=014        book.isDelete = False15        # 将数据插入进数据表16        book.save()17        return book1819# 2.在模型类中定义管理器20class BookInfo(models.Model):21    ...22    books = BookInfoManager()2324# 3.调用的语法25book = BookInfo.books.create_book(\"abc\",date(1980,1,1))\n\n","dateCreated":"2019-12-08T16:50:41+08:00","dateModified":"2019-12-08T16:50:41+08:00","datePublished":"2019-12-08T16:50:41+08:00","description":"","headline":"django-models","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-models/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-models/"}</script>
-    <meta name="description" content="django模型models的使用   django模型models的使用 1. 模型类基础 1.1 创建模型类 1.2 字段类型 1.3 选项   2. 模型类查询 条件运算符 1) 查询等 2) 模糊查询 3) 空查询 4) 范围查询 5) 比较查询 6) 日期查询 7) F对象 8) Q对象 9) 聚合函数 10) 查询集     3. 模型类关系- [一对多关系](#一对多关系) - [多">
-<meta name="keywords" content="hexo,javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n1. 模型类基础1.1 创建模型类1from django.db import models23# Create your models here.456class BookInfo(models.Model):7    name = models.CharField(max_length=20,8                            verbose_name='书籍名称',9                            null=False,10                            blank=False)11    price = models.DecimalField(name='price', verbose_name='价格', max_digits=6, decimal_places=2)12    comment = models.CharField(name='comment', verbose_name='评论', max_length=200)1314    class Meta:15        db_table = 'book_info'  # 定义模型在数据库里的表名称16        verbose_name = '书籍'   # 定义模型在后台admin里看到的名称17        verbose_name_plural = '许多书籍' # 定义模型的复数形式的名称1819    def __str__(self):20        return self.name212223class HeroInfo(models.Model):24    hname = models.CharField(max_length=20)25    hgender = models.BooleanField()26    hcomment = models.CharField(max_length=100)27    hbook = models.ForeignKey('BookInfo', on_delete=None) # 外键约束2829    class Meta:30        db_table = 'hero_info'31        verbose_name = '英雄'32        verbose_name_plural = '英雄表'\n\n1.2 字段类型\nAutoField: 自动增长的IntergerField，通常不用指定，不指定时，django会自动创建属性名为id的自动增长的属性\nBooleanField: 布尔字段，值为True或False\nNullBoleanField: 支持Null，True，False三种类型\nCharField(max_length=字段长度): 字符串。\nTextField: 大文本字段，一般超过4000个字符时使用\nIntergerField: 整数\nDecimalField(max_digits=None, decimal_places=None)：十进制浮点数。参数max_digits表示总位数。参数decimal_places表示小数位数。\nFloatField：浮点数。\nDateField[auto_now=False, auto_now_add=False])：日期。\n参数auto_now表示每次保存对象时，自动设置该字段为当前时间，用于”最后一次修改”的时间戳，它总是使用当前日期，默认为false。\n参数auto_now_add表示当对象第一次被创建时自动设置当前时间，用于创建的时间戳，它总是使用当前日期，默认为false。\n参数auto_now_add和auto_now是相互排斥的，组合将会发生错误。\n\n\nTimeField：时间，参数同DateField。\nDateTimeField：日期时间，参数同DateField。\nFileField：上传文件字段。\nImageField：继承于FileField，对上传的内容进行校验，确保是有效的图片。\n\n1.3 选项\n通过选项实现对字段的约束，选项如下：\n\n\nnull：如果为True，表示允许为空，默认值是False。\nblank：如果为True，则该字段允许为空白，默认值是False。\n对比：null是数据库范畴的概念，blank是表单验证范畴的。\n\n\ndb_column：字段的名称，如果未指定，则使用属性的名称。\ndb_index：若值为True, 则在表中会为此字段创建索引，默认值是False。\ndefault：默认值。\nprimary_key：若为True，则该字段会成为模型的主键字段，默认值是False，一般作为AutoField的选项使用。\nunique：如果为True, 这个字段在表中必须有唯一值，默认值是False。\n\n2. 模型类查询条件运算符1) 查询等exact：表示判等。\n例：查询编号为1的图书。\n1list=BookInfo.objects.filter(id__exact=1)2可简写为：3list=BookInfo.objects.filter(id=1)\n2) 模糊查询contains：是否包含。\n\n说明：如果要包含%无需转义，直接写即可。\n\n例：查询书名包含’传’的图书。\n1list = BookInfo.objects.filter(btitle__contains='传')\n\nstartswith、endswith：以指定值开头或结尾。\n例：查询书名以’部’结尾的图书\n1list = BookInfo.objects.filter(btitle__endswith='部')\n\n\n以上运算符都区分大小写，在这些运算符前加上i表示不区分大小写，如iexact、icontains、istartswith、iendswith.\n\n3) 空查询isnull：是否为null。\n例：查询书名不为空的图书。\n1list = BookInfo.objects.filter(btitle__isnull=False)\n\n4) 范围查询in：是否包含在范围内。\n例：查询编号为1或3或5的图书\n1list = BookInfo.objects.filter(id__in=[1, 3, 5])\n\n5) 比较查询gt、gte、lt、lte：大于、大于等于、小于、小于等于。\n例：查询编号大于3的图书\n1list = BookInfo.objects.filter(id__gt=3)\n\n不等于的运算符，使用exclude()过滤器。\n例：查询编号不等于3的图书\n1list = BookInfo.objects.exclude(id=3)\n\n6) 日期查询year、month、day、week_day、hour、minute、second：对日期时间类型的属性进行运算。\n例：查询1980年发表的图书。\n1list = BookInfo.objects.filter(bpub_date__year=1980)\n\n例：查询1980年1月1日后发表的图书。\n1list = BookInfo.objects.filter(bpub_date__gt=date(1990, 1, 1))\n\n7) F对象之前的查询都是对象的属性与常量值比较，两个属性怎么比较呢？ 答：使用F对象，被定义在django.db.models中。\n语法如下：\n1F(属性名)\n\n例：查询阅读量大于等于评论量的图书。\n1from django.db.models import F2...3list = BookInfo.objects.filter(bread__gte=F('bcomment'))\n可以在F对象上使用算数运算。\n例：查询阅读量大于2倍评论量的图书。\nlist = BookInfo.objects.filter(bread__gt=F(&#39;bcomment&#39;) * 2)\n8) Q对象多个过滤器逐个调用表示逻辑与关系，同sql语句中where部分的and关键字。\n例：查询阅读量大于20，并且编号小于3的图书。\n1list=BookInfo.objects.filter(bread__gt=20,id__lt=3)2或3list=BookInfo.objects.filter(bread__gt=20).filter(id__lt=3)\n如果需要实现逻辑或or的查询，需要使用Q()对象结合|运算符，Q对象被义在django.db.models中。\n语法如下：\n1Q(属性名__运算符=值)\n\n例：查询阅读量大于20的图书，改写为Q对象如下。\n1from django.db.models import Q2...3list = BookInfo.objects.filter(Q(bread__gt=20))\n\nQ对象可以使用&amp;、|连接，&amp;表示逻辑与，|表示逻辑或。\n例：查询阅读量大于20，或编号小于3的图书，只能使用Q对象实现\n1list = BookInfo.objects.filter(Q(bread__gt=20) | Q(pk__lt=3))\nQ对象前可以使用~操作符，表示非not。\n例：查询编号不等于3的图书。\n1list = BookInfo.objects.filter(~Q(pk=3))\n\n9) 聚合函数使用aggregate()过滤器调用聚合函数。聚合函数包括：Avg，Count，Max，Min，Sum，被定义在django.db.models中。\n例：查询图书的总阅读量。\n1from django.db.models import Sum2...3list = BookInfo.objects.aggregate(Sum('bread'))\n\n注意aggregate的返回值是一个字典类型，格式如下：\n1&#123;'聚合类小写__属性名':值&#125;2如:&#123;'sum__bread':3&#125;\n使用count时一般不使用aggregate()过滤器。\n例：查询图书总数。\n1list = BookInfo.objects.count()\n注意count函数的返回值是一个数字。\n10) 查询集\n查询集切片(限制查询集)\n相当于sql中的limit和offset子句。例如：\n\n1select * from table1 limit 1 offset 1;\n1BookInfo.objects.all()[1:2]2# 从所有集合中选择从索引1到索引2，总共2-1个元素。如果获取一个对象，直接用[0]，等同于[0:1].get(),如果没有数据，[0]引发IndexError异常，[0:1].get()如果没有数据引发DoesNotExist异常。\n\n\n\n3. 模型类关系三种关系\n\n一对多：ForeignKey，将字段定义在多的一端中。\n多对的：ManyToManyField，将字段定义在任意一端中。\n一对一：OneToOneField，将字段定义在任意一端中。\n\n一对多关系1class ClassInfo(models.Model):2\t\tcname = models.CharField(max_length=10)34class StudentInfo(models.Model):5\t\tsname = models.CharField(max_length=20)6\t\tclass = models.ForeignKey('ClassInfo')\n\n多对的关系\n一个新闻类下可以有多条新闻，一条新闻也可以属于多个类别\n\n1class TypeInfo(models.Model):2    name = models.CharField(max_length=20)34    def __str__(self):5        return self.name67    class Meta:8        db_table = 'typeinfo'9        verbose_name = '新闻类型'10        verbose_name_plural = '所有新闻类型'1112class NewsInfo(models.Model):13    title = models.CharField(max_length=60)14    content = models.TextField()15    pub_date = models.DateTimeField(auto_now_add=True)16    type = models.ManyToManyField('TypeInfo') # 建立TypeInfo类和NewsInfo类多对多关系1718    def __str__(self):19        return self.title2021    class Meta:22        db_table = 'newsinfo'23        verbose_name_plural = '所有新闻'24        verbose_name = '新闻'\n\n一对一关系1class Account(models.Model):2    name = models.CharField(max_length=20)345class Contact(models.Model):6    name = models.CharField(max_length=20)7    account = models.OneToOneField(Account, on_delete=models.CASCADE)\n\n自关联对于地区信息、分类信息等数据，表结构非常类似，每个表的数据量十分有限，为了充分利用数据表的大量数据存储功能，可以设计成一张表，内部的关系字段指向本表的主键，这就是自关联的表结构。\n\n说明：关系属性使用self指向本类，要求null和blank允许为空，因为一级数据是没有父级的。\n\n1#定义地区模型类，存储省、市、区县信息2class AreaInfo(models.Model):3    atitle=models.CharField(max_length=30)#名称4    aParent=models.ForeignKey('self',null=True,blank=True)#关系\n\n关联查询\n由一到多的访问语法：1b = BookInfo.objects.get(id=1)2b.heroinfo_set.all()\n由多到一的访问语法1h = HeroInfo.objects.get(id=1)2h.hbook # hbook是一对多的关系属性名\n关联查询\n\n由多查一语法：\n1关联类型类名小写__属性名__条件运算符=值\n例：查询图书，要求图书中英雄的描述包含’八‘\n1list = BookInfo.objects.filter(heroinfo_hcontent__contains='八')\n\n由一查多语法：\n1一模型类关联属性名__模型类属性名__条件运算符=值\n例：查询书名为’天龙八部‘的所有英雄\n1list = HeroInfo.objects.filter(hbook_btitle='天龙八部')\n\n4. 模型类扩展4.1 模型类管理器\n每个模型类都有一个默认的管理器对象，默认为objects。我们可以自定义自己的模型类管理器，继承自models.Manager，一般用来自定义查询和插入对象例子：\n\n1# 1.定义管理器类2class BookInfoManager(models.Manager):3    def all(self):4\t\t\t\treturn super().all().filter(isDelete=False)56    #创建模型类，接收参数为属性赋值7    def create_book(self, title, pub_date):8        #创建模型类对象self.model可以获得模型类9        book = self.model()10        book.btitle = title11        book.bpub_date = pub_date12        book.bread=013        book.bcommet=014        book.isDelete = False15        # 将数据插入进数据表16        book.save()17        return book1819# 2.在模型类中定义管理器20class BookInfo(models.Model):21    ...22    books = BookInfoManager()2324# 3.调用的语法25book = BookInfo.books.create_book(\"abc\",date(1980,1,1))\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:07:45+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django模型models的使用","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-models/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-models/","keywords":"django"}</script>
+    <meta name="description" content="1. 模型类基础1.1 创建模型类1from django.db import models23# Create your models here.456class BookInfo(models.Model):7    name &#x3D; models.CharField(max_length&#x3D;20,8                            verbose_name&#x3D;&amp;apos;书籍名称&amp;apos;,">
+<meta name="keywords" content="django">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="django-models">
+<meta property="og:title" content="django模型models的使用">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-models&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="django模型models的使用   django模型models的使用 1. 模型类基础 1.1 创建模型类 1.2 字段类型 1.3 选项   2. 模型类查询 条件运算符 1) 查询等 2) 模糊查询 3) 空查询 4) 范围查询 5) 比较查询 6) 日期查询 7) F对象 8) Q对象 9) 聚合函数 10) 查询集     3. 模型类关系- [一对多关系](#一对多关系) - [多">
+<meta property="og:description" content="1. 模型类基础1.1 创建模型类1from django.db import models23# Create your models here.456class BookInfo(models.Model):7    name &#x3D; models.CharField(max_length&#x3D;20,8                            verbose_name&#x3D;&amp;apos;书籍名称&amp;apos;,">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T08:50:41.254Z">
+<meta property="og:updated_time" content="2019-12-08T10:07:45.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,16 +250,22 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            django-models
+            django模型models的使用
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-12-08T16:50:41+08:00">
+    <time datetime="2019-12-08T12:11:06+08:00">
 	
 		    Dec 08, 2019
     	
     </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
     
 </div>
 
@@ -269,47 +275,8 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="django模型models的使用"><a href="#django模型models的使用" class="headerlink" title="django模型models的使用"></a>django模型models的使用</h1><!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-模型类基础"><span class="toc-text">1. 模型类基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-创建模型类"><span class="toc-text">1.1 创建模型类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-字段类型"><span class="toc-text">1.2 字段类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-选项"><span class="toc-text">1.3 选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-模型类查询"><span class="toc-text">2. 模型类查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#条件运算符"><span class="toc-text">条件运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-查询等"><span class="toc-text">1) 查询等</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-模糊查询"><span class="toc-text">2) 模糊查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-空查询"><span class="toc-text">3) 空查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-范围查询"><span class="toc-text">4) 范围查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-比较查询"><span class="toc-text">5) 比较查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-日期查询"><span class="toc-text">6) 日期查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-F对象"><span class="toc-text">7) F对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Q对象"><span class="toc-text">8) Q对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-聚合函数"><span class="toc-text">9) 聚合函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-查询集"><span class="toc-text">10) 查询集</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-模型类关系"><span class="toc-text">3. 模型类关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一对多关系"><span class="toc-text">一对多关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多对的关系"><span class="toc-text">多对的关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一对一关系"><span class="toc-text">一对一关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自关联"><span class="toc-text">自关联</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关联查询"><span class="toc-text">关联查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-模型类扩展"><span class="toc-text">4. 模型类扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-模型类管理器"><span class="toc-text">4.1 模型类管理器</span></a></li></ol></li></ol>
 
-<ul>
-<li><a href="#django模型models的使用">django模型models的使用</a><ul>
-<li><a href="#1-模型类基础">1. 模型类基础</a><ul>
-<li><a href="#11-创建模型类">1.1 创建模型类</a></li>
-<li><a href="#12-字段类型">1.2 字段类型</a></li>
-<li><a href="#13-选项">1.3 选项</a></li>
-</ul>
-</li>
-<li><a href="#2-模型类查询">2. 模型类查询</a><ul>
-<li><a href="#条件运算符">条件运算符</a><ul>
-<li><a href="#1-查询等">1) 查询等</a></li>
-<li><a href="#2-模糊查询">2) 模糊查询</a></li>
-<li><a href="#3-空查询">3) 空查询</a></li>
-<li><a href="#4-范围查询">4) 范围查询</a></li>
-<li><a href="#5-比较查询">5) 比较查询</a></li>
-<li><a href="#6-日期查询">6) 日期查询</a></li>
-<li><a href="#7-f对象">7) F对象</a></li>
-<li><a href="#8-q对象">8) Q对象</a></li>
-<li><a href="#9-聚合函数">9) 聚合函数</a></li>
-<li><a href="#10-查询集">10) 查询集</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#3-模型类关系">3. 模型类关系</a><pre><code>- [一对多关系](#一对多关系)
-- [多对的关系](#多对的关系)
-- [一对一关系](#一对一关系)
-- [自关联](#自关联)</code></pre><ul>
-<li><a href="#关联查询">关联查询</a></li>
-</ul>
-</li>
-<li><a href="#4-模型类扩展">4. 模型类扩展</a><ul>
-<li><a href="#41-模型类管理器">4.1 模型类管理器</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
 <h2 id="1-模型类基础"><a href="#1-模型类基础" class="headerlink" title="1. 模型类基础"></a>1. 模型类基础</h2><h3 id="1-1-创建模型类"><a href="#1-1-创建模型类" class="headerlink" title="1.1 创建模型类"></a>1.1 创建模型类</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create your models here.</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfo</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    name = models.CharField(max_length=<span class="number">20</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                            verbose_name=<span class="string">'书籍名称'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">                            null=<span class="literal">False</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">                            blank=<span class="literal">False</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    price = models.DecimalField(name=<span class="string">'price'</span>, verbose_name=<span class="string">'价格'</span>, max_digits=<span class="number">6</span>, decimal_places=<span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    comment = models.CharField(name=<span class="string">'comment'</span>, verbose_name=<span class="string">'评论'</span>, max_length=<span class="number">200</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        db_table = <span class="string">'book_info'</span>  <span class="comment"># 定义模型在数据库里的表名称</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        verbose_name = <span class="string">'书籍'</span>   <span class="comment"># 定义模型在后台admin里看到的名称</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        verbose_name_plural = <span class="string">'许多书籍'</span> <span class="comment"># 定义模型的复数形式的名称</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> self.name</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HeroInfo</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    hname = models.CharField(max_length=<span class="number">20</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    hgender = models.BooleanField()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    hcomment = models.CharField(max_length=<span class="number">100</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    hbook = models.ForeignKey(<span class="string">'BookInfo'</span>, on_delete=<span class="literal">None</span>) <span class="comment"># 外键约束</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        db_table = <span class="string">'hero_info'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        verbose_name = <span class="string">'英雄'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        verbose_name_plural = <span class="string">'英雄表'</span></span></pre></td></tr></table></figure>
 
 <h3 id="1-2-字段类型"><a href="#1-2-字段类型" class="headerlink" title="1.2 字段类型"></a>1.2 字段类型</h3><ul>
@@ -481,6 +448,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
@@ -490,9 +464,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/gist/"
-                    data-tooltip="gist"
-                    aria-label="PREVIOUS: gist"
+                    href="/2019/12/08/spider-primary/"
+                    data-tooltip="初识爬虫"
+                    aria-label="PREVIOUS: 初识爬虫"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -504,9 +478,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-router/"
-                    data-tooltip="django-router"
-                    aria-label="NEXT: django-router"
+                    href="/2019/12/08/preface-of-three-body/"
+                    data-tooltip="心事浩渺连广宇"
+                    aria-label="NEXT: 心事浩渺连广宇"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -570,7 +544,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -605,9 +579,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/gist/"
-                    data-tooltip="gist"
-                    aria-label="PREVIOUS: gist"
+                    href="/2019/12/08/spider-primary/"
+                    data-tooltip="初识爬虫"
+                    aria-label="PREVIOUS: 初识爬虫"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -619,9 +593,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-router/"
-                    data-tooltip="django-router"
-                    aria-label="NEXT: django-router"
+                    href="/2019/12/08/preface-of-three-body/"
+                    data-tooltip="心事浩渺连广宇"
+                    aria-label="NEXT: 心事浩渺连广宇"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -685,7 +659,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

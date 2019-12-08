@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>算法 - Hexo</title>
+    <title>算法基础 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"排序冒泡排序1def bubble_sort(ls):2    '''冒泡排序'''3    length = len(ls)4    count = 056    for i in range(length):7        for index in range(length-1):8            if ls[index+1] &lt; ls[index]:9                ls[index], ls[index+1] = ls[index+1], ls[index]10        count += 111        if count == length:12            break1314    return ls\n\n选择排序1def select_sort(ls):2    '''选择排序'''3    n = len(ls)4    for i in range(0, n-1):5        min_index = i6        for j in range(i+1, n):7            if ls[min_index] &gt; ls[j]:8                min_index = j9        ls[min_index], ls[i] = ls[i], ls[min_index]\n\n插入排序1def insert_sort(ls):2    '''插入排序'''3    n = len(ls)4    for i in range(1, n):5        while i &gt; 0:6            if ls[i] &lt; ls[i-1]:7                ls[i], ls[i-1] = ls[i-1], ls[i]8                i -= 19            else:10                break\n\n希尔排序1def shell_sort(ls):2    '''希尔排序'''3    n = len(ls)4    '''希尔排序'''5    gap = len(ls) // 267    while gap &gt; 0:8        for i in range(gap, n):9            while i &gt; 0:10                if ls[i-gap] &gt; ls[i]:11                    ls[i-gap], ls[i] = ls[i], ls[i-gap]12                    i -= gap13                else:14                    break15        gap //= 2\n\n快速排序1def quick_sort(ls, first, last):2    '''快速排序'''3    if first &gt;= last:4        return56    mid_value = ls[first]7    low = first8    high = last910    while low &lt; high:11        while low &lt; high and ls[high] &gt;= mid_value:12            high -= 113        ls[low] = ls[high]1415        while low &lt; high and ls[low] &lt; mid_value:16            low += 117        ls[high] = ls[low]1819    ls[low] = mid_value20    quick_sort(ls, first, low-1)21    quick_sort(ls, low+1, last)\n\n归并排序1def merge_sort(ls):2    '''归并排序'''3    n = len(ls)4    if n &lt;= 1:5        return ls67    mid = n // 28    left_li = merge_sort(ls[:mid])9    right_li = merge_sort(ls[mid:])1011    left_pointer ,right_pointer = 0, 012    result = []1314    while left_pointer &lt; len(left_li) and right_pointer &lt; len(right_li):15        if left_li[left_pointer] &lt; right_li[right_pointer]:16            result.append(left_li[left_pointer])17            left_pointer += 118        else:19            result.append(right_li[right_pointer])20            right_pointer += 12122    result += left_li[left_pointer:]23    result += right_li[right_pointer:]24    return result\n\n查找二分查找1def binary_search(ls, item):2    '''二分查找'''3    n = len(ls)4    if n &gt; 0:5        mid = n // 26        if ls[mid] == item:7            return True8        elif item &lt; ls[mid]:9            return binary_search(ls[:mid], item)10        else:11            return binary_search(ls[mid+1:], item)1213    return False\n\n","dateCreated":"2019-12-08T16:08:49+08:00","dateModified":"2019-12-08T16:13:19+08:00","datePublished":"2019-12-08T16:08:49+08:00","description":"","headline":"算法","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/%E7%AE%97%E6%B3%95/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/%E7%AE%97%E6%B3%95/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n排序冒泡排序1def bubble_sort(ls):2    '''冒泡排序'''3    length = len(ls)4    count = 056    for i in range(length):7        for index in range(length-1):8            if ls[index+1] &lt; ls[index]:9                ls[index], ls[index+1] = ls[index+1], ls[index]10        count += 111        if count == length:12            break1314    return ls\n\n选择排序1def select_sort(ls):2    '''选择排序'''3    n = len(ls)4    for i in range(0, n-1):5        min_index = i6        for j in range(i+1, n):7            if ls[min_index] &gt; ls[j]:8                min_index = j9        ls[min_index], ls[i] = ls[i], ls[min_index]\n\n插入排序1def insert_sort(ls):2    '''插入排序'''3    n = len(ls)4    for i in range(1, n):5        while i &gt; 0:6            if ls[i] &lt; ls[i-1]:7                ls[i], ls[i-1] = ls[i-1], ls[i]8                i -= 19            else:10                break\n\n希尔排序1def shell_sort(ls):2    '''希尔排序'''3    n = len(ls)4    '''希尔排序'''5    gap = len(ls) // 267    while gap &gt; 0:8        for i in range(gap, n):9            while i &gt; 0:10                if ls[i-gap] &gt; ls[i]:11                    ls[i-gap], ls[i] = ls[i], ls[i-gap]12                    i -= gap13                else:14                    break15        gap //= 2\n\n快速排序1def quick_sort(ls, first, last):2    '''快速排序'''3    if first &gt;= last:4        return56    mid_value = ls[first]7    low = first8    high = last910    while low &lt; high:11        while low &lt; high and ls[high] &gt;= mid_value:12            high -= 113        ls[low] = ls[high]1415        while low &lt; high and ls[low] &lt; mid_value:16            low += 117        ls[high] = ls[low]1819    ls[low] = mid_value20    quick_sort(ls, first, low-1)21    quick_sort(ls, low+1, last)\n\n归并排序1def merge_sort(ls):2    '''归并排序'''3    n = len(ls)4    if n &lt;= 1:5        return ls67    mid = n // 28    left_li = merge_sort(ls[:mid])9    right_li = merge_sort(ls[mid:])1011    left_pointer ,right_pointer = 0, 012    result = []1314    while left_pointer &lt; len(left_li) and right_pointer &lt; len(right_li):15        if left_li[left_pointer] &lt; right_li[right_pointer]:16            result.append(left_li[left_pointer])17            left_pointer += 118        else:19            result.append(right_li[right_pointer])20            right_pointer += 12122    result += left_li[left_pointer:]23    result += right_li[right_pointer:]24    return result\n\n查找二分查找1def binary_search(ls, item):2    '''二分查找'''3    n = len(ls)4    if n &gt; 0:5        mid = n // 26        if ls[mid] == item:7            return True8        elif item &lt; ls[mid]:9            return binary_search(ls[:mid], item)10        else:11            return binary_search(ls[mid+1:], item)1213    return False\n\n","dateCreated":"2019-12-08T16:08:49+08:00","dateModified":"2019-12-08T18:08:50+08:00","datePublished":"2019-12-08T16:08:49+08:00","description":"","headline":"算法基础","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/%E7%AE%97%E6%B3%95/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/%E7%AE%97%E6%B3%95/","keywords":"算法"}</script>
     <meta name="description" content="排序冒泡排序1def bubble_sort(ls):2    &amp;apos;&amp;apos;&amp;apos;冒泡排序&amp;apos;&amp;apos;&amp;apos;3    length &#x3D; len(ls)4    count &#x3D; 056    for i in range(length):7        for index in range(length-1):8            if ls[index+1] &amp;lt; ls[index]:9">
-<meta name="keywords" content="hexo,javascript">
+<meta name="keywords" content="算法">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="算法">
+<meta property="og:title" content="算法基础">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;%E7%AE%97%E6%B3%95&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="排序冒泡排序1def bubble_sort(ls):2    &amp;apos;&amp;apos;&amp;apos;冒泡排序&amp;apos;&amp;apos;&amp;apos;3    length &#x3D; len(ls)4    count &#x3D; 056    for i in range(length):7        for index in range(length-1):8            if ls[index+1] &amp;lt; ls[index]:9">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T08:13:19.736Z">
+<meta property="og:updated_time" content="2019-12-08T10:08:50.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,7 +250,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            算法
+            算法基础
         </h1>
     
     
@@ -261,6 +261,12 @@
     	
     </time>
     
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+
+
+    
 </div>
 
     
@@ -269,7 +275,9 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(ls)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'''冒泡排序'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    length = len(ls)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    count = <span class="number">0</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(length<span class="number">-1</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> ls[index+<span class="number">1</span>] &lt; ls[index]:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">                ls[index], ls[index+<span class="number">1</span>] = ls[index+<span class="number">1</span>], ls[index]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        count += <span class="number">1</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> count == length:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">break</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> ls</span></pre></td></tr></table></figure>
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#排序"><span class="toc-text">排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#冒泡排序"><span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选择排序"><span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序"><span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#希尔排序"><span class="toc-text">希尔排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速排序"><span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#归并排序"><span class="toc-text">归并排序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找"><span class="toc-text">查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#二分查找"><span class="toc-text">二分查找</span></a></li></ol></li></ol>
+
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(ls)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'''冒泡排序'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    length = len(ls)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    count = <span class="number">0</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(length<span class="number">-1</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> ls[index+<span class="number">1</span>] &lt; ls[index]:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">                ls[index], ls[index+<span class="number">1</span>] = ls[index+<span class="number">1</span>], ls[index]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        count += <span class="number">1</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> count == length:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">break</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> ls</span></pre></td></tr></table></figure>
 
 <h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_sort</span><span class="params">(ls)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="string">'''选择排序'''</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    n = len(ls)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, n<span class="number">-1</span>):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        min_index = i</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>, n):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> ls[min_index] &gt; ls[j]:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                min_index = j</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        ls[min_index], ls[i] = ls[i], ls[min_index]</span></pre></td></tr></table></figure>
 
@@ -291,20 +299,24 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/hello-world/"
-                    data-tooltip="Hello World"
-                    aria-label="PREVIOUS: Hello World"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -314,9 +326,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="Django admin 操作"
-                    aria-label="NEXT: Django admin 操作"
+                    href="/2019/12/08/django-router/"
+                    data-tooltip="django路由url分发"
+                    aria-label="NEXT: django路由url分发"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -380,7 +392,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -412,14 +424,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/hello-world/"
-                    data-tooltip="Hello World"
-                    aria-label="PREVIOUS: Hello World"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -429,9 +438,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="Django admin 操作"
-                    aria-label="NEXT: Django admin 操作"
+                    href="/2019/12/08/django-router/"
+                    data-tooltip="django路由url分发"
+                    aria-label="NEXT: django路由url分发"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -495,7 +504,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>Django admin 操作 - Hexo</title>
+    <title>django-admin的使用1 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"localhost:port/admin 是Django框架管理数据库的界面\n\n创建超级用户1python3 manage.py createsuperuser # 创建管理员账户\n自定义admin界面的显示内容\n要想管理数据库，要把模型类注册进去配置admin.py\n\n\n\n1from app01 import models23class BookAdmin(admin.ModelAdmin):4    list_display=('id','name','price')  # book表显示哪些字段5    list_editable=('name','price')      # book表哪些字段可编辑6    filter_horizontal = ('author',)     # 编辑book的时候，作者以水平方向进行展示7    list_per_page = 4                   # 每页显示的记录个数8    # filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示9    search_fields = ('id', 'name', 'price', 'publish__name')    # 搜索框可以进行哪些字段的搜索10    list_filter = ('pub_date', 'publish')   # 指定列表过滤器11    ordering = ('price',)   # 根据什么来默认排序12    fieldsets = [13        (None, &#123;'fields': ['name']&#125;),14        ('show all', &#123;'fields': ['price', 'publish', 'author'], 'classes': ['collapse']&#125;)15    ]   # 在编辑book的时候，默认只显示name，price和publish折叠1617admin.site.register(models.Book,BookAdmin)  # Book表可在admin中管理，且自定义book的显示方式18admin.site.register(models.Publish) # Publish表可在admin中管理19admin.site.register(models.Author)  # Author表可在admin中管理\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T16:22:03+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django admin 操作","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-admin/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-admin/","keywords":"django, admin"}</script>
-    <meta name="description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin):4">
-<meta name="keywords" content="django,admin">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\nlocalhost:port/admin 是Django框架管理数据库的界面\n\n创建超级用户1python3 manage.py createsuperuser # 创建管理员账户\n自定义admin界面的显示内容\n要想管理数据库，要把模型类注册进去配置admin.py\n\n\n\n1from app01 import models23class BookAdmin(admin.ModelAdmin):4    list_display=('id','name','price')  # book表显示哪些字段5    list_editable=('name','price')      # book表哪些字段可编辑6    filter_horizontal = ('author',)     # 编辑book的时候，作者以水平方向进行展示7    list_per_page = 4                   # 每页显示的记录个数8    # filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示9    search_fields = ('id', 'name', 'price', 'publish__name')    # 搜索框可以进行哪些字段的搜索10    list_filter = ('pub_date', 'publish')   # 指定列表过滤器11    ordering = ('price',)   # 根据什么来默认排序12    fieldsets = [13        (None, &#123;'fields': ['name']&#125;),14        ('show all', &#123;'fields': ['price', 'publish', 'author'], 'classes': ['collapse']&#125;)15    ]   # 在编辑book的时候，默认只显示name，price和publish折叠1617admin.site.register(models.Book,BookAdmin)  # Book表可在admin中管理，且自定义book的显示方式18admin.site.register(models.Publish) # Publish表可在admin中管理19admin.site.register(models.Author)  # Author表可在admin中管理\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:08:15+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django-admin的使用1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-admin/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-admin/","keywords":"django admin"}</script>
+    <meta name="description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin)">
+<meta name="keywords" content="django admin">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Django admin 操作">
+<meta property="og:title" content="django-admin的使用1">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-admin&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin):4">
+<meta property="og:description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin)">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T08:22:03.978Z">
+<meta property="og:updated_time" content="2019-12-08T10:08:15.623Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,7 +250,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Django admin 操作
+            django-admin的使用1
         </h1>
     
     
@@ -261,6 +261,12 @@
     	
     </time>
     
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
+    
 </div>
 
     
@@ -269,7 +275,9 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p>
+            <h1 id="table-of-contents">Table of Contents</h1>
+
+<p><strong>localhost:port/admin</strong> 是Django框架管理数据库的界面</p>
 <ul>
 <li>创建超级用户<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py createsuperuser <span class="comment"># 创建管理员账户</span></span></pre></td></tr></table></figure></li>
 <li>自定义admin界面的显示内容<blockquote>
@@ -290,7 +298,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/admin/" rel="tag">admin</a> <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/django-admin/" rel="tag">django admin</a>
 
             </div>
         
@@ -303,9 +311,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
-                    data-tooltip="算法"
-                    aria-label="PREVIOUS: 算法"
+                    href="/2019/12/08/django-router/"
+                    data-tooltip="django路由url分发"
+                    aria-label="PREVIOUS: django路由url分发"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -317,9 +325,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/test/"
-                    data-tooltip="test"
-                    aria-label="NEXT: test"
+                    href="/2019/12/08/django-admin2/"
+                    data-tooltip="django-admin的使用2"
+                    aria-label="NEXT: django-admin的使用2"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -383,7 +391,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -418,9 +426,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
-                    data-tooltip="算法"
-                    aria-label="PREVIOUS: 算法"
+                    href="/2019/12/08/django-router/"
+                    data-tooltip="django路由url分发"
+                    aria-label="PREVIOUS: django路由url分发"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -432,9 +440,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/test/"
-                    data-tooltip="test"
-                    aria-label="NEXT: test"
+                    href="/2019/12/08/django-admin2/"
+                    data-tooltip="django-admin的使用2"
+                    aria-label="NEXT: django-admin的使用2"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -498,7 +506,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>django-CBV - Hexo</title>
+    <title>django类视图 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"django类视图\n\n\ndjango类视图\n1 基本视图\nView\nTemplateView\nRedirectView\n\n\n2 通用的显示视图\n2.1 列表视图（ListView）\n1 显示对象的一个列表（一般用ListView的子类）\n2 过滤数据\n2.1 后台过滤\n2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）\n\n\n3 执行额外的操作（比如更新last_accessed字段）\n\n\n2.2 详细视图（DetailView）\n\n\n\n\n\n\n1 基本视图View\n类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）\n\n示例views.py:\n1from django.shortcuts import HttpResponse2from django.views import views34class IndexView(View):5  def get(self, request, *args, **kwargs):6    return HttpResponse('index page')\n示例urls.py:\n1re_path(r'^index', IndexView.as_view(), name='index')\n\nTemplateView类django.views.generic.base.TemplateView\n\n渲染一个给定的模板,其上下文包含从URL捕获的参数示例views.py：\n\n1from django.views.generic.base import TemplateView23class BookInfoListView(TemplateView):4    template_name = 'books.html'56    def get_context_data(self, **kwargs):7        books = BookInfo.objects.all()8        context = super().get_context_data(**kwargs)9        context['books'] = books10        return context\n示例urls.py:\n1urlpatterns = [2# re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),3   re_path(r'^books', BookInfoListView.as_view(), name='books'),4   ]\n\n注意：如果在url的TemplateView的as_view函数里，传了template_name参数，那么TemplateView类里，可以不给template_name字段赋值；如果url没传该参数，那么Template_View类里必须赋值，否则会报错.\n\nRedirectView\n2 通用的显示视图2.1 列表视图（ListView）1 显示对象的一个列表（一般用ListView的子类）\n视图里定义一个集成ListView的视图，并指定model\n\n1class BookInfoListView2(ListView):2    model = BookInfo\n1re_path(r'^books/', BookInfoListView2.as_view(), name='books'),\n\n我们可以通过向视图中添加template_name属性来明确地告诉视图使用哪个模板，或者在url里写明模板名称:BookInfoListView2.as_view(template_name=&#39;abc.html&#39;).但是如果没有显式模板，Django会从对象的名称中推断出一个模板。 在这种情况下，推断的模板将为”app01/bookinfo_list.html” - “app01”部分来自定义模型的应用程序名称，而“bookinfo”是小写的模型名称。\n\n\n这个模板将会依据于一个上下文来渲染，这个上下文包含一个名为object_list包含所有publisher对象的变量 :\n\n1&#123;% for book in object_list %&#125;2        &lt;tr&gt;3            &#123;% if book.id|mod2 %&#125;4                &lt;td&gt;&#123;&#123; book.id &#125;&#125;&lt;/td&gt;5                &lt;td&gt;&#123;&#123; book.name &#125;&#125;&lt;/td&gt;\n以上就是一个最简单的对象的通用视图\n\n制作友好模板上下文\n在视图里添加context_object_name字段，以后模板在使用时，就可以访问该字段来取数据了\n\n\n\n1class BookInfoListView2(ListView):2    model = BookInfo3    context_object_name = 'book_list'\n\n2 过滤数据\n我们只给类视图的model赋值，相当于：queryset = BookInfo.objects.all().相当于取出所有的数据，如果想对数据进行过滤，可以给queryset字段赋值\n\n2.1 后台过滤1class BookInfoList(ListView):2    queryset = BookInfo.objects.filter(name='三国演义')\n2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）1urlpatterns = [2    #...3    url(r'^authors/(?P&lt;pk&gt;[0-9]+)/$', AuthorDetailView.as_view(), name='author-detail'),4]\n\npk是主键的意思，这样就根据数据库中的id列进行过滤，url正则分组名必须叫pk才能根据id进行筛选。这样在url里写好后，后台得到的数据，就是根据pk值进行过滤之后的数据了\n\n1urlpatterns = [2    url(r'^(?P&lt;slug&gt;[-\\w]+)/$', ArticleDetailView.as_view(), name='article-detail'),3]\n\n这里的slug，是数据库里的字段名，该字段一般作为博客文章的静态名称存在。也必须叫这个名字，不能更改，数据库没有这个slug字段，就会报错。\n\n3 执行额外的操作（比如更新last_accessed字段）1class AuthorDetailView(DetailView):23    queryset = Author.objects.all()45    def get_object(self):6        # Call the superclass7        object = super(AuthorDetailView, self).get_object()8        # Record the last accessed date9        object.last_accessed = timezone.now()10        object.save()11        # Return the object12        return object\n\n2.2 详细视图（DetailView）","dateCreated":"2019-12-08T16:44:33+08:00","dateModified":"2019-12-08T16:44:33+08:00","datePublished":"2019-12-08T16:44:33+08:00","description":"","headline":"django-CBV","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-CBV/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-CBV/"}</script>
-    <meta name="description" content="django类视图   django类视图 1 基本视图 View TemplateView RedirectView   2 通用的显示视图 2.1 列表视图（ListView） 1 显示对象的一个列表（一般用ListView的子类） 2 过滤数据 2.1 后台过滤 2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）   3 执行额外的操作（比如更新last_access">
-<meta name="keywords" content="hexo,javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n1 基本视图View\n类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）\n\n示例views.py:\n1from django.shortcuts import HttpResponse2from django.views import views34class IndexView(View):5  def get(self, request, *args, **kwargs):6    return HttpResponse('index page')\n示例urls.py:\n1re_path(r'^index', IndexView.as_view(), name='index')\n\nTemplateView类django.views.generic.base.TemplateView\n\n渲染一个给定的模板,其上下文包含从URL捕获的参数示例views.py：\n\n1from django.views.generic.base import TemplateView23class BookInfoListView(TemplateView):4    template_name = 'books.html'56    def get_context_data(self, **kwargs):7        books = BookInfo.objects.all()8        context = super().get_context_data(**kwargs)9        context['books'] = books10        return context\n示例urls.py:\n1urlpatterns = [2# re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),3   re_path(r'^books', BookInfoListView.as_view(), name='books'),4   ]\n\n注意：如果在url的TemplateView的as_view函数里，传了template_name参数，那么TemplateView类里，可以不给template_name字段赋值；如果url没传该参数，那么Template_View类里必须赋值，否则会报错.\n\nRedirectView\n2 通用的显示视图2.1 列表视图（ListView）1 显示对象的一个列表（一般用ListView的子类）\n视图里定义一个集成ListView的视图，并指定model\n\n1class BookInfoListView2(ListView):2    model = BookInfo\n1re_path(r'^books/', BookInfoListView2.as_view(), name='books'),\n\n我们可以通过向视图中添加template_name属性来明确地告诉视图使用哪个模板，或者在url里写明模板名称:BookInfoListView2.as_view(template_name=&#39;abc.html&#39;).但是如果没有显式模板，Django会从对象的名称中推断出一个模板。 在这种情况下，推断的模板将为”app01/bookinfo_list.html” - “app01”部分来自定义模型的应用程序名称，而“bookinfo”是小写的模型名称。\n\n\n这个模板将会依据于一个上下文来渲染，这个上下文包含一个名为object_list包含所有publisher对象的变量 :\n\n1&#123;% for book in object_list %&#125;2        &lt;tr&gt;3            &#123;% if book.id|mod2 %&#125;4                &lt;td&gt;&#123;&#123; book.id &#125;&#125;&lt;/td&gt;5                &lt;td&gt;&#123;&#123; book.name &#125;&#125;&lt;/td&gt;\n以上就是一个最简单的对象的通用视图\n\n制作友好模板上下文\n在视图里添加context_object_name字段，以后模板在使用时，就可以访问该字段来取数据了\n\n\n\n1class BookInfoListView2(ListView):2    model = BookInfo3    context_object_name = 'book_list'\n\n2 过滤数据\n我们只给类视图的model赋值，相当于：queryset = BookInfo.objects.all().相当于取出所有的数据，如果想对数据进行过滤，可以给queryset字段赋值\n\n2.1 后台过滤1class BookInfoList(ListView):2    queryset = BookInfo.objects.filter(name='三国演义')\n2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）1urlpatterns = [2    #...3    url(r'^authors/(?P&lt;pk&gt;[0-9]+)/$', AuthorDetailView.as_view(), name='author-detail'),4]\n\npk是主键的意思，这样就根据数据库中的id列进行过滤，url正则分组名必须叫pk才能根据id进行筛选。这样在url里写好后，后台得到的数据，就是根据pk值进行过滤之后的数据了\n\n1urlpatterns = [2    url(r'^(?P&lt;slug&gt;[-\\w]+)/$', ArticleDetailView.as_view(), name='article-detail'),3]\n\n这里的slug，是数据库里的字段名，该字段一般作为博客文章的静态名称存在。也必须叫这个名字，不能更改，数据库没有这个slug字段，就会报错。\n\n3 执行额外的操作（比如更新last_accessed字段）1class AuthorDetailView(DetailView):23    queryset = Author.objects.all()45    def get_object(self):6        # Call the superclass7        object = super(AuthorDetailView, self).get_object()8        # Record the last accessed date9        object.last_accessed = timezone.now()10        object.save()11        # Return the object12        return object\n\n2.2 详细视图（DetailView）","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:08:06+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django类视图","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-CBV/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-CBV/","keywords":"django"}</script>
+    <meta name="description" content="1 基本视图View 类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）  示例views.py: 1from django.shortcuts import HttpResponse2from django.views import views34class IndexView(View):5  def get(se">
+<meta name="keywords" content="django">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="django-CBV">
+<meta property="og:title" content="django类视图">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-CBV&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="django类视图   django类视图 1 基本视图 View TemplateView RedirectView   2 通用的显示视图 2.1 列表视图（ListView） 1 显示对象的一个列表（一般用ListView的子类） 2 过滤数据 2.1 后台过滤 2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）   3 执行额外的操作（比如更新last_access">
+<meta property="og:description" content="1 基本视图View 类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）  示例views.py: 1from django.shortcuts import HttpResponse2from django.views import views34class IndexView(View):5  def get(se">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T08:44:33.266Z">
+<meta property="og:updated_time" content="2019-12-08T10:08:06.389Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,16 +250,22 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            django-CBV
+            django类视图
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-12-08T16:44:33+08:00">
+    <time datetime="2019-12-08T12:11:06+08:00">
 	
 		    Dec 08, 2019
     	
     </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
     
 </div>
 
@@ -269,34 +275,8 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="django类视图"><a href="#django类视图" class="headerlink" title="django类视图"></a>django类视图</h1><!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本视图"><span class="toc-text">1 基本视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#View"><span class="toc-text">View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TemplateView"><span class="toc-text">TemplateView</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RedirectView"><span class="toc-text">RedirectView</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-通用的显示视图"><span class="toc-text">2 通用的显示视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-列表视图（ListView）"><span class="toc-text">2.1 列表视图（ListView）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-显示对象的一个列表（一般用ListView的子类）"><span class="toc-text">1 显示对象的一个列表（一般用ListView的子类）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-过滤数据"><span class="toc-text">2 过滤数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-后台过滤"><span class="toc-text">2.1 后台过滤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-动态过滤（根据url参数过滤）（一般用DetailView的子类）"><span class="toc-text">2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-执行额外的操作（比如更新last-accessed字段）"><span class="toc-text">3 执行额外的操作（比如更新last_accessed字段）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-详细视图（DetailView）"><span class="toc-text">2.2 详细视图（DetailView）</span></a></li></ol></li></ol>
 
-<ul>
-<li><a href="#django类视图">django类视图</a><ul>
-<li><a href="#1-基本视图">1 基本视图</a><ul>
-<li><a href="#view">View</a></li>
-<li><a href="#templateview">TemplateView</a></li>
-<li><a href="#redirectview">RedirectView</a></li>
-</ul>
-</li>
-<li><a href="#2-通用的显示视图">2 通用的显示视图</a><ul>
-<li><a href="#21-列表视图listview">2.1 列表视图（ListView）</a><ul>
-<li><a href="#1-显示对象的一个列表一般用listview的子类">1 显示对象的一个列表（一般用ListView的子类）</a></li>
-<li><a href="#2-过滤数据">2 过滤数据</a><ul>
-<li><a href="#21-后台过滤">2.1 后台过滤</a></li>
-<li><a href="#22-动态过滤根据url参数过滤一般用detailview的子类">2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）</a></li>
-</ul>
-</li>
-<li><a href="#3-执行额外的操作比如更新lastaccessed字段">3 执行额外的操作（比如更新last_accessed字段）</a></li>
-</ul>
-</li>
-<li><a href="#22-详细视图detailview">2.2 详细视图（DetailView）</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
 <h2 id="1-基本视图"><a href="#1-基本视图" class="headerlink" title="1 基本视图"></a>1 基本视图</h2><h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><blockquote>
 <p>类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）</p>
 </blockquote>
@@ -359,6 +339,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
@@ -368,9 +355,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/mysql-primary/"
-                    data-tooltip="mysql-primary"
-                    aria-label="PREVIOUS: mysql-primary"
+                    href="/2019/12/08/django-form-component/"
+                    data-tooltip="django form 组件"
+                    aria-label="PREVIOUS: django form 组件"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -382,9 +369,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin2/"
-                    data-tooltip="django-admin2"
-                    aria-label="NEXT: django-admin2"
+                    href="/2019/12/08/mysql-primary/"
+                    data-tooltip="mysql基础知识"
+                    aria-label="NEXT: mysql基础知识"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -448,7 +435,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -483,9 +470,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/mysql-primary/"
-                    data-tooltip="mysql-primary"
-                    aria-label="PREVIOUS: mysql-primary"
+                    href="/2019/12/08/django-form-component/"
+                    data-tooltip="django form 组件"
+                    aria-label="PREVIOUS: django form 组件"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -497,9 +484,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin2/"
-                    data-tooltip="django-admin2"
-                    aria-label="NEXT: django-admin2"
+                    href="/2019/12/08/mysql-primary/"
+                    data-tooltip="mysql基础知识"
+                    aria-label="NEXT: mysql基础知识"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -563,7 +550,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

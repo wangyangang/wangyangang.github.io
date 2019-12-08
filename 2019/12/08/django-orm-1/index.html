@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>django-orm-1 - Hexo</title>
+    <title>Django ORM 操作1 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"Django ORM 操作\n正向查找和反向查找\n正向查\n\n1obj=Classes.objects.filter(id=1).first()  # id=1的班级有哪些老师2ret=obj.m.all()\n\n反向查\n\n如果student的外键是class，通过class反向查student：\n1Class.objects.filter(id=1).first().student_set.all()\n‘student_set’这个关联名可以自定义，在student类定义的时候这样写：\n1cs=models.ForeignKey(class,related_name='abc')\n以后反向查就可以写成：\n1Class.objects.filter(id=1).first().abc.all()\n给第三张表增加数据\n给第三张表增加数据\n\n1obj=Classes.objects.filter(id=1).first()2obj.m.add(1)  # 给id=1的class增加一个id=1的老师行3obj.m.add(2)  # 给id=1的class增加一个id=2的老师行4obj.m.remove(1) # 把id=1的class的id=1的老师去掉5obj.m.clear() # 清除6obj.m.set([2,3,5])  # 把老师设置为2，3，5.如果原来存在就不动，没有就新增\n\n","dateCreated":"2019-12-08T16:37:50+08:00","dateModified":"2019-12-08T16:37:50+08:00","datePublished":"2019-12-08T16:37:50+08:00","description":"","headline":"django-orm-1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-orm-1/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-orm-1/"}</script>
-    <meta name="description" content="Django ORM 操作 正向查找和反向查找 正向查  1obj&#x3D;Classes.objects.filter(id&#x3D;1).first()  # id&#x3D;1的班级有哪些老师2ret&#x3D;obj.m.all()  反向查  如果student的外键是class，通过class反向查student： 1Class.objects.filter(id&#x3D;1).first().student_set.all()">
-<meta name="keywords" content="hexo,javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n\n正向查找和反向查找\n正向查\n\n1obj=Classes.objects.filter(id=1).first()  # id=1的班级有哪些老师2ret=obj.m.all()\n\n反向查\n\n如果student的外键是class，通过class反向查student：\n1Class.objects.filter(id=1).first().student_set.all()\n‘student_set’这个关联名可以自定义，在student类定义的时候这样写：\n1cs=models.ForeignKey(class,related_name='abc')\n以后反向查就可以写成：\n1Class.objects.filter(id=1).first().abc.all()\n给第三张表增加数据\n给第三张表增加数据\n\n1obj=Classes.objects.filter(id=1).first()2obj.m.add(1)  # 给id=1的class增加一个id=1的老师行3obj.m.add(2)  # 给id=1的class增加一个id=2的老师行4obj.m.remove(1) # 把id=1的class的id=1的老师去掉5obj.m.clear() # 清除6obj.m.set([2,3,5])  # 把老师设置为2，3，5.如果原来存在就不动，没有就新增\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:07:39+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django ORM 操作1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-orm-1/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-orm-1/","keywords":"django"}</script>
+    <meta name="description" content="正向查找和反向查找 正向查  1obj&#x3D;Classes.objects.filter(id&#x3D;1).first()  # id&#x3D;1的班级有哪些老师2ret&#x3D;obj.m.all()  反向查  如果student的外键是class，通过class反向查student： 1Class.objects.filter(id&#x3D;1).first().student_set.all() ‘student_s">
+<meta name="keywords" content="django">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="django-orm-1">
+<meta property="og:title" content="Django ORM 操作1">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-orm-1&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Django ORM 操作 正向查找和反向查找 正向查  1obj&#x3D;Classes.objects.filter(id&#x3D;1).first()  # id&#x3D;1的班级有哪些老师2ret&#x3D;obj.m.all()  反向查  如果student的外键是class，通过class反向查student： 1Class.objects.filter(id&#x3D;1).first().student_set.all()">
+<meta property="og:description" content="正向查找和反向查找 正向查  1obj&#x3D;Classes.objects.filter(id&#x3D;1).first()  # id&#x3D;1的班级有哪些老师2ret&#x3D;obj.m.all()  反向查  如果student的外键是class，通过class反向查student： 1Class.objects.filter(id&#x3D;1).first().student_set.all() ‘student_s">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T08:37:50.660Z">
+<meta property="og:updated_time" content="2019-12-08T10:07:39.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,16 +250,22 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            django-orm-1
+            Django ORM 操作1
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-12-08T16:37:50+08:00">
+    <time datetime="2019-12-08T12:11:06+08:00">
 	
 		    Dec 08, 2019
     	
     </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
     
 </div>
 
@@ -269,7 +275,9 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="Django-ORM-操作"><a href="#Django-ORM-操作" class="headerlink" title="Django ORM 操作"></a>Django ORM 操作</h1><hr>
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#正向查找和反向查找"><span class="toc-text">正向查找和反向查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给第三张表增加数据"><span class="toc-text">给第三张表增加数据</span></a></li></ol>
+
+<hr>
 <h2 id="正向查找和反向查找"><a href="#正向查找和反向查找" class="headerlink" title="正向查找和反向查找"></a>正向查找和反向查找</h2><ol>
 <li>正向查</li>
 </ol>
@@ -296,6 +304,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
@@ -305,9 +320,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/spider-primary/"
-                    data-tooltip="spider-primary"
-                    aria-label="PREVIOUS: spider-primary"
+                    href="/2019/12/08/django-custom-tags-and-filters/"
+                    data-tooltip="django自定义标签和过滤器"
+                    aria-label="PREVIOUS: django自定义标签和过滤器"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -319,9 +334,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-form-component/"
-                    data-tooltip="django-form-component"
-                    aria-label="NEXT: django-form-component"
+                    href="/2019/12/08/django-primary/"
+                    data-tooltip="django基础1"
+                    aria-label="NEXT: django基础1"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -385,7 +400,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -420,9 +435,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/spider-primary/"
-                    data-tooltip="spider-primary"
-                    aria-label="PREVIOUS: spider-primary"
+                    href="/2019/12/08/django-custom-tags-and-filters/"
+                    data-tooltip="django自定义标签和过滤器"
+                    aria-label="PREVIOUS: django自定义标签和过滤器"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -434,9 +449,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-form-component/"
-                    data-tooltip="django-form-component"
-                    aria-label="NEXT: django-form-component"
+                    href="/2019/12/08/django-primary/"
+                    data-tooltip="django基础1"
+                    aria-label="NEXT: django基础1"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -500,7 +515,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

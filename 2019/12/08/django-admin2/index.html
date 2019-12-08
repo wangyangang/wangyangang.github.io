@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>django-admin2 - Hexo</title>
+    <title>django-admin的使用2 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"django-admin的使用\ndjango-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。\n\n几个注意点\n更改admin页面的语言和时区,在setting.py里更改如下内容：\n\n1TIME_ZONE = 'Asia/Shanghai'2LANGUAGE_CODE = 'zh-hans`\n\n\n更改admin页面显示的app的名称,在应用的apps.py里加上verbose_name\n\n1from django.apps import AppConfig23class App01Config(AppConfig):4    name = 'app01'5    verbose_name = '博客'\n\n在app目录下的init.py里加上default_app_config\n1default_app_config = 'app01.apps.App01Config'\n\n\n利用model的Meta类，改变模型在admin界面的显示\n\n1class Meta:2   db_table = 'book_info'3   verbose_name = '书籍'4   verbose_name_plural = '许多书籍'\n\n\n要想在admin界面管理哪个model，就要把它注册到admin里。也可以继承admin.ModelAdmin进行自定义.在admin.py里：\n\n1class BookInfoAdmin(admin.ModelAdmin):2    list_display = ['name', 'price', 'comment'] # BookInfo类在后台显示哪几个字段34admin.site.register(BookInfo, BookInfoAdmin)\n\n","dateCreated":"2019-12-08T16:43:51+08:00","dateModified":"2019-12-08T16:43:51+08:00","datePublished":"2019-12-08T16:43:51+08:00","description":"","headline":"django-admin2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-admin2/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-admin2/"}</script>
-    <meta name="description" content="django-admin的使用 django-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。  几个注意点 更改admin页面的语言和时区,在setting.py里更改如下内容：  1TIME_ZONE &#x3D; &amp;apos;Asia&#x2F;Shangh">
-<meta name="keywords" content="hexo,javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n\ndjango-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。\n\n几个注意点\n更改admin页面的语言和时区,在setting.py里更改如下内容：\n\n1TIME_ZONE = 'Asia/Shanghai'2LANGUAGE_CODE = 'zh-hans`\n\n\n更改admin页面显示的app的名称,在应用的apps.py里加上verbose_name\n\n1from django.apps import AppConfig23class App01Config(AppConfig):4    name = 'app01'5    verbose_name = '博客'\n\n在app目录下的init.py里加上default_app_config\n1default_app_config = 'app01.apps.App01Config'\n\n\n利用model的Meta类，改变模型在admin界面的显示\n\n1class Meta:2   db_table = 'book_info'3   verbose_name = '书籍'4   verbose_name_plural = '许多书籍'\n\n\n要想在admin界面管理哪个model，就要把它注册到admin里。也可以继承admin.ModelAdmin进行自定义.在admin.py里：\n\n1class BookInfoAdmin(admin.ModelAdmin):2    list_display = ['name', 'price', 'comment'] # BookInfo类在后台显示哪几个字段34admin.site.register(BookInfo, BookInfoAdmin)\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:08:10+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django-admin的使用2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-admin2/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-admin2/","keywords":"django admin"}</script>
+    <meta name="description" content="django-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。  几个注意点 更改admin页面的语言和时区,在setting.py里更改如下内容：  1TIME_ZONE &#x3D; &amp;apos;Asia&#x2F;Shanghai&amp;apos;2LANGUAGE_">
+<meta name="keywords" content="django admin">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="django-admin2">
+<meta property="og:title" content="django-admin的使用2">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-admin2&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="django-admin的使用 django-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。  几个注意点 更改admin页面的语言和时区,在setting.py里更改如下内容：  1TIME_ZONE &#x3D; &amp;apos;Asia&#x2F;Shangh">
+<meta property="og:description" content="django-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。  几个注意点 更改admin页面的语言和时区,在setting.py里更改如下内容：  1TIME_ZONE &#x3D; &amp;apos;Asia&#x2F;Shanghai&amp;apos;2LANGUAGE_">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T08:43:51.761Z">
+<meta property="og:updated_time" content="2019-12-08T10:08:10.861Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,16 +250,22 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            django-admin2
+            django-admin的使用2
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-12-08T16:43:51+08:00">
+    <time datetime="2019-12-08T12:11:06+08:00">
 	
 		    Dec 08, 2019
     	
     </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
     
 </div>
 
@@ -269,7 +275,9 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="django-admin的使用"><a href="#django-admin的使用" class="headerlink" title="django-admin的使用"></a>django-admin的使用</h1><blockquote>
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#几个注意点"><span class="toc-text">几个注意点</span></a></li></ol>
+
+<blockquote>
 <p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p>
 </blockquote>
 <h2 id="几个注意点"><a href="#几个注意点" class="headerlink" title="几个注意点"></a>几个注意点</h2><ol>
@@ -303,6 +311,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/django-admin/" rel="tag">django admin</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
@@ -312,9 +327,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-CBV/"
-                    data-tooltip="django-CBV"
-                    aria-label="PREVIOUS: django-CBV"
+                    href="/2019/12/08/django-admin/"
+                    data-tooltip="django-admin的使用1"
+                    aria-label="PREVIOUS: django-admin的使用1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -326,9 +341,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/index/"
-                    data-tooltip="index"
-                    aria-label="NEXT: index"
+                    href="/2019/12/08/django-cookie-session/"
+                    data-tooltip="Django Cookie Session 操作"
+                    aria-label="NEXT: Django Cookie Session 操作"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -392,7 +407,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -427,9 +442,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-CBV/"
-                    data-tooltip="django-CBV"
-                    aria-label="PREVIOUS: django-CBV"
+                    href="/2019/12/08/django-admin/"
+                    data-tooltip="django-admin的使用1"
+                    aria-label="PREVIOUS: django-admin的使用1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -441,9 +456,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/index/"
-                    data-tooltip="index"
-                    aria-label="NEXT: index"
+                    href="/2019/12/08/django-cookie-session/"
+                    data-tooltip="Django Cookie Session 操作"
+                    aria-label="NEXT: Django Cookie Session 操作"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -507,7 +522,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hexo">
-    <title>spider-primary - Hexo</title>
+    <title>初识爬虫 - Hexo</title>
     <meta name="author" content="John Doe">
     
         <meta name="keywords" content="hexo,javascript,">
@@ -15,16 +15,16 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"初识爬虫\n把网页的照片保存\n\n1import requests2from bs4 import BeautifulSoup34response = requests.get(5    url='https://movie.douban.com/chart'6)7response.encoding = response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要8soup = BeautifulSoup(response.text, features='html.parser')9target = soup.find(id='content')  # 根据id找标签10tables = target.find_all('table') # 根据类型找标签.也可以组合查:soup.find('div',id='abc')1112for tb in tables:13    if tb:14        a_tags = tb.find_all('a')15        for a_tag in a_tags:16            title = a_tag.attrs.get('title')  # 用attrs来获取属性;用.text来获取文本17            if title:18                img = a_tag.find('img')19                file_path = img.attrs.get('src')20                img_response = requests.get(url=file_path)21                print(title, file_path)22                with open(title+'.jpg', 'wb') as f:23                    f.write(img_response.content)\n\n","dateCreated":"2019-12-08T16:39:28+08:00","dateModified":"2019-12-08T16:39:28+08:00","datePublished":"2019-12-08T16:39:28+08:00","description":"","headline":"spider-primary","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/spider-primary/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/spider-primary/"}</script>
-    <meta name="description" content="初识爬虫 把网页的照片保存  1import requests2from bs4 import BeautifulSoup34response &#x3D; requests.get(5    url&#x3D;&amp;apos;https:&#x2F;&#x2F;movie.douban.com&#x2F;chart&amp;apos;6)7response.encoding &#x3D; response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不">
-<meta name="keywords" content="hexo,javascript">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"\n\n\n把网页的照片保存\n\n1import requests2from bs4 import BeautifulSoup34response = requests.get(5    url='https://movie.douban.com/chart'6)7response.encoding = response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要8soup = BeautifulSoup(response.text, features='html.parser')9target = soup.find(id='content')  # 根据id找标签10tables = target.find_all('table') # 根据类型找标签.也可以组合查:soup.find('div',id='abc')1112for tb in tables:13    if tb:14        a_tags = tb.find_all('a')15        for a_tag in a_tags:16            title = a_tag.attrs.get('title')  # 用attrs来获取属性;用.text来获取文本17            if title:18                img = a_tag.find('img')19                file_path = img.attrs.get('src')20                img_response = requests.get(url=file_path)21                print(title, file_path)22                with open(title+'.jpg', 'wb') as f:23                    f.write(img_response.content)\n\n爬虫requests\n1. 参数\n\nrequests.request\nmethod:提交方式\nurl:    提交地址\nheaders:请求头.里面有个referer,是上次访问的网站\ncookies:放在请求头里\nfiles：在请求体里上传文件\nparams: 在url中传递的参数，GET\n\n1request.request(2    method='GET',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;5)\n\n\ndata  在请求体里传里数据\n\n1request.request(2    method='POST',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;,5    data=&#123;'user':'alex','pwd':'123'&#125;    # 或者data=\"user=alex&amp;pwd=123\"6)\n\n\njson 在请求体里传递数据\n\n1request.request(2    method='POST',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;,5    json=&#123;'user':'alex','pwd':'123'&#125;6)\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:02:39+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"初识爬虫","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/spider-primary/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/spider-primary/","keywords":"爬虫"}</script>
+    <meta name="description" content="把网页的照片保存  1import requests2from bs4 import BeautifulSoup34response &#x3D; requests.get(5    url&#x3D;&amp;apos;https:&#x2F;&#x2F;movie.douban.com&#x2F;chart&amp;apos;6)7response.encoding &#x3D; response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要">
+<meta name="keywords" content="爬虫">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="spider-primary">
+<meta property="og:title" content="初识爬虫">
 <meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;spider-primary&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="初识爬虫 把网页的照片保存  1import requests2from bs4 import BeautifulSoup34response &#x3D; requests.get(5    url&#x3D;&amp;apos;https:&#x2F;&#x2F;movie.douban.com&#x2F;chart&amp;apos;6)7response.encoding &#x3D; response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不">
+<meta property="og:description" content="把网页的照片保存  1import requests2from bs4 import BeautifulSoup34response &#x3D; requests.get(5    url&#x3D;&amp;apos;https:&#x2F;&#x2F;movie.douban.com&#x2F;chart&amp;apos;6)7response.encoding &#x3D; response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T08:39:28.259Z">
+<meta property="og:updated_time" content="2019-12-08T10:02:39.033Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
     
@@ -250,16 +250,22 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            spider-primary
+            初识爬虫
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-12-08T16:39:28+08:00">
+    <time datetime="2019-12-08T12:11:06+08:00">
 	
 		    Dec 08, 2019
     	
     </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
+
+
     
 </div>
 
@@ -269,11 +275,35 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="初识爬虫"><a href="#初识爬虫" class="headerlink" title="初识爬虫"></a>初识爬虫</h1><ul>
+            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬虫requests"><span class="toc-text">爬虫requests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-参数"><span class="toc-text">1. 参数</span></a></li></ol>
+
+<ul>
 <li>把网页的照片保存</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">response = requests.get(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'https://movie.douban.com/chart'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">response.encoding = response.apparent_encoding  <span class="comment"># 根据来源网站的编码方式进行解码,一般不需要</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(response.text, features=<span class="string">'html.parser'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">target = soup.find(id=<span class="string">'content'</span>)  <span class="comment"># 根据id找标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">tables = target.find_all(<span class="string">'table'</span>) <span class="comment"># 根据类型找标签.也可以组合查:soup.find('div',id='abc')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> tb <span class="keyword">in</span> tables:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> tb:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        a_tags = tb.find_all(<span class="string">'a'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> a_tag <span class="keyword">in</span> a_tags:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            title = a_tag.attrs.get(<span class="string">'title'</span>)  <span class="comment"># 用attrs来获取属性;用.text来获取文本</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> title:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                img = a_tag.find(<span class="string">'img'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                file_path = img.attrs.get(<span class="string">'src'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                img_response = requests.get(url=file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                print(title, file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                <span class="keyword">with</span> open(title+<span class="string">'.jpg'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    f.write(img_response.content)</span></pre></td></tr></table></figure>
 
+<h2 id="爬虫requests"><a href="#爬虫requests" class="headerlink" title="爬虫requests"></a>爬虫requests</h2><blockquote>
+<h2 id="1-参数"><a href="#1-参数" class="headerlink" title="1. 参数"></a>1. 参数</h2></blockquote>
+<ul>
+<li>requests.request</li>
+<li>method:提交方式</li>
+<li>url:    提交地址</li>
+<li>headers:请求头.里面有个referer,是上次访问的网站</li>
+<li>cookies:放在请求头里</li>
+<li>files：在请求体里上传文件</li>
+<li>params: 在url中传递的参数，GET</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'GET'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
+
+<ul>
+<li>data  在请求体里传里数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    data=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;    <span class="comment"># 或者data="user=alex&amp;pwd=123"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
+
+<ul>
+<li>json 在请求体里传递数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    json=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
 
             
 
@@ -281,6 +311,13 @@
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a>
+
+            </div>
         
         
             <div class="post-actions-wrap">
@@ -291,9 +328,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/spider-requests/"
-                    data-tooltip="spider-requests"
-                    aria-label="PREVIOUS: spider-requests"
+                    href="/2019/12/08/test/"
+                    data-tooltip="test"
+                    aria-label="PREVIOUS: test"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -305,9 +342,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-orm-1/"
-                    data-tooltip="django-orm-1"
-                    aria-label="NEXT: django-orm-1"
+                    href="/2019/12/08/django-models/"
+                    data-tooltip="django模型models的使用"
+                    aria-label="NEXT: django模型models的使用"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -371,7 +408,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -406,9 +443,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/spider-requests/"
-                    data-tooltip="spider-requests"
-                    aria-label="PREVIOUS: spider-requests"
+                    href="/2019/12/08/test/"
+                    data-tooltip="test"
+                    aria-label="PREVIOUS: test"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -420,9 +457,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-orm-1/"
-                    data-tooltip="django-orm-1"
-                    aria-label="NEXT: django-orm-1"
+                    href="/2019/12/08/django-models/"
+                    data-tooltip="django模型models的使用"
+                    aria-label="NEXT: django模型models的使用"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -486,7 +523,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
