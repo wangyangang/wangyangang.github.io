@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hexo">
+    <title>django-CBV - Hexo</title>
+    <meta name="author" content="John Doe">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"},"articleBody":"django类视图\n\n\ndjango类视图\n1 基本视图\nView\nTemplateView\nRedirectView\n\n\n2 通用的显示视图\n2.1 列表视图（ListView）\n1 显示对象的一个列表（一般用ListView的子类）\n2 过滤数据\n2.1 后台过滤\n2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）\n\n\n3 执行额外的操作（比如更新last_accessed字段）\n\n\n2.2 详细视图（DetailView）\n\n\n\n\n\n\n1 基本视图View\n类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）\n\n示例views.py:\n1from django.shortcuts import HttpResponse2from django.views import views34class IndexView(View):5  def get(self, request, *args, **kwargs):6    return HttpResponse('index page')\n示例urls.py:\n1re_path(r'^index', IndexView.as_view(), name='index')\n\nTemplateView类django.views.generic.base.TemplateView\n\n渲染一个给定的模板,其上下文包含从URL捕获的参数示例views.py：\n\n1from django.views.generic.base import TemplateView23class BookInfoListView(TemplateView):4    template_name = 'books.html'56    def get_context_data(self, **kwargs):7        books = BookInfo.objects.all()8        context = super().get_context_data(**kwargs)9        context['books'] = books10        return context\n示例urls.py:\n1urlpatterns = [2# re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),3   re_path(r'^books', BookInfoListView.as_view(), name='books'),4   ]\n\n注意：如果在url的TemplateView的as_view函数里，传了template_name参数，那么TemplateView类里，可以不给template_name字段赋值；如果url没传该参数，那么Template_View类里必须赋值，否则会报错.\n\nRedirectView\n2 通用的显示视图2.1 列表视图（ListView）1 显示对象的一个列表（一般用ListView的子类）\n视图里定义一个集成ListView的视图，并指定model\n\n1class BookInfoListView2(ListView):2    model = BookInfo\n1re_path(r'^books/', BookInfoListView2.as_view(), name='books'),\n\n我们可以通过向视图中添加template_name属性来明确地告诉视图使用哪个模板，或者在url里写明模板名称:BookInfoListView2.as_view(template_name=&#39;abc.html&#39;).但是如果没有显式模板，Django会从对象的名称中推断出一个模板。 在这种情况下，推断的模板将为”app01/bookinfo_list.html” - “app01”部分来自定义模型的应用程序名称，而“bookinfo”是小写的模型名称。\n\n\n这个模板将会依据于一个上下文来渲染，这个上下文包含一个名为object_list包含所有publisher对象的变量 :\n\n1&#123;% for book in object_list %&#125;2        &lt;tr&gt;3            &#123;% if book.id|mod2 %&#125;4                &lt;td&gt;&#123;&#123; book.id &#125;&#125;&lt;/td&gt;5                &lt;td&gt;&#123;&#123; book.name &#125;&#125;&lt;/td&gt;\n以上就是一个最简单的对象的通用视图\n\n制作友好模板上下文\n在视图里添加context_object_name字段，以后模板在使用时，就可以访问该字段来取数据了\n\n\n\n1class BookInfoListView2(ListView):2    model = BookInfo3    context_object_name = 'book_list'\n\n2 过滤数据\n我们只给类视图的model赋值，相当于：queryset = BookInfo.objects.all().相当于取出所有的数据，如果想对数据进行过滤，可以给queryset字段赋值\n\n2.1 后台过滤1class BookInfoList(ListView):2    queryset = BookInfo.objects.filter(name='三国演义')\n2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）1urlpatterns = [2    #...3    url(r'^authors/(?P&lt;pk&gt;[0-9]+)/$', AuthorDetailView.as_view(), name='author-detail'),4]\n\npk是主键的意思，这样就根据数据库中的id列进行过滤，url正则分组名必须叫pk才能根据id进行筛选。这样在url里写好后，后台得到的数据，就是根据pk值进行过滤之后的数据了\n\n1urlpatterns = [2    url(r'^(?P&lt;slug&gt;[-\\w]+)/$', ArticleDetailView.as_view(), name='article-detail'),3]\n\n这里的slug，是数据库里的字段名，该字段一般作为博客文章的静态名称存在。也必须叫这个名字，不能更改，数据库没有这个slug字段，就会报错。\n\n3 执行额外的操作（比如更新last_accessed字段）1class AuthorDetailView(DetailView):23    queryset = Author.objects.all()45    def get_object(self):6        # Call the superclass7        object = super(AuthorDetailView, self).get_object()8        # Record the last accessed date9        object.last_accessed = timezone.now()10        object.save()11        # Return the object12        return object\n\n2.2 详细视图（DetailView）","dateCreated":"2019-12-08T16:44:33+08:00","dateModified":"2019-12-08T16:44:33+08:00","datePublished":"2019-12-08T16:44:33+08:00","description":"","headline":"django-CBV","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-CBV/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2a1d473d72ac05fb19ec47aff8d8c971"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-CBV/"}</script>
+    <meta name="description" content="django类视图   django类视图 1 基本视图 View TemplateView RedirectView   2 通用的显示视图 2.1 列表视图（ListView） 1 显示对象的一个列表（一般用ListView的子类） 2 过滤数据 2.1 后台过滤 2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）   3 执行额外的操作（比如更新last_access">
+<meta name="keywords" content="hexo,javascript">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="django-CBV">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-CBV&#x2F;index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="django类视图   django类视图 1 基本视图 View TemplateView RedirectView   2 通用的显示视图 2.1 列表视图（ListView） 1 显示对象的一个列表（一般用ListView的子类） 2 过滤数据 2.1 后台过滤 2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）   3 执行额外的操作（比如更新last_access">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-08T08:44:33.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;wangyangang">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+        Hexo
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/"
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/wangyangang" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/6239464/yangang" target="_blank" rel="noopener" title="Stack Overflow">
+                    
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/yangangwang" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/yangangwang1991/" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:yangangwang1991@gmail.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            django-CBV
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-12-08T16:44:33+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h1 id="django类视图"><a href="#django类视图" class="headerlink" title="django类视图"></a>django类视图</h1><!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+<ul>
+<li><a href="#django类视图">django类视图</a><ul>
+<li><a href="#1-基本视图">1 基本视图</a><ul>
+<li><a href="#view">View</a></li>
+<li><a href="#templateview">TemplateView</a></li>
+<li><a href="#redirectview">RedirectView</a></li>
+</ul>
+</li>
+<li><a href="#2-通用的显示视图">2 通用的显示视图</a><ul>
+<li><a href="#21-列表视图listview">2.1 列表视图（ListView）</a><ul>
+<li><a href="#1-显示对象的一个列表一般用listview的子类">1 显示对象的一个列表（一般用ListView的子类）</a></li>
+<li><a href="#2-过滤数据">2 过滤数据</a><ul>
+<li><a href="#21-后台过滤">2.1 后台过滤</a></li>
+<li><a href="#22-动态过滤根据url参数过滤一般用detailview的子类">2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）</a></li>
+</ul>
+</li>
+<li><a href="#3-执行额外的操作比如更新lastaccessed字段">3 执行额外的操作（比如更新last_accessed字段）</a></li>
+</ul>
+</li>
+<li><a href="#22-详细视图detailview">2.2 详细视图（DetailView）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<h2 id="1-基本视图"><a href="#1-基本视图" class="headerlink" title="1 基本视图"></a>1 基本视图</h2><h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><blockquote>
+<p>类django.views.generic.base.View，一般用作根据不同的请求方式调用不同的函数（get，post等）</p>
+</blockquote>
+<p>示例views.py:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> HttpResponse</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views <span class="keyword">import</span> views</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IndexView</span><span class="params">(View)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request, *args, **kwargs)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'index page'</span>)</span></pre></td></tr></table></figure>
+<p>示例urls.py:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">re_path(<span class="string">r'^index'</span>, IndexView.as_view(), name=<span class="string">'index'</span>)</span></pre></td></tr></table></figure>
+
+<h3 id="TemplateView"><a href="#TemplateView" class="headerlink" title="TemplateView"></a>TemplateView</h3><p>类django.views.generic.base.TemplateView</p>
+<blockquote>
+<p>渲染一个给定的模板,其上下文包含从URL捕获的参数<br>示例views.py：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.views.generic.base <span class="keyword">import</span> TemplateView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoListView</span><span class="params">(TemplateView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    template_name = <span class="string">'books.html'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_context_data</span><span class="params">(self, **kwargs)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        books = BookInfo.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        context = super().get_context_data(**kwargs)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        context[<span class="string">'books'</span>] = books</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> context</span></pre></td></tr></table></figure>
+<p>示例urls.py:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="comment"># re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">   re_path(<span class="string">r'^books'</span>, BookInfoListView.as_view(), name=<span class="string">'books'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   ]</span></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：如果在url的TemplateView的as_view函数里，传了template_name参数，那么TemplateView类里，可以不给template_name字段赋值；<br>如果url没传该参数，那么Template_View类里必须赋值，否则会报错.</p>
+</blockquote>
+<h3 id="RedirectView"><a href="#RedirectView" class="headerlink" title="RedirectView"></a>RedirectView</h3><hr>
+<h2 id="2-通用的显示视图"><a href="#2-通用的显示视图" class="headerlink" title="2 通用的显示视图"></a>2 通用的显示视图</h2><h3 id="2-1-列表视图（ListView）"><a href="#2-1-列表视图（ListView）" class="headerlink" title="2.1 列表视图（ListView）"></a>2.1 列表视图（ListView）</h3><h4 id="1-显示对象的一个列表（一般用ListView的子类）"><a href="#1-显示对象的一个列表（一般用ListView的子类）" class="headerlink" title="1 显示对象的一个列表（一般用ListView的子类）"></a>1 显示对象的一个列表（一般用ListView的子类）</h4><blockquote>
+<p>视图里定义一个集成ListView的视图，并指定model</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoListView2</span><span class="params">(ListView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    model = BookInfo</span></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">re_path(<span class="string">r'^books/'</span>, BookInfoListView2.as_view(), name=<span class="string">'books'</span>),</span></pre></td></tr></table></figure>
+<blockquote>
+<p>我们可以通过向视图中添加template_name属性来明确地告诉视图使用哪个模板，或者在url里写明模板名称:<code>BookInfoListView2.as_view(template_name=&#39;abc.html&#39;)</code>.但是如果没有显式模板，Django会从对象的名称中推断出一个模板。 在这种情况下，推断的模板将为”app01/bookinfo_list.html” - “app01”部分来自定义模型的应用程序名称，而“bookinfo”是小写的模型名称。</p>
+</blockquote>
+<blockquote>
+<p>这个模板将会依据于一个上下文来渲染，这个上下文包含一个名为object_list包含所有publisher对象的变量 :</p>
+</blockquote>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> book <span class="keyword">in</span> object_list %&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="xml">            </span><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><span class="template-variable">&#123;&#123; book.id &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><span class="template-variable">&#123;&#123; book.name &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span></pre></td></tr></table></figure>
+<p>以上就是一个最简单的对象的通用视图</p>
+<ul>
+<li>制作友好模板上下文<blockquote>
+<p>在视图里添加context_object_name字段，以后模板在使用时，就可以访问该字段来取数据了</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoListView2</span><span class="params">(ListView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    model = BookInfo</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    context_object_name = <span class="string">'book_list'</span></span></pre></td></tr></table></figure>
+
+<h4 id="2-过滤数据"><a href="#2-过滤数据" class="headerlink" title="2 过滤数据"></a>2 过滤数据</h4><blockquote>
+<p>我们只给类视图的model赋值，相当于：<code>queryset = BookInfo.objects.all()</code>.相当于取出所有的数据，如果想对数据进行过滤，可以给queryset字段赋值</p>
+</blockquote>
+<h5 id="2-1-后台过滤"><a href="#2-1-后台过滤" class="headerlink" title="2.1 后台过滤"></a>2.1 后台过滤</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoList</span><span class="params">(ListView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    queryset = BookInfo.objects.filter(name=<span class="string">'三国演义'</span>)</span></pre></td></tr></table></figure>
+<h5 id="2-2-动态过滤（根据url参数过滤）（一般用DetailView的子类）"><a href="#2-2-动态过滤（根据url参数过滤）（一般用DetailView的子类）" class="headerlink" title="2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）"></a>2.2 动态过滤（根据url参数过滤）（一般用DetailView的子类）</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="comment">#...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url(<span class="string">r'^authors/(?P&lt;pk&gt;[0-9]+)/$'</span>, AuthorDetailView.as_view(), name=<span class="string">'author-detail'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
+<blockquote>
+<p>pk是主键的意思，这样就根据数据库中的id列进行过滤，url正则分组名必须叫pk才能根据id进行筛选。这样在url里写好后，后台得到的数据，就是根据pk值进行过滤之后的数据了</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    url(<span class="string">r'^(?P&lt;slug&gt;[-\w]+)/$'</span>, ArticleDetailView.as_view(), name=<span class="string">'article-detail'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的slug，是数据库里的字段名，该字段一般作为博客文章的静态名称存在。也必须叫这个名字，不能更改，数据库没有这个slug字段，就会报错。</p>
+</blockquote>
+<h4 id="3-执行额外的操作（比如更新last-accessed字段）"><a href="#3-执行额外的操作（比如更新last-accessed字段）" class="headerlink" title="3 执行额外的操作（比如更新last_accessed字段）"></a>3 执行额外的操作（比如更新last_accessed字段）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthorDetailView</span><span class="params">(DetailView)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    queryset = Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_object</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Call the superclass</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        object = super(AuthorDetailView, self).get_object()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Record the last accessed date</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        object.last_accessed = timezone.now()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        object.save()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># Return the object</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> object</span></pre></td></tr></table></figure>
+
+<h3 id="2-2-详细视图（DetailView）"><a href="#2-2-详细视图（DetailView）" class="headerlink" title="2.2 详细视图（DetailView）"></a>2.2 详细视图（DetailView）</h3>
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/mysql-primary/"
+                    data-tooltip="mysql-primary"
+                    aria-label="PREVIOUS: mysql-primary"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/django-admin2/"
+                    data-tooltip="django-admin2"
+                    aria-label="NEXT: django-admin2"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 John Doe. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/mysql-primary/"
+                    data-tooltip="mysql-primary"
+                    aria-label="PREVIOUS: mysql-primary"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/django-admin2/"
+                    data-tooltip="django-admin2"
+                    aria-label="NEXT: django-admin2"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-CBV/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">John Doe</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
