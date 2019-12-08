@@ -363,6 +363,76 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/2019/12/08/django-cookie-session/"
+                            aria-label=": Django Cookie Session 操作"
+                        >
+                            Django Cookie Session 操作
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-COOKIE"><span class="toc-text">1.COOKIE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-session"><span class="toc-text">2.session</span></a></li></ol>
+
+<h2 id="1-COOKIE"><a href="#1-COOKIE" class="headerlink" title="1.COOKIE"></a>1.COOKIE</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    is_login = request.COOKIES.get(<span class="string">'is_login'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> is_login:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> redirect(<span class="string">'/index'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        username = request.POST.get(<span class="string">'username'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        password = request.POST.get(<span class="string">'password'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> username == <span class="string">'wyg'</span> <span class="keyword">and</span> password == <span class="string">'wyg'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            ret = redirect(<span class="string">'/index/'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            ret.set_cookie(<span class="string">'is_login'</span>, <span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            <span class="comment"># ret.set_cookie('is_login',True,max_age=10)# 有效期10秒</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            <span class="comment"># ret.set_cookie('is_login',True,expires=datetime.datetime.utcnow()+datetime.timedelta(days=3)) # 3天有效期</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> ret</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'login.html'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">is_login = request.COOKIES.get(<span class="string">'is_login'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> is_login:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> render(request, <span class="string">'index.html'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> redirect(<span class="string">'/login/'</span>)</span></pre></td></tr></table></figure>
+<h2 id="2-session"><a href="#2-session" class="headerlink" title="2.session"></a>2.session</h2><blockquote>
+<p>session在django用的时候可能会出问题，这时候，把settings.py里的MIDDLEWARE_CLASS改为MIDDLEWARE，把</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="string">'django.contrib.auth.middleware.AuthenticationMiddleware'</span></span></pre></td></tr></table></figure>
+<p>注释掉。session在服务器默认保存15天</p>
+<ul>
+<li>获取session: request.session[key]</li>
+<li>设置session: request.session[key]=value</li>
+<li>删除session: del request.session[key]<br>（这个删除其实是把session_data更新为一个其他的值了，并没有立即删除）</li>
+</ul>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2019/12/08/django-cookie-session/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/2019/12/08/django-custom-tags-and-filters/"
                             aria-label=": django自定义标签和过滤器"
                         >
@@ -423,76 +493,6 @@
                         <p>
                             <a
                                 href="/2019/12/08/django-custom-tags-and-filters/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-cookie-session/"
-                            aria-label=": Django Cookie Session 操作"
-                        >
-                            Django Cookie Session 操作
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-COOKIE"><span class="toc-text">1.COOKIE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-session"><span class="toc-text">2.session</span></a></li></ol>
-
-<h2 id="1-COOKIE"><a href="#1-COOKIE" class="headerlink" title="1.COOKIE"></a>1.COOKIE</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    is_login = request.COOKIES.get(<span class="string">'is_login'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> is_login:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> redirect(<span class="string">'/index'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        username = request.POST.get(<span class="string">'username'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        password = request.POST.get(<span class="string">'password'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> username == <span class="string">'wyg'</span> <span class="keyword">and</span> password == <span class="string">'wyg'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            ret = redirect(<span class="string">'/index/'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            ret.set_cookie(<span class="string">'is_login'</span>, <span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            <span class="comment"># ret.set_cookie('is_login',True,max_age=10)# 有效期10秒</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            <span class="comment"># ret.set_cookie('is_login',True,expires=datetime.datetime.utcnow()+datetime.timedelta(days=3)) # 3天有效期</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> ret</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'login.html'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">is_login = request.COOKIES.get(<span class="string">'is_login'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> is_login:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> render(request, <span class="string">'index.html'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> redirect(<span class="string">'/login/'</span>)</span></pre></td></tr></table></figure>
-<h2 id="2-session"><a href="#2-session" class="headerlink" title="2.session"></a>2.session</h2><blockquote>
-<p>session在django用的时候可能会出问题，这时候，把settings.py里的MIDDLEWARE_CLASS改为MIDDLEWARE，把</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="string">'django.contrib.auth.middleware.AuthenticationMiddleware'</span></span></pre></td></tr></table></figure>
-<p>注释掉。session在服务器默认保存15天</p>
-<ul>
-<li>获取session: request.session[key]</li>
-<li>设置session: request.session[key]=value</li>
-<li>删除session: del request.session[key]<br>（这个删除其实是把session_data更新为一个其他的值了，并没有立即删除）</li>
-</ul>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-cookie-session/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >

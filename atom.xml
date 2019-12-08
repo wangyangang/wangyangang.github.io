@@ -132,38 +132,6 @@
   </entry>
   
   <entry>
-    <title>django自定义标签和过滤器</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-08T10:07:57.229Z</updated>
-    
-    <content type="html"><![CDATA[<!-- toc --><blockquote><p>当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用</p></blockquote><ol><li>在app下创建一个python包，须包含<code>__init__.py</code>文件<br><img src="django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png" alt=""></li><li>在包内建一个py文件，用来定义标签和过滤器</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> template</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">register = template.Library()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod2</span><span class="params">(num1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % <span class="number">2</span> == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod4</span><span class="params">(num1, num2)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % num2 == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.simple_tag</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod3</span><span class="params">(num1, num2, num3)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> num1 + num2 + num3</span></pre></td></tr></table></figure><ol start="3"><li>在html文件里的开头处，导入要用到的python包里的py文件</li></ol><figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">mod3</span> 1 3 5 %&#125;</span><span class="xml"> # 自定义标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="template-variable">&#123;&#123; book.id|mod2 &#125;&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr></table></figure><blockquote><p>注意：</p><ul><li>自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数</li><li>也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。</li><li>自定义过滤器必须有返回值</li><li>自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用</li></ul></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;!-- toc --&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ol&gt;
-&lt;li&gt;在app下创建一个python包，须包含&lt;code&gt;__init__.py&lt;/c
-      
-    
-    </summary>
-    
-    
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
-    
-    
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Django Cookie Session 操作</title>
     <link href="https://wangyangang.github.io/2019/12/08/django-cookie-session/"/>
     <id>https://wangyangang.github.io/2019/12/08/django-cookie-session/</id>
@@ -192,6 +160,38 @@
       <category term="cookie" scheme="https://wangyangang.github.io/tags/cookie/"/>
     
       <category term="session" scheme="https://wangyangang.github.io/tags/session/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>django自定义标签和过滤器</title>
+    <link href="https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"/>
+    <id>https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-08T10:07:57.229Z</updated>
+    
+    <content type="html"><![CDATA[<!-- toc --><blockquote><p>当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用</p></blockquote><ol><li>在app下创建一个python包，须包含<code>__init__.py</code>文件<br><img src="django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png" alt=""></li><li>在包内建一个py文件，用来定义标签和过滤器</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> template</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">register = template.Library()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod2</span><span class="params">(num1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % <span class="number">2</span> == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod4</span><span class="params">(num1, num2)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % num2 == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.simple_tag</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod3</span><span class="params">(num1, num2, num3)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> num1 + num2 + num3</span></pre></td></tr></table></figure><ol start="3"><li>在html文件里的开头处，导入要用到的python包里的py文件</li></ol><figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">mod3</span> 1 3 5 %&#125;</span><span class="xml"> # 自定义标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="template-variable">&#123;&#123; book.id|mod2 &#125;&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr></table></figure><blockquote><p>注意：</p><ul><li>自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数</li><li>也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。</li><li>自定义过滤器必须有返回值</li><li>自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用</li></ul></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- toc --&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;在app下创建一个python包，须包含&lt;code&gt;__init__.py&lt;/c
+      
+    
+    </summary>
+    
+    
+      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+    
+    
+      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
     
   </entry>
   
@@ -402,6 +402,40 @@
   </entry>
   
   <entry>
+    <title>index</title>
+    <link href="https://wangyangang.github.io/2019/12/08/index/"/>
+    <id>https://wangyangang.github.io/2019/12/08/index/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-08T22:32:26.538Z</updated>
+    
+    <content type="html"><![CDATA[<!-- toc --><ul><li>一个年轻人要成长必须过两关：<ul><li>第一，跟优秀的老年人聊天</li><li>第二，谈一场或成功或失败的轰轰烈烈的恋爱<br>– 木心（白岩松某演讲）   2019-07-20</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- toc --&gt;
+
+&lt;ul&gt;
+&lt;li&gt;一个年轻人要成长必须过两关：&lt;ul&gt;
+&lt;li&gt;第一，跟优秀的老年人聊天&lt;/li&gt;
+&lt;li&gt;第二，谈一场或成功或失败的轰轰烈烈的恋爱&lt;br&gt;– 木心（白岩松某演讲）   2019-07-20&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="index" scheme="https://wangyangang.github.io/categories/index/"/>
+    
+    
+      <category term="index" scheme="https://wangyangang.github.io/tags/index/"/>
+    
+  </entry>
+  
+  <entry>
     <title>mysql基础知识</title>
     <link href="https://wangyangang.github.io/2019/12/08/mysql-primary/"/>
     <id>https://wangyangang.github.io/2019/12/08/mysql-primary/</id>
@@ -455,40 +489,6 @@
     
     
       <category term="python" scheme="https://wangyangang.github.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>index</title>
-    <link href="https://wangyangang.github.io/2019/12/08/index/"/>
-    <id>https://wangyangang.github.io/2019/12/08/index/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-08T22:21:01.262Z</updated>
-    
-    <content type="html"><![CDATA[<!-- toc --><ul><li>一个年轻人要成长必须过两关：<ul><li>第一，跟优秀的老年人聊天</li><li>第二，谈一场或成功或失败的轰轰烈烈的恋爱<br>– 木心（白岩松某演讲）   2019-07-20</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;!-- toc --&gt;
-
-&lt;ul&gt;
-&lt;li&gt;一个年轻人要成长必须过两关：&lt;ul&gt;
-&lt;li&gt;第一，跟优秀的老年人聊天&lt;/li&gt;
-&lt;li&gt;第二，谈一场或成功或失败的轰轰烈烈的恋爱&lt;br&gt;– 木心（白岩松某演讲）   2019-07-20&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-      
-    
-    </summary>
-    
-    
-      <category term="index" scheme="https://wangyangang.github.io/categories/index/"/>
-    
-    
-      <category term="index" scheme="https://wangyangang.github.io/tags/index/"/>
     
   </entry>
   
