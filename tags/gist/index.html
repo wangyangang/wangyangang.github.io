@@ -272,7 +272,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -304,41 +304,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#向前端返回json格式的数据"><span class="toc-text">向前端返回json格式的数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django中ajax的使用"><span class="toc-text">django中ajax的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于ajax的csrf验证："><span class="toc-text">关于ajax的csrf验证：</span></a></li></ol></li></ol>
-
-<h2 id="向前端返回json格式的数据"><a href="#向前端返回json格式的数据" class="headerlink" title="向前端返回json格式的数据"></a>向前端返回json格式的数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_house_index</span><span class="params">()</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        ret = redis_store.get(<span class="string">'home_page_data'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.error(e)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        ret = <span class="literal">None</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.info(<span class="string">'hit house index info redis'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;"errno": 0, "errmsg": "OK", "data": %s&#125;'</span> % ret, <span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>&#125;</span></pre></td></tr></table></figure>
-
-<h2 id="django中ajax的使用"><a href="#django中ajax的使用" class="headerlink" title="django中ajax的使用"></a>django中ajax的使用</h2><pre><code>*post：*</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#btn2'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> new_session_value = $(<span class="string">'#new_session_value'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> csrf = $(<span class="string">'input[name="csrfmiddlewaretoken"]'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">      &#123;#var args = &#123;'name': new_session_value, 'csrfmiddlewaretoken': csrf&#125;;#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> args = &#123;<span class="attr">name</span>: new_session_value&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> json_args = <span class="built_in">JSON</span>.stringify(args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">      <span class="built_in">console</span>.log(json_args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">      $.ajax(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            url: <span class="string">'/app01/sessions/'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            type: <span class="string">'post'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            data: json_args,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &#123;#contentType:'application/json',#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            dataType: <span class="string">'json'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            headers:&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">              <span class="string">'X-CSRFTOKEN'</span>: csrf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            &#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">var</span> resno = data[<span class="string">'resno'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">if</span>(resno == <span class="number">1</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                    <span class="keyword">var</span> val = data[<span class="string">'name'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(resno == <span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(data[<span class="string">'errmsg'</span>]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">      &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">&#125;)</span></pre></td></tr></table></figure>
-<ul>
-<li>url地址前要有 “/“</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$.post(<span class="string">'/order/pay'</span>, params, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>), '<span class="title">json</span>')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">  ...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function">// 以下是<span class="title">jquery</span>中<span class="title">ajax</span> <span class="title">post</span>的部分定义：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">// jQuery[ method ] = function( url, data, callback, type ) &#123;&#125;</span></pre></td></tr></table></figure>
-
-<h3 id="关于ajax的csrf验证："><a href="#关于ajax的csrf验证：" class="headerlink" title="关于ajax的csrf验证："></a>关于ajax的csrf验证：</h3><ul>
-<li>传的数据不是json，那么可以把<code>csrfmiddlewaretoken</code>作为键放到参数里</li>
-<li>传的数据是json，不能把<code>csrfmiddlewaretoken</code>放到参数里，放进去也不起作用。只能用ajax的常规写法，把<code>csrf</code>放到请求头里。</li>
-<li>后台获取json数据，用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">json_body = json.loads(request.body)</span></pre></td></tr></table></figure>
-获取单个数据也可以用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">name = request.POST.get(<span class="string">'name'</span>)</span></pre></td></tr></table></figure>
-
-</li>
-</ul>
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/gist/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Gist"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/gist/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             

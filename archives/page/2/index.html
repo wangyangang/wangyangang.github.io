@@ -272,7 +272,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -304,53 +304,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-三元运算"><span class="toc-text">1.三元运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-ajax基本操作"><span class="toc-text">2.ajax基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-序列化"><span class="toc-text">3.序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-事件委托"><span class="toc-text">4.事件委托</span></a></li></ol>
-
-<h2 id="1-三元运算"><a href="#1-三元运算" class="headerlink" title="1.三元运算"></a>1.三元运算</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">result = A <span class="keyword">if</span> B <span class="keyword">else</span> C  <span class="comment"># 如果B成立，则result等于A，否则result等于C</span></span></pre></td></tr></table></figure>
-
-<h2 id="2-ajax基本操作"><a href="#2-ajax基本操作" class="headerlink" title="2.ajax基本操作"></a>2.ajax基本操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$.ajax(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    url:<span class="string">'/index/'</span>，</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    type:<span class="string">'GET'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    data:&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    success:function(arg)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        <span class="comment">#   回调函数</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &#125;   <span class="comment">#   ajax以GET方式发请求，会自动把data里的数据放到url里；以POST方式发，data会自动放到请求体里</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>ajax发请求(计算两个数字的和)</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"i1"</span> <span class="attr">placeholder</span>=<span class="string">"数字1"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        +</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"i2"</span> <span class="attr">placeholder</span>=<span class="string">"数字2"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn"</span> <span class="attr">onclick</span>=<span class="string">"addForm();"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            提交</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"i3"</span> <span class="attr">placeholder</span>=<span class="string">"结果"</span>&gt;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></pre></td></tr></table></figure>
-
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addForm</span>(<span class="params"></span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">           <span class="keyword">var</span> v1=$(<span class="string">'#i1'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">           <span class="keyword">var</span> v2=$(<span class="string">'#i2'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">           $.ajax(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">               url:<span class="string">'/ajax3.html'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">               type:<span class="string">'GET'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">               data:&#123;<span class="string">'v1'</span>:v1,<span class="string">'v2'</span>:v2&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">               success:<span class="function"><span class="keyword">function</span> (<span class="params">arg</span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">                  $('#i3').val(arg) # arg就是计算结果</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">               &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">           &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">def ajax3(request):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    v1 = request.GET.get(<span class="string">'v1'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    v2 = request.GET.get(<span class="string">'v2'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        v3 = int(v1)+int(v2)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    except Exception <span class="keyword">as</span> e:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        v3 = <span class="string">'输入格式错误'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    return HttpResponse(v3) # 把计算结果传给回调函数</span></pre></td></tr></table></figure>
-
-<hr>
-<blockquote>
-<p>另一个小例子</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">        $(function()&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            bindEvent()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            bindSave()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        function bindEvent() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">            $(<span class="string">'#btnAdd'</span>).click(function () &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                $(<span class="string">"#addModal"</span>).modal(<span class="string">'show'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        function bindSave() &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            $(<span class="string">'#btnSave'</span>).click(function () &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">                let result = &#123;&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">                $(<span class="string">'#studentForm'</span>).find(<span class="string">'input,select'</span>).each(function()&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">                    let v= $(this).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">                    let n=$(this).attr(<span class="string">'name'</span>);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">                    <span class="keyword">if</span>(n==<span class="string">'gender'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                        <span class="keyword">if</span>($(this).prop(<span class="string">'checked'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                            result[n] = v;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                        result[n]=v;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                &#125;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                console.log(result)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">                $.ajax(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">                    url:<span class="string">'/add_student/'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">                    type:<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">                    data:result,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">                    success:function (args) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">                        let dict = JSON.parse(args)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">                        <span class="keyword">if</span>(dict.status)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">                            <span class="comment"># 通过js主动刷新页面</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">                            window.location.reload();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">                        &#125;<span class="keyword">else</span> &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">                            $(<span class="string">'#errorMSG'</span>).text(dict.message)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">                        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">                    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">                &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">            &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">    &lt;/script&gt;</span></pre></td></tr></table></figure>
-
-<h2 id="3-序列化"><a href="#3-序列化" class="headerlink" title="3.序列化"></a>3.序列化</h2><ol>
-<li>python序列化</li>
-</ol>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">字符串 = json.dumps(对象)   对象-&gt;字符串</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">对象 = json.loads(字符串)   字符串-&gt;对象</span></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>javascript序列化</li>
-</ol>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">字符串 = JSON.string.ify(对象)   对象-&gt;字符串</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">对象 = JSON.parse(字符串)   字符串-&gt;对象</span></pre></td></tr></table></figure>
-
-<h2 id="4-事件委托"><a href="#4-事件委托" class="headerlink" title="4.事件委托"></a>4.事件委托</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$(<span class="string">'要绑定标签的上级标签'</span>).on(<span class="string">'click'</span>,<span class="string">'要绑定的标签'</span>,function()&#123;&#125;)</span></pre></td></tr></table></figure>
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/python-primary/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": python基础"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/python-primary/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -359,7 +323,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -391,52 +355,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬虫requests"><span class="toc-text">爬虫requests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-参数"><span class="toc-text">1. 参数</span></a></li></ol>
-
-<ul>
-<li>把网页的照片保存</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">response = requests.get(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'https://movie.douban.com/chart'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">response.encoding = response.apparent_encoding  <span class="comment"># 根据来源网站的编码方式进行解码,一般不需要</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(response.text, features=<span class="string">'html.parser'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">target = soup.find(id=<span class="string">'content'</span>)  <span class="comment"># 根据id找标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">tables = target.find_all(<span class="string">'table'</span>) <span class="comment"># 根据类型找标签.也可以组合查:soup.find('div',id='abc')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> tb <span class="keyword">in</span> tables:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> tb:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        a_tags = tb.find_all(<span class="string">'a'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">for</span> a_tag <span class="keyword">in</span> a_tags:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            title = a_tag.attrs.get(<span class="string">'title'</span>)  <span class="comment"># 用attrs来获取属性;用.text来获取文本</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">if</span> title:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                img = a_tag.find(<span class="string">'img'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                file_path = img.attrs.get(<span class="string">'src'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                img_response = requests.get(url=file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                print(title, file_path)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                <span class="keyword">with</span> open(title+<span class="string">'.jpg'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    f.write(img_response.content)</span></pre></td></tr></table></figure>
-
-<h2 id="爬虫requests"><a href="#爬虫requests" class="headerlink" title="爬虫requests"></a>爬虫requests</h2><blockquote>
-<h2 id="1-参数"><a href="#1-参数" class="headerlink" title="1. 参数"></a>1. 参数</h2></blockquote>
-<ul>
-<li>requests.request</li>
-<li>method:提交方式</li>
-<li>url:    提交地址</li>
-<li>headers:请求头.里面有个referer,是上次访问的网站</li>
-<li>cookies:放在请求头里</li>
-<li>files：在请求体里上传文件</li>
-<li>params: 在url中传递的参数，GET</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'GET'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
-
-<ul>
-<li>data  在请求体里传里数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    data=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;    <span class="comment"># 或者data="user=alex&amp;pwd=123"</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
-
-<ul>
-<li>json 在请求体里传递数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">request.request(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    method=<span class="string">'POST'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    url=<span class="string">'http://abc.com'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    params=&#123;<span class="string">'k1'</span>:<span class="string">'v1'</span>,<span class="string">'k2'</span>:<span class="string">'v2'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    json=&#123;<span class="string">'user'</span>:<span class="string">'alex'</span>,<span class="string">'pwd'</span>:<span class="string">'123'</span>&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">)</span></pre></td></tr></table></figure>
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/spider-primary/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": 初识爬虫"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/spider-primary/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -453,10 +382,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/django-admin/"
-                            aria-label=": django-admin的使用"
+                            href="/2019/12/08/django-cookie-session/"
+                            aria-label=": Django Cookie Session 操作"
                         >
-                            django-admin的使用
+                            Django Cookie Session 操作
                         </a>
                     
                 </h1>
@@ -478,12 +407,12 @@
             </div>
             
                 <div class="postShorten-excerpt">
-                    <p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p>
+                    <!-- toc -->
                     
                         <a
-                            href="/2019/12/08/django-admin/"
+                            href="/2019/12/08/django-cookie-session/"
                             class="postShorten-excerpt_link link"
-                            aria-label=": django-admin的使用"
+                            aria-label=": Django Cookie Session 操作"
                         >
                             Continue reading
                         </a>
@@ -496,7 +425,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -528,45 +457,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1>
-
-<blockquote>
-<p>三体Ⅲ·死神永生  序</p>
-</blockquote>
-<p><img src="dead-end.jpg" alt=""></p>
-<p>多年以后，我还会记得看完《三体》的那个秋夜，我走出家门，在小区里盘桓。铅灰色的上丅海夜空几乎看不到几颗星星，但是我的心中却仿佛有无限的星光在涌动。这是一种奇异的感受，我的视觉、听觉和思维好像都被放大、重组和牵引，指向一个浩瀚的所在。</p>
-<p>即使没有光污染，身在北半球中纬度的我也不可能看到半人马座。但是在《三体》之后，我却觉得自己与那看不见的星系中子虚乌有的三星有了一种近乎真实的联系。</p>
-<p>从一开始，刘慈欣就被人视为中国的硬科幻代表。要知道，这是一桩吃力不讨好的活儿，在当今这个微小化、朋克化和奇幻化的世界科幻文坛，相当不与时俱进。但大刘仿佛是下定决心要为中国科幻补课一般，执著地用坚实的物理法则和潮水一般的细节为我们打造全新的世界。这些世界卓然成形，栩栩如生地向我们猛扑过来。</p>
-<p>《三体》是一部多重旋律的作品：此岸、彼岸与红岸，过去、现在与未来，交织成中国文学中罕见的复调。故事的核心竟然是我们既熟悉又陌生的文革。当主流文学渐渐远离了这个沉重的话题，大刘竟然以太空史诗的方式重返历史的现场，用光年的尺度来重新衡量那永远的伤痕，在超越性的视野上审视苦难、救赎与背叛。这一既幻想又现实还科学的中国版《天路历程》，疯狂而冷静，沉重而壮阔，绝望而超脱。</p>
-<p>文革仅仅是《三体》的起点。我个人认为，书中最精彩的部分是以虚拟游戏方式展示的三体世界历史。三体星系由于拥有三颗太阳，其不规则运动使得三体文明的生存条件极为严酷。为了应对变幻莫测的自然环境，他们随时可以将自己体内的水分完全排出，变成干燥的纤维状物体，以躲过完全不适合生存的恶劣气候。对于这个极为奇幻的想象世界，大刘充分发挥了他在硬科学上的特长，赋予这个世界完全真实可信的物理特性和演化发展规律。作为一个电脑工程师，大刘甚至设计了一个三体程序，来模拟宇宙文明间的相互关系。</p>
-<p>这是一个游戏，游戏背后是一个遥远星际文明二百次毁灭与重生的传奇，游戏中的人物却是孔子、墨子、秦始皇、伽利略、葛力高利教皇、牛顿、爱因斯坦……古今中外各路人马走马灯似的上场。这是一场跨越时空的狂欢，历史、文革、三体又构成了另一个意义上的三体关系，它们之间遥相辉映而又扑朔迷离，在最不可思议的生存景象中蕴涵着触手可及的现实针对性，把三体系统的复杂性发挥得淋漓尽致。</p>
-<p>要是换了别人，《三体》写到这个程度，大可满意收场了，但是对大刘来说，好戏才刚刚开始。在《三体Ⅱ·黑暗森林》中，地球、三体和宇宙更高级文明构成了一个更大规模的三体结构。面对三体人令人难以置信的科技和前来毁灭地球的庞大舰队，人类举全球之力，制订了“面壁计划”，由四位“面壁人”独立设计四套反击方案。说真的，其中每一套对策都构思独特、气势磅礴，令人拍案叫绝。放到其他人的作品中，每个都可以作为构筑大结局的终极解决方案。但对大刘来说，这些都只不过是铺垫和浮云。</p>
-<p>假如在太空中存在着无数的文明，它们之间应该是什么样的关系？大刘别出心裁地设想了一门“宇宙社会学”，专门研究这个问题。宇宙社会学设定两条公理：“第一，生存是文明的第一需要；第二，文明不断增长和扩张，但宇宙中的物质总量保持不变。”乍一看这“公理”很俗很平淡很没意思，但等到最后底牌翻出来绝对震死你。在《三体Ⅱ·黑暗森林》的结尾，我体验到了多年未在文学作品中体验到的完美高潮，一种启示性的震撼，一种极致的满足。而这种满足，正来自“宇宙社会学公理”那出人意料的合理展开和推衍，经过了漫长的准备和铺垫，与作品的开头形成绝妙呼应。我想，这也就是马克思推崇的“逻辑与历史的统一”吧。在我们的中国文学中，又有多少这样的“逻辑与历史的统一”呢？</p>
-<p>当《三体Ⅱ·黑暗森林》问世的时候，我们这些三体迷的心态相当矛盾。一方面，我们觉得《三体Ⅱ·黑暗森林》近于完美，难以想象这之后还能整出些什么来。另一方面，我们又希望大刘能够再整出些什么来。之后，又听说他在工作上遇到了一点问题，曾经考虑放弃《三体Ⅲ》的写作，着实令我们担忧不已。但最终，身处僻壤的他，又写出一本放眼宇宙的大作，这本身就是一件颇有科幻色彩的事。谢天谢地，他终于坚持了下来。</p>
-<p>当大刘提出让我来为《三体Ⅲ》写序的时候，我的内心是一片抑制不住的狂喜，不仅是为了这份难得的荣耀，更是为了能抢在第一时间先睹为快。在一个剧透被视为不可饶恕的罪行的年代，我必须非常小心。长话短说吧，我认为《三体Ⅲ》在许多方面都超越了前两部，而且这种超越不是一点点。前面对宇宙的黑暗森林只是迂回虚写，第三部就是正面强攻了，这难度极大。我真是很佩服大刘毫不取巧的勇气，更佩服他对宇宙风景得心应手的描写，那真可以说是“精骛八极，心游万仞”。看到《三体Ⅲ》的结尾，我忍不住想起阿西莫夫的《最后的问题》，那也是对宇宙终点的描写，大家可以比较一下，看看谁的想象力走得更远，谁的细节更丰富，谁的宇宙更宏大。</p>
-<p>《三体Ⅲ》很硬科幻，对普通读者来说，流畅度和可读性可能会不如前两部。其中一些段落甚至有一些晦涩（如对“神”的描写），但是对科幻爱好者和大刘的粉丝而言，纷至沓来的宇宙细节一定会让他们更加过瘾。而且我们理解，大刘的“硬”并非铁板一块，而是软硬相兼、虚实相间，其内在逻辑可以这样解读：越是疯狂虚幻的想象，越是超越性的思维，背后越是需要坚实的细节和强大的逻辑。刘氏宇宙学的基础是技术，而在这林林总总技术化的冷酷思考背后，有一颗柔软温暖的心。从《三体》开始，大刘越走越远，但他并非一去不回，即使在最远的地方，我们也能看到他对人类的关爱。《三体Ⅲ》始于一个近乎琼瑶式的爱情故事，一个人为自己暗恋的对象买一颗遥远的星星，这故事是如此的寂寞无助、浪漫彻骨。最终，这颗星星将为无尽的黑暗森林带来一丝光亮，卑微绝望的单恋也将成为播撒宇宙的大爱。</p>
-<p>在整个三部曲中，我个人认为第一部最有历史感和现实性；第二部的完成度最高，结构最完整，线索最清晰，也最华丽好看；而《三体Ⅲ》则是把宇宙视野和本质性的思考推向了极致，这方面目前无人能及。在一个思想淡出文学（以及其他领域）的年代，我们看到中国的科幻界有人在默默地补位，而且远不止大刘一个人。《三体》对历史的反思，对道德的超越，到《三体Ⅲ》发展成为对全面的宇宙社会学、宇宙心理学、宇宙生态学的建构。这是屠龙之术吗？看看斯蒂芬·霍金最近的警告，也许我们会对“杞人忧天”这个成语做出全新的理解。</p>
-<p>有时候我会忍不住想，假如有一天三体人真的降临，人类应该请大刘出山，参加地球危机委员会的工作。无论是威慑博弈、防卫反击，还是宇宙公关，大刘都是领先一步的专家。如果说天机不可泄露的话，大刘应该是我们这个世界最知晓天机的人之一了。三体人如果有一份追杀名单的话，他也绝对会名列前茅。小心啊，大刘！</p>
-<p>当然，这只不过是幻想，只不过是神话……可是，说到神话，这难道不正是我们这个时代的奢侈品吗？坦率地说，系统性的史诗与神话一直是中国文学的弱项。在遭受后现代丅文化的洗礼之后，我们的作家更是如获至宝，把缺失视为强项，奉行“躲避崇高”的策略，鄙视宏大叙事，消解终极追问。我推崇大刘的作品，也因为他逆流而上，发扬理性主义和人文精神，为中国文学注入整体性的思维和超越性的视野。这种终极的关怀和追问，又建立在科学的逻辑和逼真的细节之上，这就让浩瀚的幻想插上了坚实的翅膀。</p>
-<p>当尼采向世界发出“上帝已死”的宣告时，一些价值解体了，但另一些依然存在。旧的神话消失了，新的神话依然在不断诞生。人类从来没有停下追赶神话的脚步。我们惊奇地发现，在一个崭新的世纪，无尽的宇宙依然是无尽的神话的无尽的沃壤，而科学与技术已经悄然在这新神话中扮演了越来越重要的角色。大刘的世界，涵盖了从奇点到宇宙边际的所有尺度，跨越了从白垩纪到未来亿万年的漫长时光，其思想的速度和广度，早已超越了“可上九天揽月，可下五洋捉鳖”的传统境界。《三体Ⅲ》对宇宙结构的想象，已经开始涉及时间的本质和创世的秘密，但看得出大刘有意与西方的神话保持距离，走的是一条新的中国神话的道路。这是前所未有的工作。关于宇宙之始，之终，之真相，他猜了、他想了、他写了，至于是否正确，已经不重要了。虽说人类一思考，上帝就发笑，可人类如果不思考，上帝连发笑都不屑。</p>
-<p>严锋<br>复旦大学中文系副教授<br>《新发现》杂志主编</p>
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/preface-of-three-body/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": 心事浩渺连广宇"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/preface-of-three-body/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             

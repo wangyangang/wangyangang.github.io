@@ -304,7 +304,7 @@
             </div>
             
                 <div class="postShorten-excerpt">
-                    <p>算法基础 利用python实现<br>包含：冒泡排序 选择排序 插入排序<br>希尔排序 归并排序 快速排序</p>
+                    <!-- toc -->
                     
                         <a
                             href="/2019/12/08/%E7%AE%97%E6%B3%95/"
@@ -322,7 +322,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -354,41 +354,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#向前端返回json格式的数据"><span class="toc-text">向前端返回json格式的数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django中ajax的使用"><span class="toc-text">django中ajax的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于ajax的csrf验证："><span class="toc-text">关于ajax的csrf验证：</span></a></li></ol></li></ol>
-
-<h2 id="向前端返回json格式的数据"><a href="#向前端返回json格式的数据" class="headerlink" title="向前端返回json格式的数据"></a>向前端返回json格式的数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_house_index</span><span class="params">()</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">try</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        ret = redis_store.get(<span class="string">'home_page_data'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.error(e)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        ret = <span class="literal">None</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        current_app.logger.info(<span class="string">'hit house index info redis'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;"errno": 0, "errmsg": "OK", "data": %s&#125;'</span> % ret, <span class="number">200</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>&#125;</span></pre></td></tr></table></figure>
-
-<h2 id="django中ajax的使用"><a href="#django中ajax的使用" class="headerlink" title="django中ajax的使用"></a>django中ajax的使用</h2><pre><code>*post：*</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#btn2'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> new_session_value = $(<span class="string">'#new_session_value'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> csrf = $(<span class="string">'input[name="csrfmiddlewaretoken"]'</span>).val();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">      &#123;#var args = &#123;'name': new_session_value, 'csrfmiddlewaretoken': csrf&#125;;#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> args = &#123;<span class="attr">name</span>: new_session_value&#125;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">      <span class="keyword">var</span> json_args = <span class="built_in">JSON</span>.stringify(args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">      <span class="built_in">console</span>.log(json_args);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">      $.ajax(&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            url: <span class="string">'/app01/sessions/'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            type: <span class="string">'post'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            data: json_args,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            &#123;#contentType:'application/json',#&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">            dataType: <span class="string">'json'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            headers:&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">              <span class="string">'X-CSRFTOKEN'</span>: csrf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            &#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">var</span> resno = data[<span class="string">'resno'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">                  <span class="keyword">if</span>(resno == <span class="number">1</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">                    <span class="keyword">var</span> val = data[<span class="string">'name'</span>];</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(val);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(resno == <span class="number">0</span>)&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">                    $(<span class="string">'#session_value'</span>).val(data[<span class="string">'errmsg'</span>]);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">            &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">      &#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">&#125;)</span></pre></td></tr></table></figure>
-<ul>
-<li>url地址前要有 “/“</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$.post(<span class="string">'/order/pay'</span>, params, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>), '<span class="title">json</span>')</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="function">  ...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function">// 以下是<span class="title">jquery</span>中<span class="title">ajax</span> <span class="title">post</span>的部分定义：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">// jQuery[ method ] = function( url, data, callback, type ) &#123;&#125;</span></pre></td></tr></table></figure>
-
-<h3 id="关于ajax的csrf验证："><a href="#关于ajax的csrf验证：" class="headerlink" title="关于ajax的csrf验证："></a>关于ajax的csrf验证：</h3><ul>
-<li>传的数据不是json，那么可以把<code>csrfmiddlewaretoken</code>作为键放到参数里</li>
-<li>传的数据是json，不能把<code>csrfmiddlewaretoken</code>放到参数里，放进去也不起作用。只能用ajax的常规写法，把<code>csrf</code>放到请求头里。</li>
-<li>后台获取json数据，用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">json_body = json.loads(request.body)</span></pre></td></tr></table></figure>
-获取单个数据也可以用<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">name = request.POST.get(<span class="string">'name'</span>)</span></pre></td></tr></table></figure>
-
-</li>
-</ul>
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/gist/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Gist"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/gist/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -397,7 +373,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -429,40 +405,68 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <a id="more"></a>
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用"><span class="toc-text">基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义正则"><span class="toc-text">自定义正则</span></a></li></ol>
-
-<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> forms</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.forms <span class="keyword">import</span> fields</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyForm</span><span class="params">(forms.Form)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    username = fields.CharField(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        required=<span class="literal">True</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        min_length=<span class="number">6</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        max_length=<span class="number">16</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        error_messages=&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'required'</span>: <span class="string">'用户名不能为空'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'min_length'</span>: <span class="string">'不能少于6个字符'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'max_length'</span>: <span class="string">'不能超过16个字符'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    )</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    password = fields.CharField(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        required=<span class="literal">True</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        min_length=<span class="number">6</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        error_messages=&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'required'</span>: <span class="string">'密码不能为空'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'min_length'</span>: <span class="string">'不能少于6字符'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    )</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    email = fields.EmailField(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        required=<span class="literal">True</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        error_messages=&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'required'</span>: <span class="string">'邮箱不能为空'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">            <span class="string">'invalid'</span>: <span class="string">'邮箱格式错误'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    )</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    city = fields.ChoiceField(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        <span class="comment"># choices=((0, 'beijing'), (1, '上海'),),</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        widget=widgets.CheckboxSelectMultiple</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">    )</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># 加上这个方法，那么数据库里数据源修改之后，前台页面上的数据才会跟着修改</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, ** kwargs)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">        super(CustomForm, self).__init__(*args, **kwargs)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        self.fields[<span class="string">'city'</span>].widget.choices = models.UserInfo.objects.all().values_list(<span class="string">'id'</span>, <span class="string">'username'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># 加上这个方法（以clean_字段名命名),可以自定义验证方式，比如去数据库看是否有重复的用户名</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clean_user</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">        v = self.cleaned_data[<span class="string">'user'</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> models.UserInfo.objects.filter(username=v).count():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">raise</span> ValidationError(<span class="string">'用户名重复'</span>) <span class="comment"># 必须抛出Validationrror异常才能被捕获</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># 加上这个方法，可以拿到Form所有的clean_data进行验证</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clean</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">    print(self.cleaned_data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">    v1 = self.cleaned_data[<span class="string">'user'</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">    v2 = self.cleaned_data[<span class="string">'gender'</span>]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">    print(v1 == <span class="string">'1593'</span> <span class="keyword">and</span> v2 == <span class="string">'a'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> v1 == <span class="string">'1593'</span> <span class="keyword">and</span> v2 == <span class="string">'a'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">raise</span> ValidationError(<span class="string">'整体错误'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> self.cleaned_data</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">        obj = MyForm()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> render(request, <span class="string">'index.html'</span>, &#123;<span class="string">'obj'</span>: obj&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">'POST'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">        obj = MyForm(request.POST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> obj.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line">            print(<span class="string">'验证成功'</span>, obj.cleaned_data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> redirect(<span class="string">'main_page.html'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">            print(<span class="string">'验证失败'</span>, obj.errors)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> render(request, <span class="string">'index.html'</span>, &#123;<span class="string">'obj'</span>: obj&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_users</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">        user_form = UserForm()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> render(request, <span class="string">'add_users.html'</span>, &#123;<span class="string">"userForm"</span>: user_form&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">'POST'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line">        user_form = UserForm(request.POST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> user_form.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">79</span></pre></td><td class="code"><pre><span class="line">            models.UserInfo.objects.create(**user_form.cleaned_data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">80</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> redirect(<span class="string">'users.html'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">81</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">82</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> render(request, <span class="string">'add_users.html'</span>, &#123;<span class="string">"userForm"</span>: user_form&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">83</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">84</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit_users</span><span class="params">(request)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">85</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">86</span></pre></td><td class="code"><pre><span class="line">        nid = request.GET.get(<span class="string">'nid'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">87</span></pre></td><td class="code"><pre><span class="line">        data = models.UserInfo.objects.filter(id=nid).first()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">88</span></pre></td><td class="code"><pre><span class="line">        obj = UserForm(&#123;<span class="string">'username'</span>: data.username, <span class="string">'email'</span>: data.email&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">89</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> render(request, <span class="string">'edit_users.html'</span>, &#123;<span class="string">'obj'</span>: obj, <span class="string">'nid'</span>: nid&#125;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">90</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">elif</span> request.method == <span class="string">'POST'</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">91</span></pre></td><td class="code"><pre><span class="line">        nid = request.GET.get(<span class="string">'nid'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">92</span></pre></td><td class="code"><pre><span class="line">        obj = UserForm(request.POST)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">93</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">if</span> obj.is_valid():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">94</span></pre></td><td class="code"><pre><span class="line">            models.UserInfo.objects.filter(id=nid).update(**obj.cleaned_data)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">95</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> redirect(<span class="string">'users.html'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">96</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">97</span></pre></td><td class="code"><pre><span class="line">            <span class="keyword">return</span> render(request, <span class="string">'edit_users.html'</span>, &#123;<span class="string">'obj'</span>: obj, <span class="string">'nid'</span>: nid&#125;)</span></pre></td></tr></table></figure>
-
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/index.html"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="xml">    </span><span class="template-tag">&#123;% <span class="name"><span class="name">csrf_token</span></span> %&#125;</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>用户名：</span><span class="template-variable">&#123;&#123; obj.username &#125;&#125;</span><span class="template-variable">&#123;&#123; obj.errors.username.0 &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>密码：</span><span class="template-variable">&#123;&#123; obj.password &#125;&#125;</span><span class="template-variable">&#123;&#123; obj.errors.password.0 &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>email：</span><span class="template-variable">&#123;&#123; obj.email &#125;&#125;</span><span class="template-variable">&#123;&#123; obj.errors.email.0 &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>/&gt;</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></span></pre></td></tr></table></figure>
-
-<h2 id="自定义正则"><a href="#自定义正则" class="headerlink" title="自定义正则"></a>自定义正则</h2><blockquote>
-<p>方式1</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomForm</span><span class="params">(forms.Form)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    user = fields.CharField(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        error_messages=&#123;<span class="string">'invalid'</span>: <span class="string">'请输入以159开头的数字格式'</span>&#125;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        label=<span class="string">'user'</span>,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        validators=[RegexValidator(<span class="string">r'^[0-9]+$'</span>, <span class="string">'请输入数字'</span>), RegexValidator(<span class="string">r'^159[0-9]+$'</span>, <span class="string">'数字必须159开头'</span>)],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    )</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>方式2</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomForm2</span><span class="params">(forms.Form)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    user = fields.RegexField(<span class="string">r'^[0-9]&#123;10&#125;$'</span>, error_messages=&#123;<span class="string">'invalid'</span>: <span class="string">'please type numbers 10 times'</span>&#125;)</span></pre></td></tr></table></figure>
-
-
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/django-form-component/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": django form 组件"
+                        >
+                            Continue reading
+                        </a>
                         
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2019/12/08/django-pagination/"
+                            aria-label=": django分页"
+                        >
+                            django分页
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
 
 
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p>
                     
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-form-component/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
+                        <a
+                            href="/2019/12/08/django-pagination/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": django分页"
+                        >
+                            Continue reading
+                        </a>
+                        
                     
                 </div>
             
@@ -540,57 +544,6 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/django-pagination/"
-                            aria-label=": django分页"
-                        >
-                            django分页
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p>
-                    
-                        <a
-                            href="/2019/12/08/django-pagination/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": django分页"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
                             href="/2019/12/08/django-template/"
                             aria-label=": django模板"
                         >
@@ -615,45 +568,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1>
-<p>这里只介绍模板里的高级用法：自定义标签和过滤器</p>
-<ol>
-<li>在app下创建一个python包，须包含<code>__init__.py</code>文件<br><img src="django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png" alt="django自定义标签和过滤器"></li>
-<li>在包内建一个py文件，用来定义标签和过滤器</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> template</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">register = template.Library()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod2</span><span class="params">(num1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % <span class="number">2</span> == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod4</span><span class="params">(num1, num2)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % num2 == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.simple_tag</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod3</span><span class="params">(num1, num2, num3)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> num1 + num2 + num3</span></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>在html文件里的开头处，导入要用到的python包里的py文件</li>
-</ol>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">mod3</span> 1 3 5 %&#125;</span><span class="xml"> # 自定义标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="template-variable">&#123;&#123; book.id|mod2 &#125;&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意：</p>
-<ul>
-<li>自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数</li>
-<li>也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。</li>
-<li>自定义过滤器必须有返回值</li>
-<li>自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用</li>
-</ul>
-</blockquote>
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/django-template/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": django模板"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-template/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -721,10 +646,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/django-cookie-session/"
-                            aria-label=": Django Cookie Session 操作"
+                            href="/2019/12/08/django-admin/"
+                            aria-label=": django-admin的使用"
                         >
-                            Django Cookie Session 操作
+                            django-admin的使用
                         </a>
                     
                 </h1>
@@ -746,12 +671,12 @@
             </div>
             
                 <div class="postShorten-excerpt">
-                    <p>cookie session</p>
+                    <p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p>
                     
                         <a
-                            href="/2019/12/08/django-cookie-session/"
+                            href="/2019/12/08/django-admin/"
                             class="postShorten-excerpt_link link"
-                            aria-label=": Django Cookie Session 操作"
+                            aria-label=": django-admin的使用"
                         >
                             Continue reading
                         </a>
@@ -764,18 +689,8 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-top">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
-            
-                <a
-                    href="/2019/12/08/index/"
-                    aria-label=": index"
-                >
-                    <div class="postShorten-thumbnailimg">
-                        <img alt="" src="https://wangyangang.github.io/2019/12/08/index/python.jpg"/>
-                    </div>
-                </a>
-                
             
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
@@ -807,7 +722,7 @@
             </div>
             
                 <div class="postShorten-excerpt">
-                    <p>this is excerpt</p>
+                    <!-- toc -->
                     
                         <a
                             href="/2019/12/08/index/"
@@ -822,10 +737,20 @@
             
         </div>
         
+            <a
+                href="/2019/12/08/index/"
+                aria-label=": index"
+            >
+                <div class="postShorten-thumbnailimg">
+                    <img alt="" src="https://wangyangang.github.io/2019/12/08/index/python.jpg"/>
+                </div>
+            </a>
+            
+        
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -857,31 +782,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1>
-
-<ul>
-<li>查看mysql数据库日志<br>查看mysql数据库日志可以查看对数据库的操作记录。 mysql日志文件默认没有产生，需要做如下配置：<br><code>sudo vi /etc/mysql/mysql.conf.d/mysqld.conf</code><br><img src="%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE.png" alt=""><br>把68，69行前面的#去除，然后保存并使用如下命令重启mysql服务。<br><code>sudo service mysql restart</code><br>使用如下命令打开mysql日志文件。<br><code>sudo tail -f /var/log/mysql/mysql.log #可以实时查看数据库的日志内容</code><blockquote>
-<p>适用于ubuntu</p>
-</blockquote>
-</li>
-</ul>
+                <div class="postShorten-excerpt">
+                    <!-- toc -->
                     
+                        <a
+                            href="/2019/12/08/mysql-primary/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": mysql基础知识"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/mysql-primary/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
