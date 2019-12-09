@@ -17,7 +17,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。\n\n\n分页Paginator类实例对象\n方法init(列表,int)：返回分页对象，第一个参数为列表数据，第二个参数为每页数据的条数。\n属性count：返回对象总数。\n属性num_pages：返回页面总数。\n属性page_range：返回页码列表，从1开始，例如[1, 2, 3, 4]。\n方法page(m)：返回Page类实例对象，表示第m页的数据，下标以1开始。\n\nPage类实例对象\n调用Paginator对象的page()方法返回Page对象，不需要手动构造。\n属性object_list：返回当前页对象的列表。\n属性number：返回当前是第几页，从1开始。\n属性paginator：当前页对应的Paginator对象。\n方法has_next()：如果有下一页返回True。\n方法has_previous()：如果有上一页返回True。\n方法len()：返回当前页面对象的个数。\n\n示例：views.py\n1from django.core.paginator import Paginator2from booktest.models import AreaInfo3...4#参数pIndex表示：当前要显示的页码5def page_test(request,pIndex):6    #查询所有的地区信息7    list1 = AreaInfo.objects.filter(aParent__isnull=True)8    #将地区信息按一页10条进行分页9    p = Paginator(list1, 10)10    #如果当前没有传递页码信息，则认为是第一页，这样写是为了请求第一页时可以不写页码11    if pIndex == '':12        pIndex = '1'13    #通过url匹配的参数都是字符串类型，转换成int类型14    pIndex = int(pIndex)15    #获取第pIndex页的数据16    list2 = p.page(pIndex)17    #获取所有的页码信息18    plist = p.page_range19    #将当前页码、当前页的数据、页码信息传递到模板中20    return render(request, 'booktest/page_test.html', &#123;'list': list2, 'plist': plist, 'pIndex': pIndex&#125;)\n\nurls.py配置\n1url(r'^page(?P&lt;pIndex&gt;[0-9]*)/$', views.page_test),\n\n前端显示:\n1&lt;html&gt;2&lt;head&gt;3    &lt;title&gt;分页&lt;/title&gt;4&lt;/head&gt;5&lt;body&gt;6显示当前页的地区信息：&lt;br&gt;7&lt;ul&gt;8&#123;%for area in list%&#125;9&lt;li&gt;&#123;&#123;area.id&#125;&#125;--&#123;&#123;area.atitle&#125;&#125;&lt;/li&gt;10&#123;%endfor%&#125;11&lt;/ul&gt;12&lt;hr&gt;13显示页码信息：当前页码没有链接，其它页码有链接&lt;br&gt;14&#123;%for pindex in plist%&#125;15    &#123;%if pIndex == pindex%&#125;16        &#123;&#123;pindex&#125;&#125;&amp;nbsp;&amp;nbsp;17    &#123;%else%&#125;18        &lt;a href=\"/page&#123;&#123;pindex&#125;&#125;/\"&gt;&#123;&#123;pindex&#125;&#125;&lt;/a&gt;&amp;nbsp;&amp;nbsp;19    &#123;%endif%&#125;20&#123;%endfor%&#125;21&lt;/body&gt;22&lt;/html&gt;\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T21:24:49+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。","headline":"django分页","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-pagination/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-pagination/","keywords":"django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。\n\n\n分页Paginator类实例对象\n方法init(列表,int)：返回分页对象，第一个参数为列表数据，第二个参数为每页数据的条数。\n属性count：返回对象总数。\n属性num_pages：返回页面总数。\n属性page_range：返回页码列表，从1开始，例如[1, 2, 3, 4]。\n方法page(m)：返回Page类实例对象，表示第m页的数据，下标以1开始。\n\nPage类实例对象\n调用Paginator对象的page()方法返回Page对象，不需要手动构造。\n属性object_list：返回当前页对象的列表。\n属性number：返回当前是第几页，从1开始。\n属性paginator：当前页对应的Paginator对象。\n方法has_next()：如果有下一页返回True。\n方法has_previous()：如果有上一页返回True。\n方法len()：返回当前页面对象的个数。\n\n示例：views.py\n1from django.core.paginator import Paginator2from booktest.models import AreaInfo3...4#参数pIndex表示：当前要显示的页码5def page_test(request,pIndex):6    #查询所有的地区信息7    list1 = AreaInfo.objects.filter(aParent__isnull=True)8    #将地区信息按一页10条进行分页9    p = Paginator(list1, 10)10    #如果当前没有传递页码信息，则认为是第一页，这样写是为了请求第一页时可以不写页码11    if pIndex == '':12        pIndex = '1'13    #通过url匹配的参数都是字符串类型，转换成int类型14    pIndex = int(pIndex)15    #获取第pIndex页的数据16    list2 = p.page(pIndex)17    #获取所有的页码信息18    plist = p.page_range19    #将当前页码、当前页的数据、页码信息传递到模板中20    return render(request, 'booktest/page_test.html', &#123;'list': list2, 'plist': plist, 'pIndex': pIndex&#125;)\n\nurls.py配置\n1url(r'^page(?P&lt;pIndex&gt;[0-9]*)/$', views.page_test),\n\n前端显示:\n1&lt;html&gt;2&lt;head&gt;3    &lt;title&gt;分页&lt;/title&gt;4&lt;/head&gt;5&lt;body&gt;6显示当前页的地区信息：&lt;br&gt;7&lt;ul&gt;8&#123;%for area in list%&#125;9&lt;li&gt;&#123;&#123;area.id&#125;&#125;--&#123;&#123;area.atitle&#125;&#125;&lt;/li&gt;10&#123;%endfor%&#125;11&lt;/ul&gt;12&lt;hr&gt;13显示页码信息：当前页码没有链接，其它页码有链接&lt;br&gt;14&#123;%for pindex in plist%&#125;15    &#123;%if pIndex == pindex%&#125;16        &#123;&#123;pindex&#125;&#125;&amp;nbsp;&amp;nbsp;17    &#123;%else%&#125;18        &lt;a href=\"/page&#123;&#123;pindex&#125;&#125;/\"&gt;&#123;&#123;pindex&#125;&#125;&lt;/a&gt;&amp;nbsp;&amp;nbsp;19    &#123;%endif%&#125;20&#123;%endfor%&#125;21&lt;/body&gt;22&lt;/html&gt;\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T21:49:30+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。","headline":"django分页","image":["分页.jpeg"],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-pagination/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-pagination/","keywords":"django","thumbnailUrl":"分页.jpeg"}</script>
     <meta name="description" content="Django提供了数据分页的类，这些类被定义在django&#x2F;core&#x2F;paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。">
 <meta name="keywords" content="django,python,分页,pagination,page,paginator">
 <meta property="og:type" content="blog">
@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="WYG">
 <meta property="og:description" content="Django提供了数据分页的类，这些类被定义在django&#x2F;core&#x2F;paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-09T13:24:49.063Z">
+<meta property="og:updated_time" content="2019-12-09T13:49:30.540Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@yangangwang">
     
@@ -36,6 +36,9 @@
     
         <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
+    
+        <meta property="og:image" content="https://wangyangang.github.io/2019/12/08/django-pagination/%E5%88%86%E9%A1%B5.jpeg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://wangyangang.github.io/2019/12/08/django-pagination/%E5%88%86%E9%A1%B5.jpeg"/>
     
     
     
@@ -271,13 +274,13 @@
             
             <div id="main" data-behavior="4"
                  class="
-                        hasCoverMetaIn
+                        hasCoverMetaOut
                         ">
                 
 <article class="post">
     
     
-        <div class="post-header main-content-wrap text-left">
+        <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title">
             django分页
