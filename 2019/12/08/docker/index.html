@@ -17,7 +17,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\ndocker常用命令镜像操作docker images: 查看所有的镜像docker rmi 镜像id: 删除镜像 -f 强制删除docker rmi $(docker images -qa) 删除所有镜像docker images -qa:显示所有镜像的iddocker images --digests:显示出镜像的摘要信息docker images --digests --no-trunc:显示镜像的摘要，不截断iddocker search 镜像名称:搜索镜像docker pull 镜像名称:拉取镜像docker history 镜像名称: 查看镜像的构建过程\ndocker port 容器名: 查看容器的端口映射情况docker top 容器名: 查看容器的进程docker inspect 容器名：查看容器的详细信息，例如ip\n容器操作\ndocker ps: 所有的容器\n-a : 正则运行的和历史运行的\n-l：运行的上一个容器\n-n 3:上3次运行的容器\n-q：静默模式，只显示容器编号\n–no-trunc：不截断输出\n\n\ndocker run ubuntu: 新建并启动ubuntu容器\n-i : 以交互模式运行容器，通常与-t同时使用\n-t : 为容器重新分配一个伪输入终端，通常与-i同时使用: docker run -it ubuntu\n–name：为容器起一个别名\n-p 主机的端口:容器的端口。执行端口映射\n-v 主机的目录:容器的目录。添加容器卷。可以有多个-v指令，添加多个容器卷。\n–privileged=true:如果写权限不够，设为true即可。\n–link=docker_name:alias_name 给正在运行的容器起一个别名，这样在run容器的内部，就可以通过这个别名(alias_name)，来访问另一个容器，并且，另一个容器重启也不会影响访问。（实质是改变了当前容器的/etc/hosts文件，设置一个指向另一个容器的ip地址，并且改变当前容器的env环境变量）\n\n\n启动容器：docker start 容器id或容器名\n重启容器：docker restart 容器id或容器名\n停止容器：docker stop 容器id或容器名\n强制停止容器：docker kill 容器id或容器名\n退出容器：\nexit：关闭退出\nctrl+p+q:容器不停止退出\n\n\n删除容器：docker rm 容器id或容器名  -f表示强制删除\n一次性删除多个容器：docker rm -f $(docker ps -a -q) 或 docker ps -a -q|xargs docker rm\n以守护进程启动：docker run -d ubuntu\n查看容器日志：docker logs -f -t --tail 容器id -t:加入时间戳 -f:跟随最新的日志打印 –tail 数字：显示最后多少条 启动一个ubuntu并循环打印，然后可以使用日志查看：docker run -d ubuntu /bin/sh -c &quot;while true; do echo hello world; sleep 2; done&quot;\n查看容器内运行的进程：docker top 容器id\n查看容器内部的细节：docker inspect 容器id\n进入正在运行的容器并以命令行交互(在容器外部执行命令)：docker exec -it 容器id bashshell : 是在容器中打开新的终端，并且可以启动新的进程.后面的bashshell，是进入容器后执行的命令，比如 docker exec -it 容器id ls -l /tmp\n重新进入: docker attach 容器id ： 直接进入容器启动命令的终端，不会启动新的进程\n拷贝容器内的文件到宿主机：docker -cp 容器id:容器内路径 目的主机路径\ndocker commit : 提交容器副本使其成为一个新的镜像 docker commit -m=&quot;提交的描述信息&quot; -a=&quot;作者&quot; 容器id 要创建的目标镜像名:[标签名]\ndocker hub 上下载镜像到本地并运行： docker run -it -p 8080:8080 tomcat  -p 主机端口：docker容器端口: 启动tomcat\n-P 随机分配端口\n\n\n\ndocker镜像\n是什么：\n联合文件系统（UnionFS）\nDocker镜像加载原理\n分层的镜像\n为什么docker镜像要采用这种分层的结构呢：共享资源\n\n\n特点：\ndocker镜像都是只读的\n\n\n\ndocker 容器数据卷docker数据持久化特点：\n\n数据卷可在容器之间共享或重用数据\n卷中的更改可以直接生效\n数据卷中的更改不会包含在镜像的更新中\n数据卷的生命周期一直持续到没有容器使用它为止能干嘛：\n容器的持久化\n容器间继承+共享数据\n\n数据卷：\n容器内添加：\n直接命令添加: docker run -it iv 主机目录：容器目录 例如：docker run -it -v /hostData:/containerData centosdocker run -it -v /hostData:/containerData centos:ro 容器内不能修改，read-only\nDockerFile添加\n根目录下新建mydocker文件夹并进入\n可在DockerFile中使用VOLUME指令来给镜像添加一个或多个数据卷：1# volume test2FROM centos3VOLUME [\"/dataVolumeContainer1\",\"/dataVolumeContaier2\"]4CMD echo \"finished.......success\"5CMD /bin/bash\nbuild后生成镜像，获得一个新镜像：docker build -f mydockerFile -t wyg/centosnew . mydockerFile是dockerfile文件，wyg/centosnew是新生成的镜像名，最后的“.”，是生成到docker根目录\nrun容器\n主机的文件路径可以用 inspect 命令查看，默认在 /var/lib/container/volumes/ 下\n但是我的实验并没有在主机的对应位置找到该路径\n\n\n\n\n\n\n\n数据卷容器容器间传递共享--volumes-from 容器名docker run -it --name doc02 --volumes-from doc01 wyg/centos这样doc02容器和doc01容器各自添加的都能共享了\ndockerfile保留字指令\nFROM 基础镜像，当前新镜像是基于哪个镜像的\nMAINTAINER 镜像维护者的姓名和邮箱地址\nRUN 容器构建时需要运行的命令\nEXPOSE 当前镜像对外暴露的端口\nWORKDIR 指定在创建目录后，终端默认登录的进来工作目录，一个落脚点。默认在根目录\nENV 用来在构建镜像过程中设置环境变量: ENV MY_PATH /usr/mytest 。 这个指令可以在后续的任何指令中使用，比如： WORKDIR $MY_PATH\nADD 将宿主机目录下的文件拷贝进镜像且ADD命令会自动处理URL和解压tar压缩包\nCOPY 类似ADD，拷贝目录和文件到镜像中，将从构建上下文目录中&lt;原路径&gt;的文件/目录复制到新的一层的镜像内的&lt;目录路径&gt;位置 COPY src dest COPY  |  [&quot;src&quot;, &quot;dest&quot;]\nVOLUME 容器数据卷，用于数据保存和持久化工作\nCMD 指定一个容器启动时要运行的命令。DOCKFILE中可以有多个CMD指令，但只有最后一个生效。CMD会被dock run 之后的参数替换\nENTRYPOINT 指定一个容器启动时要运行的命令。ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数。docker run 之后的参数会被当做参数传递给 ENTRYPOINT ，之后形成新的命令组合\nONBUILD 当构建一个被继承的dockerfile时运行命令，父镜像在被子镜像继承后父镜像的onbuild被触发\n\n案例1：mydockerfile：\n1FROM centos23MAINTAINER wangyangang&lt;wangyangang@wangyangang.com&gt;45ENV MYPATH /tmp6WORKDIR $MYPATH78RUN yum -y install vim9RUN yum -y install net-tools1011EXPOSE 801213CMD echo $MYPATH14CMD echo \"success........OK\"15CMD /bin/bash\n构建：\n1docker build -f mydockerfile -t mycentos:1.3 .\n运行：\n1docker run -it mycentos:1.3\n列出镜像的变更历史：docker history 镜像名\nENTRYPOINT案例2：dockerfile\n1FROM centos23RUN yum install -y curl45ENTRYPOINT [\"curl\", \"-s\", \"https://ip.cn\"]\n构建\n1docker build -f dockerfile -t myip .\n运行：\n1docker run myip -i\n\n此时可以在run的最后加参数，因为dockerfile里用的是ENTRYPOINT指令，-i参数会与ENTRYPOINT里的参数合并成新的参数（原来的是：curl -s https://ip.cn,合并后是：curl -s -i https://ip.cn ）\n\nONBUILD案例\n父镜像的dockerfile\n1FROM centos23RUN yum install -y curl45ENTRYPOINT [\"curl\", \"-s\", \"https://ip.cn\"]67ONBUILD RUN echo \"father docker image is build............\"\n子镜像的dockerfile\n1FROM myip_father23RUN yum install -y curl45CMD [\"curl\", \"-s\", \"https://ip.cn\"]\n\n父镜像名：myip_father，子镜像继承myip_father，那么在子镜像build的时候，会触发父镜像dockerfile里的ONBUILD指令\n\nmysql镜像使用：\n1docker run -p 3307:3306 --name mysql -v /Users/mac/Documents/projects/docker/mysql/conf:/etc/mysql/conf.d -v /Users/mac/Documents/projects/docker/mysql/logs:/logs -v /Users/mac/Documents/projects/docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=456wyg -d mysql:8.0.16\n备份docker上的mysql数据：\n1docker exec f32604977707 sh -c &#39;exec mysqldump --all-databases -uroot -p&quot;456wyg&quot;&#39; &gt; &#x2F;Users&#x2F;mac&#x2F;Documents&#x2F;projects&#x2F;docker&#x2F;mysql&#x2F;all-databases.sql\n\ndocker 使用redis启动\n1docker run -p 6379:6379 -v /Users/mac/Documents/projects/docker/redis/data:/data -v /Users/mac/Documents/projects/docker/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf -d redis:3.2 redis-server /usr/local/etc/redis/redis.conf --appendonly yes\n把宿主机对应位置的redis.conf/下建redis.conf,并拷贝进去配置文件，把bind的节点注释掉使用\n1docker exec -it e66f2c804cc1 redis-cli\n\n将本地镜像推送到阿里云镜像服务1$  docker login --username=yangangwang1991 registry.cn-hangzhou.aliyuncs.com2$  docker tag [ImageId] registry.cn-hangzhou.aliyuncs.com/wyg_docker_hub/mycentos:[镜像版本号]3$  docker push registry.cn-hangzhou.aliyuncs.com/wyg_docker_hub/mycentos:[镜像版本号]\n\nnginxnginx更改网站文件的位置where is nginx在/etc/nginx/sites-enabled下有default文件，修改server 80 的root配置即可。\ndocker容器的互联  [ubuntu系统]修改/etc/default/docker文件，添加配置: DOCKER_OPTS=&#39;--icc=true&#39;    - 默认为true，允许docker容器间的互相连接。    - 拒绝所有互联，改为false    - 运行特定容器间的连接，–icc=false –iptables=true 运行容器时，使用 --link\ndocker容器与外部网络的连接根据iptables的设置来允许或者阻止响应的ip是否可以访问docker–ip-forward=true","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T23:15:57+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"去年开始接触docker容器，当然只是处于一个观望的状态。今年有幸开始进行浅尝，特将过程记录下来，供自己以及将要使用docker的小伙伴们参考。\n","headline":"docker基本操作","image":["docker.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/docker/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/docker/","keywords":"docker, 容器","thumbnailUrl":"docker.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"去年开始接触docker容器，当然只是处于一个观望的状态。今年有幸开始进行浅尝，特将过程记录下来，供自己以及将要使用docker的小伙伴们参考。\n\n\n\ndocker常用命令镜像操作docker images: 查看所有的镜像docker rmi 镜像id: 删除镜像 -f 强制删除docker rmi $(docker images -qa) 删除所有镜像docker images -qa:显示所有镜像的iddocker images --digests:显示出镜像的摘要信息docker images --digests --no-trunc:显示镜像的摘要，不截断iddocker search 镜像名称:搜索镜像docker pull 镜像名称:拉取镜像docker history 镜像名称: 查看镜像的构建过程\ndocker port 容器名: 查看容器的端口映射情况docker top 容器名: 查看容器的进程docker inspect 容器名：查看容器的详细信息，例如ip\n容器操作\ndocker ps: 所有的容器\n-a : 正则运行的和历史运行的\n-l：运行的上一个容器\n-n 3:上3次运行的容器\n-q：静默模式，只显示容器编号\n–no-trunc：不截断输出\n\n\ndocker run ubuntu: 新建并启动ubuntu容器\n-i : 以交互模式运行容器，通常与-t同时使用\n-t : 为容器重新分配一个伪输入终端，通常与-i同时使用: docker run -it ubuntu\n–name：为容器起一个别名\n-p 主机的端口:容器的端口。执行端口映射\n-v 主机的目录:容器的目录。添加容器卷。可以有多个-v指令，添加多个容器卷。\n–privileged=true:如果写权限不够，设为true即可。\n–link=docker_name:alias_name 给正在运行的容器起一个别名，这样在run容器的内部，就可以通过这个别名(alias_name)，来访问另一个容器，并且，另一个容器重启也不会影响访问。（实质是改变了当前容器的/etc/hosts文件，设置一个指向另一个容器的ip地址，并且改变当前容器的env环境变量）\n\n\n启动容器：docker start 容器id或容器名\n重启容器：docker restart 容器id或容器名\n停止容器：docker stop 容器id或容器名\n强制停止容器：docker kill 容器id或容器名\n退出容器：\nexit：关闭退出\nctrl+p+q:容器不停止退出\n\n\n删除容器：docker rm 容器id或容器名  -f表示强制删除\n一次性删除多个容器：docker rm -f $(docker ps -a -q) 或 docker ps -a -q|xargs docker rm\n以守护进程启动：docker run -d ubuntu\n查看容器日志：docker logs -f -t --tail 容器id -t:加入时间戳 -f:跟随最新的日志打印 –tail 数字：显示最后多少条 启动一个ubuntu并循环打印，然后可以使用日志查看：docker run -d ubuntu /bin/sh -c &quot;while true; do echo hello world; sleep 2; done&quot;\n查看容器内运行的进程：docker top 容器id\n查看容器内部的细节：docker inspect 容器id\n进入正在运行的容器并以命令行交互(在容器外部执行命令)：docker exec -it 容器id bashshell : 是在容器中打开新的终端，并且可以启动新的进程.后面的bashshell，是进入容器后执行的命令，比如 docker exec -it 容器id ls -l /tmp\n重新进入: docker attach 容器id ： 直接进入容器启动命令的终端，不会启动新的进程\n拷贝容器内的文件到宿主机：docker -cp 容器id:容器内路径 目的主机路径\ndocker commit : 提交容器副本使其成为一个新的镜像 docker commit -m=&quot;提交的描述信息&quot; -a=&quot;作者&quot; 容器id 要创建的目标镜像名:[标签名]\ndocker hub 上下载镜像到本地并运行： docker run -it -p 8080:8080 tomcat  -p 主机端口：docker容器端口: 启动tomcat\n-P 随机分配端口\n\n\n\ndocker镜像\n是什么：\n联合文件系统（UnionFS）\nDocker镜像加载原理\n分层的镜像\n为什么docker镜像要采用这种分层的结构呢：共享资源\n\n\n特点：\ndocker镜像都是只读的\n\n\n\ndocker 容器数据卷docker数据持久化特点：\n\n数据卷可在容器之间共享或重用数据\n卷中的更改可以直接生效\n数据卷中的更改不会包含在镜像的更新中\n数据卷的生命周期一直持续到没有容器使用它为止能干嘛：\n容器的持久化\n容器间继承+共享数据\n\n数据卷：\n容器内添加：\n直接命令添加: docker run -it iv 主机目录：容器目录 例如：docker run -it -v /hostData:/containerData centosdocker run -it -v /hostData:/containerData centos:ro 容器内不能修改，read-only\nDockerFile添加\n根目录下新建mydocker文件夹并进入\n可在DockerFile中使用VOLUME指令来给镜像添加一个或多个数据卷：1# volume test2FROM centos3VOLUME [\"/dataVolumeContainer1\",\"/dataVolumeContaier2\"]4CMD echo \"finished.......success\"5CMD /bin/bash\nbuild后生成镜像，获得一个新镜像：docker build -f mydockerFile -t wyg/centosnew . mydockerFile是dockerfile文件，wyg/centosnew是新生成的镜像名，最后的“.”，是生成到docker根目录\nrun容器\n主机的文件路径可以用 inspect 命令查看，默认在 /var/lib/container/volumes/ 下\n但是我的实验并没有在主机的对应位置找到该路径\n\n\n\n\n\n\n\n数据卷容器容器间传递共享--volumes-from 容器名docker run -it --name doc02 --volumes-from doc01 wyg/centos这样doc02容器和doc01容器各自添加的都能共享了\ndockerfile保留字指令\nFROM 基础镜像，当前新镜像是基于哪个镜像的\nMAINTAINER 镜像维护者的姓名和邮箱地址\nRUN 容器构建时需要运行的命令\nEXPOSE 当前镜像对外暴露的端口\nWORKDIR 指定在创建目录后，终端默认登录的进来工作目录，一个落脚点。默认在根目录\nENV 用来在构建镜像过程中设置环境变量: ENV MY_PATH /usr/mytest 。 这个指令可以在后续的任何指令中使用，比如： WORKDIR $MY_PATH\nADD 将宿主机目录下的文件拷贝进镜像且ADD命令会自动处理URL和解压tar压缩包\nCOPY 类似ADD，拷贝目录和文件到镜像中，将从构建上下文目录中&lt;原路径&gt;的文件/目录复制到新的一层的镜像内的&lt;目录路径&gt;位置 COPY src dest COPY  |  [&quot;src&quot;, &quot;dest&quot;]\nVOLUME 容器数据卷，用于数据保存和持久化工作\nCMD 指定一个容器启动时要运行的命令。DOCKFILE中可以有多个CMD指令，但只有最后一个生效。CMD会被dock run 之后的参数替换\nENTRYPOINT 指定一个容器启动时要运行的命令。ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数。docker run 之后的参数会被当做参数传递给 ENTRYPOINT ，之后形成新的命令组合\nONBUILD 当构建一个被继承的dockerfile时运行命令，父镜像在被子镜像继承后父镜像的onbuild被触发\n\n案例1：mydockerfile：\n1FROM centos23MAINTAINER wangyangang&lt;wangyangang@wangyangang.com&gt;45ENV MYPATH /tmp6WORKDIR $MYPATH78RUN yum -y install vim9RUN yum -y install net-tools1011EXPOSE 801213CMD echo $MYPATH14CMD echo \"success........OK\"15CMD /bin/bash\n构建：\n1docker build -f mydockerfile -t mycentos:1.3 .\n运行：\n1docker run -it mycentos:1.3\n列出镜像的变更历史：docker history 镜像名\nENTRYPOINT案例2：dockerfile\n1FROM centos23RUN yum install -y curl45ENTRYPOINT [\"curl\", \"-s\", \"https://ip.cn\"]\n构建\n1docker build -f dockerfile -t myip .\n运行：\n1docker run myip -i\n\n此时可以在run的最后加参数，因为dockerfile里用的是ENTRYPOINT指令，-i参数会与ENTRYPOINT里的参数合并成新的参数（原来的是：curl -s https://ip.cn,合并后是：curl -s -i https://ip.cn ）\n\nONBUILD案例\n父镜像的dockerfile\n1FROM centos23RUN yum install -y curl45ENTRYPOINT [\"curl\", \"-s\", \"https://ip.cn\"]67ONBUILD RUN echo \"father docker image is build............\"\n子镜像的dockerfile\n1FROM myip_father23RUN yum install -y curl45CMD [\"curl\", \"-s\", \"https://ip.cn\"]\n\n父镜像名：myip_father，子镜像继承myip_father，那么在子镜像build的时候，会触发父镜像dockerfile里的ONBUILD指令\n\nmysql镜像使用：\n1docker run -p 3307:3306 --name mysql -v /Users/mac/Documents/projects/docker/mysql/conf:/etc/mysql/conf.d -v /Users/mac/Documents/projects/docker/mysql/logs:/logs -v /Users/mac/Documents/projects/docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=456wyg -d mysql:8.0.16\n\n备份:\n1docker exec f32604977707 sh -c 'exec mysqldump --all-databases -uroot -p\"456wyg\"' &gt; /Users/mac/Documents/projects/docker/mysql/all-databases.sql\n\n还原：\n1方法1：2```shell3#先将文件导入到容器4docker cp **.sql 【容器名】:/root/5#进入容器6docker exec -ti 【容器名/ID】sh7#将文件导入数据库8mysql -uroot -p 【数据库名】 &lt; ***.sql\n方法2：\n1docker exec -i  mysql_server【docker容器名称/ID】 mysqltest_db_copy【数据库名称】 &lt; /opt/sql_bak/test_db.sql【本地数据表路径】\nshell\ndocker 使用redis启动\n1docker run -p 6379:6379 -v /Users/mac/Documents/projects/docker/redis/data:/data -v /Users/mac/Documents/projects/docker/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf -d redis:3.2 redis-server /usr/local/etc/redis/redis.conf --appendonly yes\n把宿主机对应位置的redis.conf/下建redis.conf,并拷贝进去配置文件，把bind的节点注释掉使用\n1docker exec -it e66f2c804cc1 redis-cli\n\n将本地镜像推送到阿里云镜像服务1$  docker login --username=yangangwang1991 registry.cn-hangzhou.aliyuncs.com2$  docker tag [ImageId] registry.cn-hangzhou.aliyuncs.com/wyg_docker_hub/mycentos:[镜像版本号]3$  docker push registry.cn-hangzhou.aliyuncs.com/wyg_docker_hub/mycentos:[镜像版本号]\n\nnginxnginx更改网站文件的位置where is nginx在/etc/nginx/sites-enabled下有default文件，修改server 80 的root配置即可。\ndocker容器的互联  [ubuntu系统]修改/etc/default/docker文件，添加配置: DOCKER_OPTS=&#39;--icc=true&#39;    - 默认为true，允许docker容器间的互相连接。    - 拒绝所有互联，改为false    - 运行特定容器间的连接，–icc=false –iptables=true 运行容器时，使用 --link\ndocker容器与外部网络的连接根据iptables的设置来允许或者阻止响应的ip是否可以访问docker–ip-forward=true\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T23:23:55+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"去年开始接触docker容器，当然只是处于一个观望的状态。今年有幸开始进行浅尝，特将过程记录下来，供自己以及将要使用docker的小伙伴们参考。","headline":"docker基本操作","image":["docker.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/docker/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/docker/","keywords":"docker, 容器","thumbnailUrl":"docker.png"}</script>
     <meta name="description" content="去年开始接触docker容器，当然只是处于一个观望的状态。今年有幸开始进行浅尝，特将过程记录下来，供自己以及将要使用docker的小伙伴们参考。">
 <meta name="keywords" content="docker,容器">
 <meta property="og:type" content="blog">
@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="WYG">
 <meta property="og:description" content="去年开始接触docker容器，当然只是处于一个观望的状态。今年有幸开始进行浅尝，特将过程记录下来，供自己以及将要使用docker的小伙伴们参考。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-09T15:15:57.994Z">
+<meta property="og:updated_time" content="2019-12-09T15:23:55.873Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@yangangwang">
     
@@ -278,7 +278,9 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <!-- excerpt -->
+            <p>去年开始接触docker容器，当然只是处于一个观望的状态。今年有幸开始进行浅尝，特将过程记录下来，供自己以及将要使用docker的小伙伴们参考。</p>
+<a id="more"></a>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker常用命令"><span class="toc-text">docker常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#镜像操作"><span class="toc-text">镜像操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#容器操作"><span class="toc-text">容器操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker镜像"><span class="toc-text">docker镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-容器数据卷"><span class="toc-text">docker 容器数据卷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据卷："><span class="toc-text">数据卷：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据卷容器"><span class="toc-text">数据卷容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dockerfile保留字指令"><span class="toc-text">dockerfile保留字指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql镜像"><span class="toc-text">mysql镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-使用redis"><span class="toc-text">docker 使用redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将本地镜像推送到阿里云镜像服务"><span class="toc-text">将本地镜像推送到阿里云镜像服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx"><span class="toc-text">nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker容器的互联-ubuntu系统"><span class="toc-text">docker容器的互联  [ubuntu系统]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker容器与外部网络的连接"><span class="toc-text">docker容器与外部网络的连接</span></a></li></ol></li></ol>
 
 <h2 id="docker常用命令"><a href="#docker常用命令" class="headerlink" title="docker常用命令"></a>docker常用命令</h2><h3 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h3><p><code>docker images</code>: 查看所有的镜像<br><code>docker rmi 镜像id</code>: 删除镜像 -f 强制删除<br><code>docker rmi $(docker images -qa)</code> 删除所有镜像<br><code>docker images -qa</code>:显示所有镜像的id<br><code>docker images --digests</code>:显示出镜像的摘要信息<br><code>docker images --digests --no-trunc</code>:显示镜像的摘要，不截断id<br><code>docker search 镜像名称</code>:搜索镜像<br><code>docker pull 镜像名称</code>:拉取镜像<br><code>docker history 镜像名称</code>: 查看镜像的构建过程</p>
 <p><code>docker port 容器名</code>: 查看容器的端口映射情况<br><code>docker top 容器名</code>: 查看容器的进程<br><code>docker inspect 容器名</code>：查看容器的详细信息，例如ip</p>
@@ -347,7 +349,7 @@
 <li>容器的持久化</li>
 <li>容器间继承+共享数据</li>
 </ol>
-<h3 id="数据卷："><a href="#数据卷：" class="headerlink" title="数据卷："></a>数据卷：</h3><ul>
+<h2 id="数据卷："><a href="#数据卷：" class="headerlink" title="数据卷："></a>数据卷：</h2><ul>
 <li>容器内添加：<ul>
 <li>直接命令添加: <code>docker run -it iv 主机目录：容器目录</code> 例如：<br><code>docker run -it -v /hostData:/containerData centos</code><br><code>docker run -it -v /hostData:/containerData centos:ro</code> 容器内不能修改，read-only</li>
 <li>DockerFile添加<ul>
@@ -364,8 +366,8 @@
 </ul>
 </li>
 </ul>
-<h3 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h3><p>容器间传递共享<br><code>--volumes-from 容器名</code><br><code>docker run -it --name doc02 --volumes-from doc01 wyg/centos</code><br>这样doc02容器和doc01容器各自添加的都能共享了</p>
-<h3 id="dockerfile保留字指令"><a href="#dockerfile保留字指令" class="headerlink" title="dockerfile保留字指令"></a>dockerfile保留字指令</h3><ul>
+<h2 id="数据卷容器"><a href="#数据卷容器" class="headerlink" title="数据卷容器"></a>数据卷容器</h2><p>容器间传递共享<br><code>--volumes-from 容器名</code><br><code>docker run -it --name doc02 --volumes-from doc01 wyg/centos</code><br>这样doc02容器和doc01容器各自添加的都能共享了</p>
+<h2 id="dockerfile保留字指令"><a href="#dockerfile保留字指令" class="headerlink" title="dockerfile保留字指令"></a>dockerfile保留字指令</h2><ul>
 <li><code>FROM</code> 基础镜像，当前新镜像是基于哪个镜像的</li>
 <li><code>MAINTAINER</code> 镜像维护者的姓名和邮箱地址</li>
 <li><code>RUN</code> 容器构建时需要运行的命令</li>
@@ -405,9 +407,15 @@
 </blockquote>
 <h2 id="mysql镜像"><a href="#mysql镜像" class="headerlink" title="mysql镜像"></a>mysql镜像</h2><p>使用：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">docker run -p 3307:3306 --name mysql -v /Users/mac/Documents/projects/docker/mysql/conf:/etc/mysql/conf.d -v /Users/mac/Documents/projects/docker/mysql/logs:/logs -v /Users/mac/Documents/projects/docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=456wyg -d mysql:8.0.16</span></pre></td></tr></table></figure>
-<p>备份docker上的mysql数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">docker exec f32604977707 sh -c &#39;exec mysqldump --all-databases -uroot -p&quot;456wyg&quot;&#39; &gt; &#x2F;Users&#x2F;mac&#x2F;Documents&#x2F;projects&#x2F;docker&#x2F;mysql&#x2F;all-databases.sql</span></pre></td></tr></table></figure>
 
+<p>备份:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">docker exec f32604977707 sh -c 'exec mysqldump --all-databases -uroot -p"456wyg"' &gt; /Users/mac/Documents/projects/docker/mysql/all-databases.sql</span></pre></td></tr></table></figure>
+
+<p>还原：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">方法1：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">```shell</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">先将文件导入到容器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">docker cp **.sql 【容器名】:/root/</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">进入容器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">docker exec -ti 【容器名/ID】sh</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将文件导入数据库</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">mysql -uroot -p 【数据库名】 &lt; ***.sql</span></pre></td></tr></table></figure>
+<p>方法2：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">docker exec -i  mysql_server【docker容器名称/ID】 mysqltest_db_copy【数据库名称】 &lt; /opt/sql_bak/test_db.sql【本地数据表路径】</span></pre></td></tr></table></figure>
+<p>shell</p>
 <h2 id="docker-使用redis"><a href="#docker-使用redis" class="headerlink" title="docker 使用redis"></a>docker 使用redis</h2><p>启动</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">docker run -p 6379:6379 -v /Users/mac/Documents/projects/docker/redis/data:/data -v /Users/mac/Documents/projects/docker/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf -d redis:3.2 redis-server /usr/local/etc/redis/redis.conf --appendonly yes</span></pre></td></tr></table></figure>
 <p>把宿主机对应位置的redis.conf/下建redis.conf,并拷贝进去配置文件，把bind的节点注释掉<br>使用</p>
@@ -418,6 +426,7 @@
 <h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>nginx更改网站文件的位置<br>where is nginx<br>在/etc/nginx/sites-enabled下有default文件，修改server 80 的root配置即可。</p>
 <h3 id="docker容器的互联-ubuntu系统"><a href="#docker容器的互联-ubuntu系统" class="headerlink" title="docker容器的互联  [ubuntu系统]"></a>docker容器的互联  [ubuntu系统]</h3><p>修改/etc/default/docker文件，添加配置: <code>DOCKER_OPTS=&#39;--icc=true&#39;</code><br>    - 默认为true，允许docker容器间的互相连接。<br>    - 拒绝所有互联，改为false<br>    - 运行特定容器间的连接，–icc=false –iptables=true 运行容器时，使用 <code>--link</code></p>
 <h3 id="docker容器与外部网络的连接"><a href="#docker容器与外部网络的连接" class="headerlink" title="docker容器与外部网络的连接"></a>docker容器与外部网络的连接</h3><p>根据iptables的设置来允许或者阻止响应的ip是否可以访问docker<br>–ip-forward=true</p>
+
             
 
 
@@ -441,9 +450,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-form-component/"
-                    data-tooltip="django form 组件"
-                    aria-label="PREVIOUS: django form 组件"
+                    href="/2019/12/08/django-admin/"
+                    data-tooltip="django-admin的使用"
+                    aria-label="PREVIOUS: django-admin的使用"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -455,9 +464,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/preface-of-three-body/"
-                    data-tooltip="心事浩渺连广宇"
-                    aria-label="NEXT: 心事浩渺连广宇"
+                    href="/2019/12/08/kubernetes/"
+                    data-tooltip="docker基本操作"
+                    aria-label="NEXT: docker基本操作"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -531,7 +540,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -570,9 +579,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-form-component/"
-                    data-tooltip="django form 组件"
-                    aria-label="PREVIOUS: django form 组件"
+                    href="/2019/12/08/django-admin/"
+                    data-tooltip="django-admin的使用"
+                    aria-label="PREVIOUS: django-admin的使用"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -584,9 +593,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/preface-of-three-body/"
-                    data-tooltip="心事浩渺连广宇"
-                    aria-label="NEXT: 心事浩渺连广宇"
+                    href="/2019/12/08/kubernetes/"
+                    data-tooltip="docker基本操作"
+                    aria-label="NEXT: docker基本操作"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -660,7 +669,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -816,29 +825,6 @@
                     <div class="media-body">
                         <a
                             class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/django-form-component/"
-                            aria-label=": django form 组件"
-                        >
-                            <h3 class="media-heading">django form 组件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Dec 8, 2019
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a
-                            class="link-unstyled"
                             href="https://wangyangang.github.io/2019/12/08/django-admin/"
                             aria-label=": django-admin的使用"
                         >
@@ -859,23 +845,13 @@
                 
                 <div class="media">
                     
-                    <div class="media-left">
-                        <a
-                            class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/django-pagination/"
-                            aria-label=": django分页"
-                        >
-                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/django-pagination/分页.jpeg" width="90" height="90"/>
-                        </a>
-                    </div>
-                    
                     <div class="media-body">
                         <a
                             class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/django-pagination/"
-                            aria-label=": django分页"
+                            href="https://wangyangang.github.io/2019/12/08/django-form-component/"
+                            aria-label=": django form 组件"
                         >
-                            <h3 class="media-heading">django分页</h3>
+                            <h3 class="media-heading">django form 组件</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -884,7 +860,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p></div>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -948,13 +924,23 @@
                 
                 <div class="media">
                     
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-pagination/"
+                            aria-label=": django分页"
+                        >
+                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/django-pagination/分页.jpeg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
                     <div class="media-body">
                         <a
                             class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/django-view/"
-                            aria-label=": django视图"
+                            href="https://wangyangang.github.io/2019/12/08/django-pagination/"
+                            aria-label=": django分页"
                         >
-                            <h3 class="media-heading">django视图</h3>
+                            <h3 class="media-heading">django分页</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -963,7 +949,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><p>视图就是python中的函数，视图一般被定义在”应用/views.py”文件中，此例中为”booktest/views.py”文件。视图必须返回一个HttpResponse对象或子对象作为响应。响应可以是一张网页的HTML内容，一个重定向，一个404错误等。</p></div>
+                        <div class="media-content hide-xs font-merryweather"><p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -987,6 +973,29 @@
                             </span>
                         </span>
                         <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-view/"
+                            aria-label=": django视图"
+                        >
+                            <h3 class="media-heading">django视图</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>视图就是python中的函数，视图一般被定义在”应用/views.py”文件中，此例中为”booktest/views.py”文件。视图必须返回一个HttpResponse对象或子对象作为响应。响应可以是一张网页的HTML内容，一个重定向，一个404错误等。</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -1045,7 +1054,7 @@
                 data-message-zero="no post found"
                 data-message-one="1 post found"
                 data-message-other="{n} posts found">
-                16 posts found
+                17 posts found
             </p>
         </div>
     </div>

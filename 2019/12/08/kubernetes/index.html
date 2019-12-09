@@ -1,0 +1,1037 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="WYG">
+    <title>docker基本操作 - WYG</title>
+    <meta name="author" content="王延刚">
+    
+        <meta name="keywords" content="hexo,javascript,">
+    
+    
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n本机环境预设测试环境说明测试使用的kubernets集群可由一个master主机和一个以上(建议至少两个)node主机组成，这些主机可以是物理服务器，也可以运行于vaware，virtualbox或kvm等虚拟化平台上的虚拟机，甚至是公有云上的vps主机。本测试环境将由master，node01和node02，node03三个虚拟机组成。各主机需要预设的系统环境如下：\n\n借助于NTP服务设定各节点时间精确同步\n通过DNS完成各节点的主机名称解析，测试环境主机数量较少时也可以使用hosts文件进行\n关闭各节点的iptables和firewalld服务，并确保他们被禁止随系统引导过程启动\n各节点禁用SELinux\n各节点禁用所有的Swap设备\n若要使用ipvs模型的proxy，各节点还需要载入ipvs相关的各模块；\n\n设定时钟同步各节点可直接访问互联网，直接启动chronyd系统服务，并设定其随系统引导而启动：用 systemctl status chronyd 查看chronyd服务的状态，如果没有chronyd服务，需要安装用 date 查看当前时间，（其它node上和master上也这么做）看各个节点上的时间是否同步用 systemctl start chronyd同步时间和互联网一致\n1systemctl enable chronyd\n不过，建议用户配置使用本地的时间服务器，在节点数量众多时尤其如此。存在可用的本地时间服务器时，修改节点的/etc/chrony.conf配置文件，并将时间服务器指向响应的主机即可。配置格式如下：\n1server CHRONY-SERVER-NAME-OR-IP iburst\n\n主机名称解析出于简化配置步骤的目的，本测试环境使用hosts文件进行各节点的名称解析，文件内容如下：(/etc/hosts,最后四行是新加的)\n1127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain42::1         localhost localhost.localdomain localhost6 localhost6.localdomain63192.168.116.160 master.magedu.com master4192.168.116.161 node01.magedu.com node015192.168.116.162 node02.magedu.com node026192.168.116.163 node03.magedu.com node03\n\n关闭iptables或firewalld服务在centos上，iptabes或firewalld服务通常只会安装并启动一种，在不确定具体启动状态的前提下，这里通过同时关闭并禁用两者即可简单达到设定目标。使用 systemctl status firewalld 和 systemctl status iptables查看firewalld和iptables是否关闭\n1systemctl stop firewalld.service2systemctl stop iptables.service3systemctl disable firewalld.service4systemctl disable iptables.service\n\n关闭并禁用SELinux使用 getenforce 查看状态\n若当前启用了SELinux，则需要编辑/etc/sysconfig/selinux文件，并禁用SELinux（设置SELinux=disabled）\n1sed -i 's@^\\).*@\\1disabled@' /etc/sysconfig/selinux2setenforce 0\n\n禁用Swap设备部署集群时，kubeadm默认会预先检查当前主机是否禁用了Swap设备，并在未禁用时强制终止部署过程。因此，在主机内存资源充裕的条件下，需要禁用所有的Swap设备，否则，就需要在后文的kubeadm init及kubeadm join命令执行时，额外使用相关的选项忽略检查错误。关闭Swap设备，需要分两步完成。首先是关闭当前已启用的所有Swap设备：使用 free -m 查看swapoff -a而后编辑/etc/fstab配置文件，注释用于挂载Swap设备的所有行。\n启用ipvs内核模块安装相关的程序包kubernets会对经过充分验证的docker程序版本进行认证，目前认证完成的最高版本是17.03，但docker-ce的最新版本已经高出了几个版本号。管理员可忽略此认证而直接使用最新版本的docker-ce程序，不过，建议根据后面的说明，将安装命令替换为安装17.03版。\n\n去阿里云上找docker-ce对应的镜像，\n\n1cd /etc/yum.repos.d/2wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo\n\n1yum install -y docker-ce2yum install kubelet kubeadm kubectl\n\n如果要安装目前经过kubenets认证的docker-17版本，可以将上面第一天安装命令替换为如下命令：\n1yum install -y --setopt=obsoletes=0 docker-ce-17.03.2.ce docker-ce-selinux-17.03.2.ce\n\n启动docker服务（在各节点执行）若要通过默认的k8s.gcr.io镜像仓库获取kubernetes系统组件的相关镜像，需要配置docker Unit File (/usr/lib/systemd/system/docker.service文件)中的Environment变量，为其定义合用的HTTPS_PROXY，格式如下：\n1Environment=\"HTTPS_PROXY=http://172.16.0.47:1087\"2Environment=\"NO_PROXY=127.0.0.0/8,192.168.0.0/16\"\n\n另外，docker自1.13版起会自动设置iptables的FORWARD默认策略为DROP，这可能会影响kubernetes集群依赖的报文转发功能，因此需要在docker服务启动后，重新将FORWARD链的默认策略设置为ACCEPT，方式是修改/usr/lib/systemd/system/docker.service文件，在”EexcSTART=/usr/bin/dockerd“一行之后新增一行如下内容：ExecStartPost=/usr/sbin/iptables -P FORWARD ACCEPT\n重载完成后即可启动docker服务：\n1systemctl daemon-reload2systemctl restart docker\n\n而后设定docker和kubelet随系统引导自动启动：\n1systemctl enable docker kubelet\n\nnode节点也这么做，也都启动docker\n/usr/lib/systemd/system/docker.service文件部分配置：\n1[Service]2Type=notify3# the default is not to use systemd for cgroups because the delegate issues still4# exists and systemd currently does not support the cgroup feature set required5# for containers run by docker6#Environment=\"HTTPS_PROXY=http://www.ik8s.io\"7#Environment=\"HTTPS_PROXY=http://registry.aliyuncs.com/google_containers\"8Environment=\"HTTPS_PROXY=http://172.16.0.47:1087\"9Environment=\"NO_PROXY=127.0.0.0/8,192.168.0.0/16\"10ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock11ExecStartPost=/usr/sbin/iptables -P FORWARD ACCEPT12ExecReload=/bin/kill -s HUP $MAINPID13TimeoutSec=014RestartSec=215Restart=always\n\n安装kubernetes相关的包需要自己建目录。在/etc/yum.repos.d/下建一个叫kubernetes.repo的文件\n1[kubernetes]2name=Kubernetes repository3baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/  # 这是repo包的地址4enabled=15gpgcheck=16repo_gpgcheck=17gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg8        https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg9        # 上面的gpgkey，来自包的doc目录下的rpm-package-key.gpg和yum-key.gpg的链接地址，两行之间有空格或者换行之后加一个制表符\n\n然后用 yum repolist 可以查看这个包的信息最后用 yum install kubeadm kubelet kubectl在使用kubeadm之前需要配置一下编辑/etc/sysconfig/kubelet文件\n1KUBELET_EXTRA_ARGS&#x3D;&quot;--fail-swap-on&#x3D;false&quot;\n\n可通过 kubeadm config images list查看需要pull的包可以先通过kubeadm config images pull拉下来包\n启动kubernetes：\n1sudo kubeadm init --kubernetes-version=\"v1.16.3\" --pod-network-cidr=\"10.244.0.0/16\" --dry-run --ignore-preflight-errors=Swap\n看到 your kubernetes master has initialized successfully！表示已成功然后：\n1mkdir -p $HOME&#x2F;.kube2sudo cp -i &#x2F;etc&#x2F;kubernetes&#x2F;admin.conf $HOME&#x2F;.kube&#x2F;config3sudo chown $(id -u):$(id -g) $HOME&#x2F;.kube&#x2F;config\n通过： kubectl get nodes 可以看到master节点已经成功了！但是是NotReady状态，需要安装网络插件 flannel，去github的flanne里找到这个命令部署flannel：\n1kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml\n这时，通过kubectl get nodes 可以看到master节点已经Ready了！\n初始化主节点\n初始化master节点若未禁用swap设备，则需要编辑kubelet的配置文件：/etc/sysconfig/kubelet,设置其忽略swap启用的状态错误，内容如下：KUBELET_EXTRA_ARGS=”–fail-swap-on=false”(可选步骤)而后，在运行初始化命令之前先运行如下命令单独获取相关的镜像文件，而后再运行后面的kubeadm init命令，以便于观察到镜像文件的下载过程。1kubeadm config images pull\n启动：\n\n1sudo kubeadm init --kubernetes-version=\"v1.16.3\" --pod-network-cidr=\"10.244.0.0/16\" --dry-run --ignore-preflight-errors=Swap\n\n启动报错的话，可以试试重启kubeadmkubeadm reset\nnode节点加入\n加入之前，node节点也要安装kubernetes包(kubeadm kubectl kubelet)，方法同上,并且启动了docker。并且便捷/etc/sysconfig/kubelet文件。\n\n在主节点部署的时候，可以看到一条提示信息，如下：就是用来让node节点加入集群的命令。当然也可以通过其他方式获得此命令。\n1kubeadm join 192.168.116.160:6443 --token 178cui.cgqvfub88r7dnjh2 \\2    --discovery-token-ca-cert-hash sha256:a8195bb5b709bebc7a4d71bbd01041b05d227824304b81462c62196f729b4c9f\n或者\n1kubeadm join 192.168.116.160:6443 --token 178cui.cgqvfub88r7dnjh2     --discovery-token-ca-cert-hash sha256:a8195bb5b709bebc7a4d71bbd01041b05d227824304b81462c62196f729b4c9f --ignore-preflight-errors=Swap\n加入的过程中可能报错，也需要关闭Swap: swapoff -a\n\nnode节点加入集群的时候，也会pull镜像，也需要科学上网。z执行完命令可以通过docker image list 查看镜像是否已经拖下来了，没有的话，通过 kubeadm config images pull 手动的拖,进行脱下来以后，通过在master节点上运行kubectl get nodes 查看一下node节点是否已经加入了集群。\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T23:37:36+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"docker基本操作","image":["kubernetes.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/kubernetes/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/kubernetes/","keywords":"docker, 容器","thumbnailUrl":"kubernetes.png"}</script>
+    <meta name="keywords" content="docker,容器">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="docker基本操作">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;kubernetes&#x2F;index.html">
+<meta property="og:site_name" content="WYG">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-09T15:37:36.333Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@yangangwang">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
+    
+    
+        <meta property="og:image" content="https://wangyangang.github.io/2019/12/08/kubernetes/kubernetes.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://wangyangang.github.io/2019/12/08/kubernetes/kubernetes.png"/>
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/all.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+            <link rel="stylesheet" href="/assets/css/gitalk.css">
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+        WYG
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+                </a>
+                <h4 class="sidebar-profile-name">王延刚</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>graduated from 山东科技大学 in 2015,python back-end developer,open source contributor,and dota2 player.</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/"
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Search"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Search</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/wangyangang" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/6239464/yangang" target="_blank" rel="noopener" title="Stack Overflow">
+                    
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/yangangwang" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/yangangwang1991/" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:yangangwang1991@gmail.com" target="_blank" rel="noopener" title="Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaOut
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title">
+            docker基本操作
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/docker/">docker</a>, <a class="category-link" href="/categories/docker/%E5%AE%B9%E5%99%A8/">容器</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+
+<h2 id="本机环境预设"><a href="#本机环境预设" class="headerlink" title="本机环境预设"></a>本机环境预设</h2><h3 id="测试环境说明"><a href="#测试环境说明" class="headerlink" title="测试环境说明"></a>测试环境说明</h3><p>测试使用的kubernets集群可由一个master主机和一个以上(建议至少两个)node主机组成，这些主机可以是物理服务器，也可以运行于vaware，virtualbox或kvm等虚拟化平台上的虚拟机，甚至是公有云上的vps主机。<br>本测试环境将由master，node01和node02，node03三个虚拟机组成。各主机需要预设的系统环境如下：</p>
+<ol>
+<li>借助于NTP服务设定各节点时间精确同步</li>
+<li>通过DNS完成各节点的主机名称解析，测试环境主机数量较少时也可以使用hosts文件进行</li>
+<li>关闭各节点的iptables和firewalld服务，并确保他们被禁止随系统引导过程启动</li>
+<li>各节点禁用SELinux</li>
+<li>各节点禁用所有的Swap设备</li>
+<li>若要使用ipvs模型的proxy，各节点还需要载入ipvs相关的各模块；</li>
+</ol>
+<h3 id="设定时钟同步"><a href="#设定时钟同步" class="headerlink" title="设定时钟同步"></a>设定时钟同步</h3><p>各节点可直接访问互联网，直接启动chronyd系统服务，并设定其随系统引导而启动：<br>用 <code>systemctl status chronyd 查看chronyd服务的状态，如果没有chronyd</code>服务，需要安装<br>用 <code>date</code> 查看当前时间，（其它node上和master上也这么做）看各个节点上的时间是否同步<br>用 <code>systemctl start chronyd</code>同步时间和互联网一致</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">systemctl enable chronyd</span></pre></td></tr></table></figure>
+<p>不过，建议用户配置使用本地的时间服务器，在节点数量众多时尤其如此。存在可用的本地时间服务器时，修改节点的/etc/chrony.conf配置文件，并将时间服务器指向响应的主机即可。配置格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">server CHRONY-SERVER-NAME-OR-IP iburst</span></pre></td></tr></table></figure>
+
+<h3 id="主机名称解析"><a href="#主机名称解析" class="headerlink" title="主机名称解析"></a>主机名称解析</h3><p>出于简化配置步骤的目的，本测试环境使用hosts文件进行各节点的名称解析，文件内容如下：(/etc/hosts,最后四行是新加的)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">192.168.116.160 master.magedu.com master</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">192.168.116.161 node01.magedu.com node01</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">192.168.116.162 node02.magedu.com node02</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">192.168.116.163 node03.magedu.com node03</span></pre></td></tr></table></figure>
+
+<h3 id="关闭iptables或firewalld服务"><a href="#关闭iptables或firewalld服务" class="headerlink" title="关闭iptables或firewalld服务"></a>关闭iptables或firewalld服务</h3><p>在centos上，iptabes或firewalld服务通常只会安装并启动一种，在不确定具体启动状态的前提下，这里通过同时关闭并禁用两者即可简单达到设定目标。<br>使用 <code>systemctl status firewalld</code> 和 <code>systemctl status iptables</code>查看firewalld和iptables是否关闭</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld.service</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">systemctl stop iptables.service</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">systemctl disable firewalld.service</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">systemctl disable iptables.service</span></pre></td></tr></table></figure>
+
+<h3 id="关闭并禁用SELinux"><a href="#关闭并禁用SELinux" class="headerlink" title="关闭并禁用SELinux"></a>关闭并禁用SELinux</h3><p>使用 <code>getenforce</code> 查看状态</p>
+<p>若当前启用了SELinux，则需要编辑/etc/sysconfig/selinux文件，并禁用SELinux（设置SELinux=disabled）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sed -i 's@^\).*@\1disabled@' /etc/sysconfig/selinux</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">setenforce 0</span></pre></td></tr></table></figure>
+
+<h3 id="禁用Swap设备"><a href="#禁用Swap设备" class="headerlink" title="禁用Swap设备"></a>禁用Swap设备</h3><p>部署集群时，kubeadm默认会预先检查当前主机是否禁用了Swap设备，并在未禁用时强制终止部署过程。因此，在主机内存资源充裕的条件下，需要禁用所有的Swap设备，否则，就需要在后文的kubeadm init及kubeadm join命令执行时，额外使用相关的选项忽略检查错误。<br>关闭Swap设备，需要分两步完成。首先是关闭当前已启用的所有Swap设备：<br>使用 <code>free -m</code> 查看<br><code>swapoff -a</code><br>而后编辑/etc/fstab配置文件，注释用于挂载Swap设备的所有行。</p>
+<h3 id="启用ipvs内核模块"><a href="#启用ipvs内核模块" class="headerlink" title="启用ipvs内核模块"></a>启用ipvs内核模块</h3><h2 id="安装相关的程序包"><a href="#安装相关的程序包" class="headerlink" title="安装相关的程序包"></a>安装相关的程序包</h2><p>kubernets会对经过充分验证的docker程序版本进行认证，目前认证完成的最高版本是17.03，但docker-ce的最新版本已经高出了几个版本号。管理员可忽略此认证而直接使用最新版本的docker-ce程序，不过，建议根据后面的说明，将安装命令替换为安装17.03版。</p>
+<blockquote>
+<p>去阿里云上找docker-ce对应的镜像，</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">cd /etc/yum.repos.d/</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">yum install -y docker-ce</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">yum install kubelet kubeadm kubectl</span></pre></td></tr></table></figure>
+
+<p>如果要安装目前经过kubenets认证的docker-17版本，可以将上面第一天安装命令替换为如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">yum install -y --setopt=obsoletes=0 docker-ce-17.03.2.ce docker-ce-selinux-17.03.2.ce</span></pre></td></tr></table></figure>
+
+<h2 id="启动docker服务（在各节点执行）"><a href="#启动docker服务（在各节点执行）" class="headerlink" title="启动docker服务（在各节点执行）"></a>启动docker服务（在各节点执行）</h2><p>若要通过默认的k8s.gcr.io镜像仓库获取kubernetes系统组件的相关镜像，需要配置docker Unit File (/usr/lib/systemd/system/docker.service文件)中的Environment变量，为其定义合用的HTTPS_PROXY，格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Environment="HTTPS_PROXY=http://172.16.0.47:1087"</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Environment="NO_PROXY=127.0.0.0/8,192.168.0.0/16"</span></pre></td></tr></table></figure>
+
+<p>另外，docker自1.13版起会自动设置iptables的FORWARD默认策略为DROP，这可能会影响kubernetes集群依赖的报文转发功能，因此需要在docker服务启动后，重新将FORWARD链的默认策略设置为ACCEPT，方式是修改/usr/lib/systemd/system/docker.service文件，在”EexcSTART=/usr/bin/dockerd“一行之后新增一行如下内容：<br><code>ExecStartPost=/usr/sbin/iptables -P FORWARD ACCEPT</code></p>
+<p>重载完成后即可启动docker服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span></pre></td></tr></table></figure>
+
+<p>而后设定docker和kubelet随系统引导自动启动：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">systemctl enable docker kubelet</span></pre></td></tr></table></figure>
+
+<p>node节点也这么做，也都启动docker</p>
+<p><code>/usr/lib/systemd/system/docker.service</code>文件部分配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[Service]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Type=notify</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> the default is not to use systemd <span class="keyword">for</span> cgroups because the delegate issues still</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> exists and systemd currently does not support the cgroup feature <span class="built_in">set</span> required</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">for</span> containers run by docker</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Environment=<span class="string">"HTTPS_PROXY=http://www.ik8s.io"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">Environment=<span class="string">"HTTPS_PROXY=http://registry.aliyuncs.com/google_containers"</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Environment="HTTPS_PROXY=http://172.16.0.47:1087"</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">Environment="NO_PROXY=127.0.0.0/8,192.168.0.0/16"</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">ExecStartPost=/usr/sbin/iptables -P FORWARD ACCEPT</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">TimeoutSec=0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">RestartSec=2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">Restart=always</span></pre></td></tr></table></figure>
+
+<h2 id="安装kubernetes相关的包"><a href="#安装kubernetes相关的包" class="headerlink" title="安装kubernetes相关的包"></a>安装kubernetes相关的包</h2><p>需要自己建目录。在/etc/yum.repos.d/下建一个叫kubernetes.repo的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[kubernetes]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">name=Kubernetes repository</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/  # 这是repo包的地址</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">enabled=1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">gpgcheck=1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">repo_gpgcheck=1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        # 上面的gpgkey，来自包的doc目录下的rpm-package-key.gpg和yum-key.gpg的链接地址，两行之间有空格或者换行之后加一个制表符</span></pre></td></tr></table></figure>
+
+<p>然后用 <code>yum repolist</code> 可以查看这个包的信息<br>最后用 <code>yum install kubeadm kubelet kubectl</code><br>在使用kubeadm之前需要配置一下<br>编辑/etc/sysconfig/kubelet文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">KUBELET_EXTRA_ARGS&#x3D;&quot;--fail-swap-on&#x3D;false&quot;</span></pre></td></tr></table></figure>
+
+<p>可通过 <code>kubeadm config images list</code>查看需要pull的包<br>可以先通过<code>kubeadm config images pull</code>拉下来包</p>
+<p>启动kubernetes：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo kubeadm init --kubernetes-version="v1.16.3" --pod-network-cidr="10.244.0.0/16" --dry-run --ignore-preflight-errors=Swap</span></pre></td></tr></table></figure>
+<p>看到 your kubernetes master has initialized successfully！表示已成功<br>然后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mkdir -p $HOME&#x2F;.kube</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">sudo cp -i &#x2F;etc&#x2F;kubernetes&#x2F;admin.conf $HOME&#x2F;.kube&#x2F;config</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">sudo chown $(id -u):$(id -g) $HOME&#x2F;.kube&#x2F;config</span></pre></td></tr></table></figure>
+<p>通过： <code>kubectl get nodes</code> 可以看到master节点已经成功了！<br>但是是NotReady状态，需要安装网络插件 flannel，去github的flanne里找到这个命令<br>部署flannel：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span></pre></td></tr></table></figure>
+<p>这时，通过<code>kubectl get nodes</code> 可以看到master节点已经Ready了！</p>
+<h2 id="初始化主节点"><a href="#初始化主节点" class="headerlink" title="初始化主节点"></a>初始化主节点</h2><ol>
+<li>初始化master节点<br>若未禁用swap设备，则需要编辑kubelet的配置文件：/etc/sysconfig/kubelet,设置其忽略swap启用的状态错误，内容如下：<br>KUBELET_EXTRA_ARGS=”–fail-swap-on=false”<br>(可选步骤)而后，在运行初始化命令之前先运行如下命令单独获取相关的镜像文件，而后再运行后面的kubeadm init命令，以便于观察到镜像文件的下载过程。<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">kubeadm config images pull</span></pre></td></tr></table></figure>
+启动：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo kubeadm init --kubernetes-version="v1.16.3" --pod-network-cidr="10.244.0.0/16" --dry-run --ignore-preflight-errors=Swap</span></pre></td></tr></table></figure>
+
+<p>启动报错的话，可以试试重启kubeadm<br><code>kubeadm reset</code></p>
+<h2 id="node节点加入"><a href="#node节点加入" class="headerlink" title="node节点加入"></a>node节点加入</h2><blockquote>
+<p>加入之前，node节点也要安装kubernetes包(kubeadm kubectl kubelet)，方法同上,并且启动了docker。并且便捷/etc/sysconfig/kubelet文件。</p>
+</blockquote>
+<p>在主节点部署的时候，可以看到一条提示信息，如下：就是用来让node节点加入集群的命令。当然也可以通过其他方式获得此命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">kubeadm join 192.168.116.160:6443 --token 178cui.cgqvfub88r7dnjh2 \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    --discovery-token-ca-cert-hash sha256:a8195bb5b709bebc7a4d71bbd01041b05d227824304b81462c62196f729b4c9f</span></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">kubeadm join 192.168.116.160:6443 --token 178cui.cgqvfub88r7dnjh2     --discovery-token-ca-cert-hash sha256:a8195bb5b709bebc7a4d71bbd01041b05d227824304b81462c62196f729b4c9f --ignore-preflight-errors=Swap</span></pre></td></tr></table></figure>
+<p>加入的过程中可能报错，也需要关闭Swap: swapoff -a</p>
+<blockquote>
+<p>node节点加入集群的时候，也会pull镜像，也需要科学上网。z执行完命令可以通过docker image list 查看镜像是否已经拖下来了，没有的话，通过 <code>kubeadm config images pull</code> 手动的拖,进行脱下来以后，通过在master节点上运行<code>kubectl get nodes</code> 查看一下node节点是否已经加入了集群。</p>
+</blockquote>
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/docker/" rel="tag">docker</a> <a class="tag tag--primary tag--small t-link" href="/tags/%E5%AE%B9%E5%99%A8/" rel="tag">容器</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/docker/"
+                    data-tooltip="docker基本操作"
+                    aria-label="PREVIOUS: docker基本操作"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/preface-of-three-body/"
+                    data-tooltip="心事浩渺连广宇"
+                    aria-label="NEXT: 心事浩渺连广宇"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 王延刚. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/docker/"
+                    data-tooltip="docker基本操作"
+                    aria-label="PREVIOUS: docker基本操作"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/12/08/preface-of-three-body/"
+                    data-tooltip="心事浩渺连广宇"
+                    aria-label="NEXT: 心事浩渺连广宇"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                    title="Share on Google+"
+                    aria-label="Share on Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitalk"
+                        aria-label="Leave a comment"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/kubernetes/"
+                        aria-label="Share on Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.jpg" alt="avatar.jpg"/>
+        
+            <h4 id="about-card-name">王延刚</h4>
+        
+            <div id="about-card-bio"><p>graduated from 山东科技大学 in 2015,python back-end developer,open source contributor,and dota2 player.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>web developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Shanghai
+            </div>
+        
+    </div>
+</div>
+
+        
+            <div id="algolia-search-modal" class="modal-container">
+    <div class="modal">
+        <div class="modal-header">
+            <span class="close-button"><i class="fa fa-times"></i></span>
+            <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+                <span class="searchby-algolia-text text-color-light text-small">by</span>
+                <img class="searchby-algolia-logo" src="/assets/images/logo-algolia-nebula-blue-full.svg">
+            </a>
+            <i class="search-icon fa fa-search"></i>
+            <form id="algolia-search-form">
+                <input type="text" id="algolia-search-input" name="search"
+                    class="form-control input--large search-input" placeholder="Search "
+                    />
+            </form>
+        </div>
+        <div class="modal-body">
+            <div class="no-result text-color-light text-center">no post found</div>
+            <div class="results">
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/index/"
+                            aria-label=": index"
+                        >
+                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/index/python.jpg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/index/"
+                            aria-label=": index"
+                        >
+                            <h3 class="media-heading">index</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-admin/"
+                            aria-label=": django-admin的使用"
+                        >
+                            <h3 class="media-heading">django-admin的使用</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-form-component/"
+                            aria-label=": django form 组件"
+                        >
+                            <h3 class="media-heading">django form 组件</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-primary/"
+                            aria-label=": django的安装和使用"
+                        >
+                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/django-primary/django.jpeg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-primary/"
+                            aria-label=": django的安装和使用"
+                        >
+                            <h3 class="media-heading">django的安装和使用</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-template/"
+                            aria-label=": django模板"
+                        >
+                            <h3 class="media-heading">django模板</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-pagination/"
+                            aria-label=": django分页"
+                        >
+                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/django-pagination/分页.jpeg" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-pagination/"
+                            aria-label=": django分页"
+                        >
+                            <h3 class="media-heading">django分页</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/gist/"
+                            aria-label=": Gist"
+                        >
+                            <h3 class="media-heading">Gist</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-view/"
+                            aria-label=": django视图"
+                        >
+                            <h3 class="media-heading">django视图</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>视图就是python中的函数，视图一般被定义在”应用/views.py”文件中，此例中为”booktest/views.py”文件。视图必须返回一个HttpResponse对象或子对象作为响应。响应可以是一张网页的HTML内容，一个重定向，一个404错误等。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                            aria-label=": Django Cookie Session 操作"
+                        >
+                            <h3 class="media-heading">Django Cookie Session 操作</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/mysql-primary/"
+                            aria-label=": mysql基础知识"
+                        >
+                            <h3 class="media-heading">mysql基础知识</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p class="results-count text-medium"
+                data-message-zero="no post found"
+                data-message-one="1 post found"
+                data-message-other="{n} posts found">
+                17 posts found
+            </p>
+        </div>
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/kubernetes/';
+              
+            this.page.identifier = '2019/12/08/kubernetes/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'wangyangang-blog';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+    <script src="/assets/js/moment-with-locales.js"></script>
+    <script src="/assets/js/algoliasearch.js"></script>
+    <script>
+      var algoliaClient = algoliasearch('0MOABRJ7QA', '58f5d9684e76f1a46af62e9dd3449aea');
+      var algoliaIndex = algoliaClient.initIndex('blog-index');
+    </script>
+
+
+    </body>
+</html>
