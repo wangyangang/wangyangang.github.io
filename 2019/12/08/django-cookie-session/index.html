@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1.COOKIE1def login(request):2    is_login = request.COOKIES.get('is_login')34    if request.method == 'GET':5        if is_login:6            return redirect('/index')7    else:8        username = request.POST.get('username')9        password = request.POST.get('password')1011        if username == 'wyg' and password == 'wyg':12            ret = redirect('/index/')13            ret.set_cookie('is_login', True)14            # ret.set_cookie('is_login',True,max_age=10)# 有效期10秒15            # ret.set_cookie('is_login',True,expires=datetime.datetime.utcnow()+datetime.timedelta(days=3)) # 3天有效期16            return ret1718    return render(request, 'login.html')1920def index(request):21is_login = request.COOKIES.get('is_login')2223    if is_login:24        return render(request, 'index.html')25    else:26        return redirect('/login/')\n2.session\nsession在django用的时候可能会出问题，这时候，把settings.py里的MIDDLEWARE_CLASS改为MIDDLEWARE，把\n\n1'django.contrib.auth.middleware.AuthenticationMiddleware'\n注释掉。session在服务器默认保存15天\n\n获取session: request.session[key]\n设置session: request.session[key]=value\n删除session: del request.session[key]（这个删除其实是把session_data更新为一个其他的值了，并没有立即删除）\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T16:31:51+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django Cookie Session 操作","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-cookie-session/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-cookie-session/","keywords":"django, cookie, session"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1.COOKIE1def login(request):2    is_login = request.COOKIES.get('is_login')34    if request.method == 'GET':5        if is_login:6            return redirect('/index')7    else:8        username = request.POST.get('username')9        password = request.POST.get('password')1011        if username == 'wyg' and password == 'wyg':12            ret = redirect('/index/')13            ret.set_cookie('is_login', True)14            # ret.set_cookie('is_login',True,max_age=10)# 有效期10秒15            # ret.set_cookie('is_login',True,expires=datetime.datetime.utcnow()+datetime.timedelta(days=3)) # 3天有效期16            return ret1718    return render(request, 'login.html')1920def index(request):21is_login = request.COOKIES.get('is_login')2223    if is_login:24        return render(request, 'index.html')25    else:26        return redirect('/login/')\n2.session\nsession在django用的时候可能会出问题，这时候，把settings.py里的MIDDLEWARE_CLASS改为MIDDLEWARE，把\n\n1'django.contrib.auth.middleware.AuthenticationMiddleware'\n注释掉。session在服务器默认保存15天\n\n获取session: request.session[key]\n设置session: request.session[key]=value\n删除session: del request.session[key]（这个删除其实是把session_data更新为一个其他的值了，并没有立即删除）\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T16:31:51+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django Cookie Session 操作","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/django-cookie-session/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/django-cookie-session/","keywords":"django, cookie, session"}</script>
     <meta name="description" content="1.COOKIE1def login(request):2    is_login &#x3D; request.COOKIES.get(&amp;apos;is_login&amp;apos;)34    if request.method &#x3D;&#x3D; &amp;apos;GET&amp;apos;:5        if is_login:6            return redirect(&amp;apos;&#x2F;index&amp;apos;)7    else:8        username &#x3D; r">
 <meta name="keywords" content="django,cookie,session">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Django Cookie Session 操作">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-cookie-session&#x2F;index.html">
+<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-cookie-session&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1.COOKIE1def login(request):2    is_login &#x3D; request.COOKIES.get(&amp;apos;is_login&amp;apos;)34    if request.method &#x3D;&#x3D; &amp;apos;GET&amp;apos;:5        if is_login:6            return redirect(&amp;apos;&#x2F;index&amp;apos;)7    else:8        username &#x3D; r">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
     
     
     
@@ -342,9 +342,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="django-admin的使用1"
-                    aria-label="PREVIOUS: django-admin的使用1"
+                    href="/2019/12/08/django-admin2/"
+                    data-tooltip="django-admin的使用2"
+                    aria-label="PREVIOUS: django-admin的使用2"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -383,7 +383,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-cookie-session/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -396,7 +396,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-cookie-session/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -409,7 +409,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-cookie-session/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -471,9 +471,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="django-admin的使用1"
-                    aria-label="PREVIOUS: django-admin的使用1"
+                    href="/2019/12/08/django-admin2/"
+                    data-tooltip="django-admin的使用2"
+                    aria-label="PREVIOUS: django-admin的使用2"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -512,7 +512,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-cookie-session/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -525,7 +525,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-cookie-session/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -538,7 +538,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-cookie-session/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -582,7 +582,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-cookie-session/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -595,7 +595,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-cookie-session/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -608,7 +608,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-cookie-session/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -673,7 +673,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-cookie-session/';
+            this.page.url = 'wangyangang.com/2019/12/08/django-cookie-session/';
               
             this.page.identifier = '2019/12/08/django-cookie-session/';
               

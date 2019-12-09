@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n正向查找和反向查找\n正向查\n\n1obj=Classes.objects.filter(id=1).first()  # id=1的班级有哪些老师2ret=obj.m.all()\n\n反向查\n\n如果student的外键是class，通过class反向查student：\n1Class.objects.filter(id=1).first().student_set.all()\n‘student_set’这个关联名可以自定义，在student类定义的时候这样写：\n1cs=models.ForeignKey(class,related_name='abc')\n以后反向查就可以写成：\n1Class.objects.filter(id=1).first().abc.all()\n给第三张表增加数据\n给第三张表增加数据\n\n1obj=Classes.objects.filter(id=1).first()2obj.m.add(1)  # 给id=1的class增加一个id=1的老师行3obj.m.add(2)  # 给id=1的class增加一个id=2的老师行4obj.m.remove(1) # 把id=1的class的id=1的老师去掉5obj.m.clear() # 清除6obj.m.set([2,3,5])  # 把老师设置为2，3，5.如果原来存在就不动，没有就新增\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:07:39+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django ORM 操作1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-orm-1/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-orm-1/","keywords":"django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n正向查找和反向查找\n正向查\n\n1obj=Classes.objects.filter(id=1).first()  # id=1的班级有哪些老师2ret=obj.m.all()\n\n反向查\n\n如果student的外键是class，通过class反向查student：\n1Class.objects.filter(id=1).first().student_set.all()\n‘student_set’这个关联名可以自定义，在student类定义的时候这样写：\n1cs=models.ForeignKey(class,related_name='abc')\n以后反向查就可以写成：\n1Class.objects.filter(id=1).first().abc.all()\n给第三张表增加数据\n给第三张表增加数据\n\n1obj=Classes.objects.filter(id=1).first()2obj.m.add(1)  # 给id=1的class增加一个id=1的老师行3obj.m.add(2)  # 给id=1的class增加一个id=2的老师行4obj.m.remove(1) # 把id=1的class的id=1的老师去掉5obj.m.clear() # 清除6obj.m.set([2,3,5])  # 把老师设置为2，3，5.如果原来存在就不动，没有就新增\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:07:39+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Django ORM 操作1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/django-orm-1/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/django-orm-1/","keywords":"django"}</script>
     <meta name="description" content="正向查找和反向查找 正向查  1obj&#x3D;Classes.objects.filter(id&#x3D;1).first()  # id&#x3D;1的班级有哪些老师2ret&#x3D;obj.m.all()  反向查  如果student的外键是class，通过class反向查student： 1Class.objects.filter(id&#x3D;1).first().student_set.all() ‘student_s">
 <meta name="keywords" content="django">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Django ORM 操作1">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-orm-1&#x2F;index.html">
+<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-orm-1&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="正向查找和反向查找 正向查  1obj&#x3D;Classes.objects.filter(id&#x3D;1).first()  # id&#x3D;1的班级有哪些老师2ret&#x3D;obj.m.all()  反向查  如果student的外键是class，通过class反向查student： 1Class.objects.filter(id&#x3D;1).first().student_set.all() ‘student_s">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
     
     
     
@@ -350,9 +350,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-orm-2/"
-                    data-tooltip="Django ORM 操作2"
-                    aria-label="PREVIOUS: Django ORM 操作2"
+                    href="/2019/12/08/django-form-component/"
+                    data-tooltip="django form 组件"
+                    aria-label="PREVIOUS: django form 组件"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -364,9 +364,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-primary/"
-                    data-tooltip="django基础1"
-                    aria-label="NEXT: django基础1"
+                    href="/2019/12/08/django-orm-2/"
+                    data-tooltip="Django ORM 操作2"
+                    aria-label="NEXT: Django ORM 操作2"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -391,7 +391,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-orm-1/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -404,7 +404,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-orm-1/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -417,7 +417,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-orm-1/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -479,9 +479,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-orm-2/"
-                    data-tooltip="Django ORM 操作2"
-                    aria-label="PREVIOUS: Django ORM 操作2"
+                    href="/2019/12/08/django-form-component/"
+                    data-tooltip="django form 组件"
+                    aria-label="PREVIOUS: django form 组件"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -493,9 +493,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-primary/"
-                    data-tooltip="django基础1"
-                    aria-label="NEXT: django基础1"
+                    href="/2019/12/08/django-orm-2/"
+                    data-tooltip="Django ORM 操作2"
+                    aria-label="NEXT: Django ORM 操作2"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -520,7 +520,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-orm-1/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -533,7 +533,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-orm-1/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -546,7 +546,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-orm-1/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -590,7 +590,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-orm-1/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -603,7 +603,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-orm-1/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -616,7 +616,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-orm-1/"
+                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-orm-1/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -681,7 +681,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-orm-1/';
+            this.page.url = 'wangyangang.com/2019/12/08/django-orm-1/';
               
             this.page.identifier = '2019/12/08/django-orm-1/';
               

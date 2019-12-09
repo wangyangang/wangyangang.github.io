@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\ndjango-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。\n\n几个注意点\n更改admin页面的语言和时区,在setting.py里更改如下内容：\n\n1TIME_ZONE = 'Asia/Shanghai'2LANGUAGE_CODE = 'zh-hans`\n\n\n更改admin页面显示的app的名称,在应用的apps.py里加上verbose_name\n\n1from django.apps import AppConfig23class App01Config(AppConfig):4    name = 'app01'5    verbose_name = '博客'\n\n在app目录下的init.py里加上default_app_config\n1default_app_config = 'app01.apps.App01Config'\n\n\n利用model的Meta类，改变模型在admin界面的显示\n\n1class Meta:2   db_table = 'book_info'3   verbose_name = '书籍'4   verbose_name_plural = '许多书籍'\n\n\n要想在admin界面管理哪个model，就要把它注册到admin里。也可以继承admin.ModelAdmin进行自定义.在admin.py里：\n\n1class BookInfoAdmin(admin.ModelAdmin):2    list_display = ['name', 'price', 'comment'] # BookInfo类在后台显示哪几个字段34admin.site.register(BookInfo, BookInfoAdmin)\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T05:43:15+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django-admin的使用2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-admin2/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-admin2/","keywords":"django admin"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\ndjango-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。\n\n几个注意点\n更改admin页面的语言和时区,在setting.py里更改如下内容：\n\n1TIME_ZONE = 'Asia/Shanghai'2LANGUAGE_CODE = 'zh-hans`\n\n\n更改admin页面显示的app的名称,在应用的apps.py里加上verbose_name\n\n1from django.apps import AppConfig23class App01Config(AppConfig):4    name = 'app01'5    verbose_name = '博客'\n\n在app目录下的init.py里加上default_app_config\n1default_app_config = 'app01.apps.App01Config'\n\n\n利用model的Meta类，改变模型在admin界面的显示\n\n1class Meta:2   db_table = 'book_info'3   verbose_name = '书籍'4   verbose_name_plural = '许多书籍'\n\n\n要想在admin界面管理哪个model，就要把它注册到admin里。也可以继承admin.ModelAdmin进行自定义.在admin.py里：\n\n1class BookInfoAdmin(admin.ModelAdmin):2    list_display = ['name', 'price', 'comment'] # BookInfo类在后台显示哪几个字段34admin.site.register(BookInfo, BookInfoAdmin)\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T05:43:15+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django-admin的使用2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/django-admin2/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/django-admin2/","keywords":"django admin"}</script>
     <meta name="description" content="django-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。  几个注意点 更改admin页面的语言和时区,在setting.py里更改如下内容：  1TIME_ZONE &#x3D; &amp;apos;Asia&#x2F;Shanghai&amp;apos;2LANGUAGE_">
 <meta name="keywords" content="django admin">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="django-admin的使用2">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-admin2&#x2F;index.html">
+<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-admin2&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="django-admin是一个用来管理django站点后台数据库的应用，是django自带的。我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。  几个注意点 更改admin页面的语言和时区,在setting.py里更改如下内容：  1TIME_ZONE &#x3D; &amp;apos;Asia&#x2F;Shanghai&amp;apos;2LANGUAGE_">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
     
     
     
@@ -357,9 +357,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-primary2/"
-                    data-tooltip="django基础2"
-                    aria-label="PREVIOUS: django基础2"
+                    href="/2019/12/08/django-admin/"
+                    data-tooltip="django-admin的使用1"
+                    aria-label="PREVIOUS: django-admin的使用1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -371,9 +371,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="django-admin的使用1"
-                    aria-label="NEXT: django-admin的使用1"
+                    href="/2019/12/08/django-cookie-session/"
+                    data-tooltip="Django Cookie Session 操作"
+                    aria-label="NEXT: Django Cookie Session 操作"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -398,7 +398,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-admin2/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -411,7 +411,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-admin2/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -424,7 +424,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-admin2/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -486,9 +486,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-primary2/"
-                    data-tooltip="django基础2"
-                    aria-label="PREVIOUS: django基础2"
+                    href="/2019/12/08/django-admin/"
+                    data-tooltip="django-admin的使用1"
+                    aria-label="PREVIOUS: django-admin的使用1"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -500,9 +500,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="django-admin的使用1"
-                    aria-label="NEXT: django-admin的使用1"
+                    href="/2019/12/08/django-cookie-session/"
+                    data-tooltip="Django Cookie Session 操作"
+                    aria-label="NEXT: Django Cookie Session 操作"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -527,7 +527,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-admin2/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -540,7 +540,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-admin2/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -553,7 +553,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-admin2/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -597,7 +597,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-admin2/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -610,7 +610,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-admin2/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -623,7 +623,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin2/"
+                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-admin2/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -688,7 +688,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-admin2/';
+            this.page.url = 'wangyangang.com/2019/12/08/django-admin2/';
               
             this.page.identifier = '2019/12/08/django-admin2/';
               

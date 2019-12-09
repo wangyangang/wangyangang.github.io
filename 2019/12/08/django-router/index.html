@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1. 基本使用\n项目的urls.py文件\n\n1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns = [5    path('admin/', admin.site.urls),6    re_path(r'^app01/', include(('app01.urls', 'app01'), namespace='app01'))7]\n\n\n应用的urls.py文件\n\n1from django.urls import path, re_path2from app01.views import IndexView, BookInfoListView34urlpatterns = [5    re_path(r'^index', IndexView.as_view(), name='index'),6    re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),7]\n\n2. 获取参数\n位置参数1url(r'^delete(\\d+)/$',views.show_arg),23def show_arg(request,id):4    return HttpResponse('show arg %s'%id)\n关键字参数1url(r'^delete(?P&lt;id1&gt;\\d+)/$',views.show_arg),23def show_arg(request,id1):4    return HttpResponse('show %s'%id1)\n\n注意：视图show_arg此时必须要有一个参数名为id1，否则报错。\n\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:05:40+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django路由url分发","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-router/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-router/","keywords":"django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1. 基本使用\n项目的urls.py文件\n\n1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns = [5    path('admin/', admin.site.urls),6    re_path(r'^app01/', include(('app01.urls', 'app01'), namespace='app01'))7]\n\n\n应用的urls.py文件\n\n1from django.urls import path, re_path2from app01.views import IndexView, BookInfoListView34urlpatterns = [5    re_path(r'^index', IndexView.as_view(), name='index'),6    re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),7]\n\n2. 获取参数\n位置参数1url(r'^delete(\\d+)/$',views.show_arg),23def show_arg(request,id):4    return HttpResponse('show arg %s'%id)\n关键字参数1url(r'^delete(?P&lt;id1&gt;\\d+)/$',views.show_arg),23def show_arg(request,id1):4    return HttpResponse('show %s'%id1)\n\n注意：视图show_arg此时必须要有一个参数名为id1，否则报错。\n\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:05:40+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django路由url分发","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/django-router/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/django-router/","keywords":"django"}</script>
     <meta name="description" content="1. 基本使用 项目的urls.py文件  1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns &#x3D; [5    path(&amp;apos;admin&#x2F;&amp;apos;, admin.site.urls),6    re_path(r&amp;apos;^app01&#x2F;&amp;apos;, include((&amp;apos;app01.u">
 <meta name="keywords" content="django">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="django路由url分发">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-router&#x2F;index.html">
+<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-router&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1. 基本使用 项目的urls.py文件  1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns &#x3D; [5    path(&amp;apos;admin&#x2F;&amp;apos;, admin.site.urls),6    re_path(r&amp;apos;^app01&#x2F;&amp;apos;, include((&amp;apos;app01.u">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
     
     
     
@@ -390,7 +390,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-router/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -403,7 +403,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-router/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -416,7 +416,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-router/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -519,7 +519,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-router/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -532,7 +532,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-router/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -545,7 +545,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-router/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -589,7 +589,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-router/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-router/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -602,7 +602,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-router/"
+                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-router/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -615,7 +615,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-router/"
+                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-router/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -680,7 +680,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-router/';
+            this.page.url = 'wangyangang.com/2019/12/08/django-router/';
               
             this.page.identifier = '2019/12/08/django-router/';
               

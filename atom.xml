@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://wangyangang.github.io/"/>
+  <link href="wangyangang.com/"/>
   <updated>2019-12-09T00:50:07.180Z</updated>
-  <id>https://wangyangang.github.io/</id>
+  <id>wangyangang.com/</id>
   
   <author>
     <name>王延刚</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>算法基础</title>
-    <link href="https://wangyangang.github.io/2019/12/08/%E7%AE%97%E6%B3%95/"/>
-    <id>https://wangyangang.github.io/2019/12/08/%E7%AE%97%E6%B3%95/</id>
+    <link href="wangyangang.com/2019/12/08/%E7%AE%97%E6%B3%95/"/>
+    <id>wangyangang.com/2019/12/08/%E7%AE%97%E6%B3%95/</id>
     <published>2019-12-08T08:08:49.000Z</published>
     <updated>2019-12-09T00:50:07.180Z</updated>
     
@@ -33,17 +33,17 @@
     </summary>
     
     
-      <category term="算法" scheme="https://wangyangang.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="wangyangang.com/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="算法" scheme="https://wangyangang.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="wangyangang.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>django基础2</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-primary2/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-primary2/</id>
+    <link href="wangyangang.com/2019/12/08/django-primary2/"/>
+    <id>wangyangang.com/2019/12/08/django-primary2/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T21:53:37.478Z</updated>
     
@@ -61,46 +61,17 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>django-admin的使用2</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-admin2/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-admin2/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-08T21:43:15.325Z</updated>
-    
-    <content type="html"><![CDATA[<!-- toc --><blockquote><p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p></blockquote><h2 id="几个注意点"><a href="#几个注意点" class="headerlink" title="几个注意点"></a>几个注意点</h2><ol><li>更改admin页面的语言和时区,在setting.py里更改如下内容：</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">TIME_ZONE = <span class="string">'Asia/Shanghai'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">LANGUAGE_CODE = <span class="string">'zh-hans`</span></span></pre></td></tr></table></figure><ol start="2"><li>更改admin页面显示的app的名称,在应用的apps.py里加上verbose_name</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> AppConfig</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App01Config</span><span class="params">(AppConfig)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    name = <span class="string">'app01'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    verbose_name = <span class="string">'博客'</span></span></pre></td></tr></table></figure><p>在app目录下的<strong>init</strong>.py里加上default_app_config</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">default_app_config = <span class="string">'app01.apps.App01Config'</span></span></pre></td></tr></table></figure><ol start="3"><li>利用model的Meta类，改变模型在admin界面的显示</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">   db_table = <span class="string">'book_info'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">   verbose_name = <span class="string">'书籍'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   verbose_name_plural = <span class="string">'许多书籍'</span></span></pre></td></tr></table></figure><ol start="4"><li>要想在admin界面管理哪个model，就要把它注册到admin里。也可以继承admin.ModelAdmin进行自定义.在admin.py里：</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    list_display = [<span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'comment'</span>] <span class="comment"># BookInfo类在后台显示哪几个字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">admin.site.register(BookInfo, BookInfoAdmin)</span></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;!-- toc --&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;django-admin是一个用来管理django站点后台数据库的应用，是django自带的。&lt;br&gt;我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installe
-      
-    
-    </summary>
-    
-    
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
-    
-    
-      <category term="django admin" scheme="https://wangyangang.github.io/tags/django-admin/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   
   <entry>
     <title>django-admin的使用1</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-admin/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-admin/</id>
+    <link href="wangyangang.com/2019/12/08/django-admin/"/>
+    <id>wangyangang.com/2019/12/08/django-admin/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:08:15.623Z</updated>
     
@@ -120,17 +91,46 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django admin" scheme="https://wangyangang.github.io/tags/django-admin/"/>
+      <category term="django admin" scheme="wangyangang.com/tags/django-admin/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>django-admin的使用2</title>
+    <link href="wangyangang.com/2019/12/08/django-admin2/"/>
+    <id>wangyangang.com/2019/12/08/django-admin2/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-08T21:43:15.325Z</updated>
+    
+    <content type="html"><![CDATA[<!-- toc --><blockquote><p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p></blockquote><h2 id="几个注意点"><a href="#几个注意点" class="headerlink" title="几个注意点"></a>几个注意点</h2><ol><li>更改admin页面的语言和时区,在setting.py里更改如下内容：</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">TIME_ZONE = <span class="string">'Asia/Shanghai'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">LANGUAGE_CODE = <span class="string">'zh-hans`</span></span></pre></td></tr></table></figure><ol start="2"><li>更改admin页面显示的app的名称,在应用的apps.py里加上verbose_name</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> AppConfig</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App01Config</span><span class="params">(AppConfig)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    name = <span class="string">'app01'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    verbose_name = <span class="string">'博客'</span></span></pre></td></tr></table></figure><p>在app目录下的<strong>init</strong>.py里加上default_app_config</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">default_app_config = <span class="string">'app01.apps.App01Config'</span></span></pre></td></tr></table></figure><ol start="3"><li>利用model的Meta类，改变模型在admin界面的显示</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">   db_table = <span class="string">'book_info'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">   verbose_name = <span class="string">'书籍'</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   verbose_name_plural = <span class="string">'许多书籍'</span></span></pre></td></tr></table></figure><ol start="4"><li>要想在admin界面管理哪个model，就要把它注册到admin里。也可以继承admin.ModelAdmin进行自定义.在admin.py里：</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookInfoAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    list_display = [<span class="string">'name'</span>, <span class="string">'price'</span>, <span class="string">'comment'</span>] <span class="comment"># BookInfo类在后台显示哪几个字段</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">admin.site.register(BookInfo, BookInfoAdmin)</span></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- toc --&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;django-admin是一个用来管理django站点后台数据库的应用，是django自带的。&lt;br&gt;我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installe
+      
+    
+    </summary>
+    
+    
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
+    
+    
+      <category term="django admin" scheme="wangyangang.com/tags/django-admin/"/>
     
   </entry>
   
   <entry>
     <title>Django Cookie Session 操作</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-cookie-session/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-cookie-session/</id>
+    <link href="wangyangang.com/2019/12/08/django-cookie-session/"/>
+    <id>wangyangang.com/2019/12/08/django-cookie-session/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T08:31:51.308Z</updated>
     
@@ -148,21 +148,21 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
-      <category term="cookie" scheme="https://wangyangang.github.io/tags/cookie/"/>
+      <category term="cookie" scheme="wangyangang.com/tags/cookie/"/>
     
-      <category term="session" scheme="https://wangyangang.github.io/tags/session/"/>
+      <category term="session" scheme="wangyangang.com/tags/session/"/>
     
   </entry>
   
   <entry>
     <title>django自定义标签和过滤器</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/</id>
+    <link href="wangyangang.com/2019/12/08/django-custom-tags-and-filters/"/>
+    <id>wangyangang.com/2019/12/08/django-custom-tags-and-filters/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:07:57.229Z</updated>
     
@@ -184,17 +184,17 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   
   <entry>
     <title>django form 组件</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-form-component/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-form-component/</id>
+    <link href="wangyangang.com/2019/12/08/django-form-component/"/>
+    <id>wangyangang.com/2019/12/08/django-form-component/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:07:51.939Z</updated>
     
@@ -212,45 +212,17 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Django ORM 操作2</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-orm-2/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-orm-2/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-08T21:46:46.049Z</updated>
-    
-    <content type="html"><![CDATA[<!-- toc --><h2 id="Django多表操作之多对多查询记录"><a href="#Django多表操作之多对多查询记录" class="headerlink" title="Django多表操作之多对多查询记录"></a>Django多表操作之多对多查询记录</h2><ul><li>正向查找</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.get(id=<span class="number">3</span>).authors.all(i)</span></pre></td></tr></table></figure><ul><li>反向查找</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Author.objects.get(id=<span class="number">2</span>).book_set.all()</span></pre></td></tr></table></figure><blockquote><p>利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果<br>  如果不想放到缓存里，可以这么写</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ret.exists():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ... <span class="comment"># 这样写不会把ret放到缓存里</span></span></pre></td></tr></table></figure><blockquote><p>或者使用迭代器 (iterator)</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=ret.iterator()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    print(i.name)   <span class="comment"># 这样不会用缓存</span></span></pre></td></tr></table></figure><blockquote><p>querySet的cache是用于减少程序对数据库的查询，在通常的使用下会保证只有在需要的时候才会查询数据库。<br>使用exists()和iterator()方法可以优化程序对内存的使用。不过由于他们并不会生成queryet cache,可能会造成额外的数据库查询。</p></blockquote><ul><li>聚合函数 aggregate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models <span class="keyword">import</span> Avg, Min, Sum, Max</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Sum(<span class="string">'price'</span>))  <span class="comment"># 所有书的价格总和</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Avg(<span class="string">'price'</span>))  <span class="comment"># 所有书的平均价格</span></span></pre></td></tr></table></figure></li><li>分组函数 anonotate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.values(<span class="string">'authors__name'</span>).anonotate(Sum(<span class="string">'price'</span>))    <span class="comment"># 计算每一个人出版的所有书的总价格</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Publish.objects.values(<span class="string">'name'</span>).anonotate(Min())</span></pre></td></tr></table></figure></li><li>F查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.all().update(price=F(<span class="string">'price'</span>)+<span class="number">10</span>)  <span class="comment">#把每本书的价格加10</span></span></pre></td></tr></table></figure></li><li>Q查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(~Q(name=<span class="string">'GO'</span>)|Q(price=<span class="number">100</span>)) <span class="comment">#把所有的书，name不等于GO或price等于100的，全查出来</span></span></pre></td></tr></table></figure><blockquote><p>如果要用Q查询和关键字查询一起用，那么Q查询要放在前面</p></blockquote></li></ul><hr><h3 id="Django多表操作之多对多关系"><a href="#Django多表操作之多对多关系" class="headerlink" title="Django多表操作之多对多关系"></a>Django多表操作之多对多关系</h3><ul><li>添加多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.add(*author_objs)</span></pre></td></tr></table></figure></li><li>删除多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(*author_objs)   <span class="comment"># 删除所有的关系</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(<span class="number">2</span>)              <span class="comment"># 删除id=2的作者关系</span></span></pre></td></tr></table></figure></li><li>建立多对的关系</li></ul><h4 id="1-通过ManyToManyField建立-推荐"><a href="#1-通过ManyToManyField建立-推荐" class="headerlink" title="1.通过ManyToManyField建立(推荐)"></a>1.通过ManyToManyField建立(推荐)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    author=models.ManyToManyField(<span class="string">'Author'</span>)</span></pre></td></tr></table></figure><blockquote><p>此时会自动在数据库创建第三张表，来存放Book和Author的对应关系<br>  这时候查询这么用<br>  eg:查询alex写过的所有书的name和price</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(authors__name=<span class="string">'alex'</span>).values(<span class="string">'name'</span>,<span class="string">'price'</span>)</span></pre></td></tr></table></figure><h4 id="2-通过在models-py文件里新建第三张表建立"><a href="#2-通过在models-py文件里新建第三张表建立" class="headerlink" title="2.通过在models.py文件里新建第三张表建立"></a>2.通过在models.py文件里新建第三张表建立</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book_Author</span><span class="params">(models.Model)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    book=models.ForeignKey("Book")</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    author=models.ForeignKey(<span class="string">"Author"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Book_Author.objects.create(book_id=<span class="number">2</span>,author_id=<span class="number">2</span>)</span></pre></td></tr></table></figure><blockquote><p>这时候查询这么用：</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">obj=Book.objects.get(id=<span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">obj.book_author_set.all()[<span class="number">0</span>].author</span></pre></td></tr></table></figure><blockquote><p>或者</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(book_author__author_name=<span class="string">'alex'</span>)</span></pre></td></tr></table></figure><blockquote><p>推荐使用第一种方法，即ManyToMany的方式建立关系</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;!-- toc --&gt;
-
-&lt;h2 id=&quot;Django多表操作之多对多查询记录&quot;&gt;&lt;a href=&quot;#Django多表操作之多对多查询记录&quot; class=&quot;headerlink&quot; title=&quot;Django多表操作之多对多查询记录&quot;&gt;&lt;/a&gt;Django多表操作之多对多查询记录
-      
-    
-    </summary>
-    
-    
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
-    
-    
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   
   <entry>
     <title>Django ORM 操作1</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-orm-1/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-orm-1/</id>
+    <link href="wangyangang.com/2019/12/08/django-orm-1/"/>
+    <id>wangyangang.com/2019/12/08/django-orm-1/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:07:39.777Z</updated>
     
@@ -272,17 +244,45 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Django ORM 操作2</title>
+    <link href="wangyangang.com/2019/12/08/django-orm-2/"/>
+    <id>wangyangang.com/2019/12/08/django-orm-2/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-08T21:46:46.049Z</updated>
+    
+    <content type="html"><![CDATA[<!-- toc --><h2 id="Django多表操作之多对多查询记录"><a href="#Django多表操作之多对多查询记录" class="headerlink" title="Django多表操作之多对多查询记录"></a>Django多表操作之多对多查询记录</h2><ul><li>正向查找</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.get(id=<span class="number">3</span>).authors.all(i)</span></pre></td></tr></table></figure><ul><li>反向查找</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Author.objects.get(id=<span class="number">2</span>).book_set.all()</span></pre></td></tr></table></figure><blockquote><p>利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果<br>  如果不想放到缓存里，可以这么写</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ret.exists():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ... <span class="comment"># 这样写不会把ret放到缓存里</span></span></pre></td></tr></table></figure><blockquote><p>或者使用迭代器 (iterator)</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=ret.iterator()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    print(i.name)   <span class="comment"># 这样不会用缓存</span></span></pre></td></tr></table></figure><blockquote><p>querySet的cache是用于减少程序对数据库的查询，在通常的使用下会保证只有在需要的时候才会查询数据库。<br>使用exists()和iterator()方法可以优化程序对内存的使用。不过由于他们并不会生成queryet cache,可能会造成额外的数据库查询。</p></blockquote><ul><li>聚合函数 aggregate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models <span class="keyword">import</span> Avg, Min, Sum, Max</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Sum(<span class="string">'price'</span>))  <span class="comment"># 所有书的价格总和</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Avg(<span class="string">'price'</span>))  <span class="comment"># 所有书的平均价格</span></span></pre></td></tr></table></figure></li><li>分组函数 anonotate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.values(<span class="string">'authors__name'</span>).anonotate(Sum(<span class="string">'price'</span>))    <span class="comment"># 计算每一个人出版的所有书的总价格</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Publish.objects.values(<span class="string">'name'</span>).anonotate(Min())</span></pre></td></tr></table></figure></li><li>F查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.all().update(price=F(<span class="string">'price'</span>)+<span class="number">10</span>)  <span class="comment">#把每本书的价格加10</span></span></pre></td></tr></table></figure></li><li>Q查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(~Q(name=<span class="string">'GO'</span>)|Q(price=<span class="number">100</span>)) <span class="comment">#把所有的书，name不等于GO或price等于100的，全查出来</span></span></pre></td></tr></table></figure><blockquote><p>如果要用Q查询和关键字查询一起用，那么Q查询要放在前面</p></blockquote></li></ul><hr><h3 id="Django多表操作之多对多关系"><a href="#Django多表操作之多对多关系" class="headerlink" title="Django多表操作之多对多关系"></a>Django多表操作之多对多关系</h3><ul><li>添加多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.add(*author_objs)</span></pre></td></tr></table></figure></li><li>删除多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(*author_objs)   <span class="comment"># 删除所有的关系</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(<span class="number">2</span>)              <span class="comment"># 删除id=2的作者关系</span></span></pre></td></tr></table></figure></li><li>建立多对的关系</li></ul><h4 id="1-通过ManyToManyField建立-推荐"><a href="#1-通过ManyToManyField建立-推荐" class="headerlink" title="1.通过ManyToManyField建立(推荐)"></a>1.通过ManyToManyField建立(推荐)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    author=models.ManyToManyField(<span class="string">'Author'</span>)</span></pre></td></tr></table></figure><blockquote><p>此时会自动在数据库创建第三张表，来存放Book和Author的对应关系<br>  这时候查询这么用<br>  eg:查询alex写过的所有书的name和price</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(authors__name=<span class="string">'alex'</span>).values(<span class="string">'name'</span>,<span class="string">'price'</span>)</span></pre></td></tr></table></figure><h4 id="2-通过在models-py文件里新建第三张表建立"><a href="#2-通过在models-py文件里新建第三张表建立" class="headerlink" title="2.通过在models.py文件里新建第三张表建立"></a>2.通过在models.py文件里新建第三张表建立</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book_Author</span><span class="params">(models.Model)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    book=models.ForeignKey("Book")</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    author=models.ForeignKey(<span class="string">"Author"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Book_Author.objects.create(book_id=<span class="number">2</span>,author_id=<span class="number">2</span>)</span></pre></td></tr></table></figure><blockquote><p>这时候查询这么用：</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">obj=Book.objects.get(id=<span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">obj.book_author_set.all()[<span class="number">0</span>].author</span></pre></td></tr></table></figure><blockquote><p>或者</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(book_author__author_name=<span class="string">'alex'</span>)</span></pre></td></tr></table></figure><blockquote><p>推荐使用第一种方法，即ManyToMany的方式建立关系</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- toc --&gt;
+
+&lt;h2 id=&quot;Django多表操作之多对多查询记录&quot;&gt;&lt;a href=&quot;#Django多表操作之多对多查询记录&quot; class=&quot;headerlink&quot; title=&quot;Django多表操作之多对多查询记录&quot;&gt;&lt;/a&gt;Django多表操作之多对多查询记录
+      
+    
+    </summary>
+    
+    
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
+    
+    
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   
   <entry>
     <title>django基础1</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-primary/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-primary/</id>
+    <link href="wangyangang.com/2019/12/08/django-primary/"/>
+    <id>wangyangang.com/2019/12/08/django-primary/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T09:58:31.721Z</updated>
     
@@ -303,17 +303,17 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   
   <entry>
     <title>django类视图</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-CBV/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-CBV/</id>
+    <link href="wangyangang.com/2019/12/08/django-CBV/"/>
+    <id>wangyangang.com/2019/12/08/django-CBV/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:08:06.389Z</updated>
     
@@ -331,17 +331,17 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   
   <entry>
     <title>django路由url分发</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-router/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-router/</id>
+    <link href="wangyangang.com/2019/12/08/django-router/"/>
+    <id>wangyangang.com/2019/12/08/django-router/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:05:40.439Z</updated>
     
@@ -362,17 +362,17 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   
   <entry>
     <title>Gist</title>
-    <link href="https://wangyangang.github.io/2019/12/08/gist/"/>
-    <id>https://wangyangang.github.io/2019/12/08/gist/</id>
+    <link href="wangyangang.com/2019/12/08/gist/"/>
+    <id>wangyangang.com/2019/12/08/gist/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:05:32.412Z</updated>
     
@@ -390,17 +390,40 @@
     </summary>
     
     
-      <category term="gist" scheme="https://wangyangang.github.io/categories/gist/"/>
+      <category term="gist" scheme="wangyangang.com/categories/gist/"/>
     
     
-      <category term="gist" scheme="https://wangyangang.github.io/tags/gist/"/>
+      <category term="gist" scheme="wangyangang.com/tags/gist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>index</title>
+    <link href="wangyangang.com/2019/12/08/index/"/>
+    <id>wangyangang.com/2019/12/08/index/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-09T02:33:37.649Z</updated>
+    
+    <content type="html"><![CDATA[<!-- excerpt --><ul><li>一个年轻人要成长必须过两关：<ul><li>第一，跟优秀的老年人聊天</li><li>第二，谈一场或成功或失败的轰轰烈烈的恋爱<br>– 木心（白岩松某演讲）   2019-07-20</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;this is excerpt&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="index" scheme="wangyangang.com/categories/index/"/>
+    
+    
+      <category term="index" scheme="wangyangang.com/tags/index/"/>
     
   </entry>
   
   <entry>
     <title>mysql基础知识</title>
-    <link href="https://wangyangang.github.io/2019/12/08/mysql-primary/"/>
-    <id>https://wangyangang.github.io/2019/12/08/mysql-primary/</id>
+    <link href="wangyangang.com/2019/12/08/mysql-primary/"/>
+    <id>wangyangang.com/2019/12/08/mysql-primary/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:04:48.902Z</updated>
     
@@ -419,40 +442,17 @@
     </summary>
     
     
-      <category term="mysql" scheme="https://wangyangang.github.io/categories/mysql/"/>
+      <category term="mysql" scheme="wangyangang.com/categories/mysql/"/>
     
     
-      <category term="mysql" scheme="https://wangyangang.github.io/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>index</title>
-    <link href="https://wangyangang.github.io/2019/12/08/index/"/>
-    <id>https://wangyangang.github.io/2019/12/08/index/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-09T02:33:37.649Z</updated>
-    
-    <content type="html"><![CDATA[<!-- excerpt --><ul><li>一个年轻人要成长必须过两关：<ul><li>第一，跟优秀的老年人聊天</li><li>第二，谈一场或成功或失败的轰轰烈烈的恋爱<br>– 木心（白岩松某演讲）   2019-07-20</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;this is excerpt&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="index" scheme="https://wangyangang.github.io/categories/index/"/>
-    
-    
-      <category term="index" scheme="https://wangyangang.github.io/tags/index/"/>
+      <category term="mysql" scheme="wangyangang.com/tags/mysql/"/>
     
   </entry>
   
   <entry>
     <title>python基础</title>
-    <link href="https://wangyangang.github.io/2019/12/08/python-primary/"/>
-    <id>https://wangyangang.github.io/2019/12/08/python-primary/</id>
+    <link href="wangyangang.com/2019/12/08/python-primary/"/>
+    <id>wangyangang.com/2019/12/08/python-primary/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:04:22.767Z</updated>
     
@@ -470,17 +470,17 @@
     </summary>
     
     
-      <category term="python" scheme="https://wangyangang.github.io/categories/python/"/>
+      <category term="python" scheme="wangyangang.com/categories/python/"/>
     
     
-      <category term="python" scheme="https://wangyangang.github.io/tags/python/"/>
+      <category term="python" scheme="wangyangang.com/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>初识爬虫</title>
-    <link href="https://wangyangang.github.io/2019/12/08/spider-primary/"/>
-    <id>https://wangyangang.github.io/2019/12/08/spider-primary/</id>
+    <link href="wangyangang.com/2019/12/08/spider-primary/"/>
+    <id>wangyangang.com/2019/12/08/spider-primary/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:02:39.033Z</updated>
     
@@ -501,45 +501,17 @@
     </summary>
     
     
-      <category term="爬虫" scheme="https://wangyangang.github.io/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="wangyangang.com/categories/%E7%88%AC%E8%99%AB/"/>
     
     
-      <category term="爬虫" scheme="https://wangyangang.github.io/tags/%E7%88%AC%E8%99%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>css基础</title>
-    <link href="https://wangyangang.github.io/2019/12/08/css-primary/"/>
-    <id>https://wangyangang.github.io/2019/12/08/css-primary/</id>
-    <published>2019-12-08T04:11:06.000Z</published>
-    <updated>2019-12-08T10:08:30.599Z</updated>
-    
-    <content type="html"><![CDATA[<!-- toc --><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">table</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border-collapse</span>: collapse;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">margin</span>:<span class="number">0</span> auto;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">300px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="selector-tag">td</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">height</span>:<span class="number">50px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">100px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">text-align</span>: center;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr></table></figure><blockquote><p>table设置border-collapse为collapse即可。</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;!-- toc --&gt;
-
-&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;
-      
-    
-    </summary>
-    
-    
-      <category term="css" scheme="https://wangyangang.github.io/categories/css/"/>
-    
-    
-      <category term="css" scheme="https://wangyangang.github.io/tags/css/"/>
+      <category term="爬虫" scheme="wangyangang.com/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
   <entry>
     <title>test</title>
-    <link href="https://wangyangang.github.io/2019/12/08/test/"/>
-    <id>https://wangyangang.github.io/2019/12/08/test/</id>
+    <link href="wangyangang.com/2019/12/08/test/"/>
+    <id>wangyangang.com/2019/12/08/test/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T04:13:53.963Z</updated>
     
@@ -560,9 +532,37 @@
   </entry>
   
   <entry>
+    <title>css基础知识</title>
+    <link href="wangyangang.com/2019/12/08/css-primary/"/>
+    <id>wangyangang.com/2019/12/08/css-primary/</id>
+    <published>2019-12-08T04:11:06.000Z</published>
+    <updated>2019-12-09T03:20:51.032Z</updated>
+    
+    <content type="html"><![CDATA[<!-- toc --><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">table</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border-collapse</span>: collapse;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">margin</span>:<span class="number">0</span> auto;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">300px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="selector-tag">td</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">height</span>:<span class="number">50px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">100px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">text-align</span>: center;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr></table></figure><blockquote><p>table设置border-collapse为collapse即可。</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- toc --&gt;
+
+&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="css" scheme="wangyangang.com/categories/css/"/>
+    
+    
+      <category term="css" scheme="wangyangang.com/tags/css/"/>
+    
+  </entry>
+  
+  <entry>
     <title>django模型models的使用</title>
-    <link href="https://wangyangang.github.io/2019/12/08/django-models/"/>
-    <id>https://wangyangang.github.io/2019/12/08/django-models/</id>
+    <link href="wangyangang.com/2019/12/08/django-models/"/>
+    <id>wangyangang.com/2019/12/08/django-models/</id>
     <published>2019-12-08T04:11:06.000Z</published>
     <updated>2019-12-08T10:07:45.735Z</updated>
     
@@ -580,10 +580,10 @@
     </summary>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/categories/django/"/>
+      <category term="django" scheme="wangyangang.com/categories/django/"/>
     
     
-      <category term="django" scheme="https://wangyangang.github.io/tags/django/"/>
+      <category term="django" scheme="wangyangang.com/tags/django/"/>
     
   </entry>
   

@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
+        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1.三元运算1result = A if B else C  # 如果B成立，则result等于A，否则result等于C\n\n2.ajax基本操作1$.ajax(2    url:'/index/'，3    type:'GET',4    data:&#123;'k1':'v1'&#125;,5    success:function(arg)&#123;6        #   回调函数7    &#125;   #   ajax以GET方式发请求，会自动把data里的数据放到url里；以POST方式发，data会自动放到请求体里8)\n\n\najax发请求(计算两个数字的和)\n\n1&lt;div&gt;2        &lt;input type=\"text\" id=\"i1\" placeholder=\"数字1\"&gt;3        +4        &lt;input type=\"text\" id=\"i2\" placeholder=\"数字2\"&gt;5        &lt;div class=\"btn\" onclick=\"addForm();\"&gt;6            提交7        &lt;/div&gt;89        &lt;input type=\"text\" id=\"i3\" placeholder=\"结果\"&gt;10    &lt;/div&gt;\n\n1function addForm() &#123;2           var v1=$('#i1').val();3           var v2=$('#i2').val();4           $.ajax(&#123;5               url:'/ajax3.html',6               type:'GET',7               data:&#123;'v1':v1,'v2':v2&#125;,8               success:function (arg) &#123;9                  $('#i3').val(arg) # arg就是计算结果10               &#125;11           &#125;)12        &#125;1314def ajax3(request):15    v1 = request.GET.get('v1')16    v2 = request.GET.get('v2')17    try:18        v3 = int(v1)+int(v2)19    except Exception as e:20        v3 = '输入格式错误'21    return HttpResponse(v3) # 把计算结果传给回调函数\n\n\n\n另一个小例子\n\n1&lt;script&gt;2        $(function()&#123;3            bindEvent()4            bindSave()5        &#125;)6        function bindEvent() &#123;7            $('#btnAdd').click(function () &#123;8                $(\"#addModal\").modal('show')9            &#125;)10        &#125;11        function bindSave() &#123;12            $('#btnSave').click(function () &#123;13                let result = &#123;&#125;;14                $('#studentForm').find('input,select').each(function()&#123;15                    let v= $(this).val();16                    let n=$(this).attr('name');17                    if(n=='gender')18                        if($(this).prop('checked'))19                            result[n] = v;20                    &#125; else &#123;21                        result[n]=v;22                    &#125;23                &#125;);24                console.log(result)25                $.ajax(&#123;26                    url:'/add_student/',27                    type:'POST',28                    data:result,29                    success:function (args) &#123;30                        let dict = JSON.parse(args)31                        if(dict.status)&#123;32                            # 通过js主动刷新页面33                            window.location.reload();34                        &#125;else &#123;35                            $('#errorMSG').text(dict.message)36                        &#125;37                    &#125;38                &#125;)39            &#125;)40        &#125;41    &lt;/script&gt;\n\n3.序列化\npython序列化\n\n1字符串 = json.dumps(对象)   对象-&gt;字符串2对象 = json.loads(字符串)   字符串-&gt;对象\n\n\njavascript序列化\n\n1字符串 = JSON.string.ify(对象)   对象-&gt;字符串2对象 = JSON.parse(字符串)   字符串-&gt;对象\n\n4.事件委托1$('要绑定标签的上级标签').on('click','要绑定的标签',function()&#123;&#125;)\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:04:22+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"python基础","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/python-primary/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/python-primary/","keywords":"python"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1.三元运算1result = A if B else C  # 如果B成立，则result等于A，否则result等于C\n\n2.ajax基本操作1$.ajax(2    url:'/index/'，3    type:'GET',4    data:&#123;'k1':'v1'&#125;,5    success:function(arg)&#123;6        #   回调函数7    &#125;   #   ajax以GET方式发请求，会自动把data里的数据放到url里；以POST方式发，data会自动放到请求体里8)\n\n\najax发请求(计算两个数字的和)\n\n1&lt;div&gt;2        &lt;input type=\"text\" id=\"i1\" placeholder=\"数字1\"&gt;3        +4        &lt;input type=\"text\" id=\"i2\" placeholder=\"数字2\"&gt;5        &lt;div class=\"btn\" onclick=\"addForm();\"&gt;6            提交7        &lt;/div&gt;89        &lt;input type=\"text\" id=\"i3\" placeholder=\"结果\"&gt;10    &lt;/div&gt;\n\n1function addForm() &#123;2           var v1=$('#i1').val();3           var v2=$('#i2').val();4           $.ajax(&#123;5               url:'/ajax3.html',6               type:'GET',7               data:&#123;'v1':v1,'v2':v2&#125;,8               success:function (arg) &#123;9                  $('#i3').val(arg) # arg就是计算结果10               &#125;11           &#125;)12        &#125;1314def ajax3(request):15    v1 = request.GET.get('v1')16    v2 = request.GET.get('v2')17    try:18        v3 = int(v1)+int(v2)19    except Exception as e:20        v3 = '输入格式错误'21    return HttpResponse(v3) # 把计算结果传给回调函数\n\n\n\n另一个小例子\n\n1&lt;script&gt;2        $(function()&#123;3            bindEvent()4            bindSave()5        &#125;)6        function bindEvent() &#123;7            $('#btnAdd').click(function () &#123;8                $(\"#addModal\").modal('show')9            &#125;)10        &#125;11        function bindSave() &#123;12            $('#btnSave').click(function () &#123;13                let result = &#123;&#125;;14                $('#studentForm').find('input,select').each(function()&#123;15                    let v= $(this).val();16                    let n=$(this).attr('name');17                    if(n=='gender')18                        if($(this).prop('checked'))19                            result[n] = v;20                    &#125; else &#123;21                        result[n]=v;22                    &#125;23                &#125;);24                console.log(result)25                $.ajax(&#123;26                    url:'/add_student/',27                    type:'POST',28                    data:result,29                    success:function (args) &#123;30                        let dict = JSON.parse(args)31                        if(dict.status)&#123;32                            # 通过js主动刷新页面33                            window.location.reload();34                        &#125;else &#123;35                            $('#errorMSG').text(dict.message)36                        &#125;37                    &#125;38                &#125;)39            &#125;)40        &#125;41    &lt;/script&gt;\n\n3.序列化\npython序列化\n\n1字符串 = json.dumps(对象)   对象-&gt;字符串2对象 = json.loads(字符串)   字符串-&gt;对象\n\n\njavascript序列化\n\n1字符串 = JSON.string.ify(对象)   对象-&gt;字符串2对象 = JSON.parse(字符串)   字符串-&gt;对象\n\n4.事件委托1$('要绑定标签的上级标签').on('click','要绑定的标签',function()&#123;&#125;)\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:04:22+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"python基础","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/python-primary/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/python-primary/","keywords":"python"}</script>
     <meta name="description" content="1.三元运算1result &#x3D; A if B else C  # 如果B成立，则result等于A，否则result等于C  2.ajax基本操作1$.ajax(2    url:&amp;apos;&#x2F;index&#x2F;&amp;apos;，3    type:&amp;apos;GET&amp;apos;,4    data:&amp;#123;&amp;apos;k1&amp;apos;:&amp;apos;v1&amp;apos;&amp;#125;,5    success:function(arg)&amp;#123;6        #   回调函数7">
 <meta name="keywords" content="python">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="python基础">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;python-primary&#x2F;index.html">
+<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;python-primary&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1.三元运算1result &#x3D; A if B else C  # 如果B成立，则result等于A，否则result等于C  2.ajax基本操作1$.ajax(2    url:&amp;apos;&#x2F;index&#x2F;&amp;apos;，3    type:&amp;apos;GET&amp;apos;,4    data:&amp;#123;&amp;apos;k1&amp;apos;:&amp;apos;v1&amp;apos;&amp;#125;,5    success:function(arg)&amp;#123;6        #   回调函数7">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
     
     
     
@@ -360,9 +360,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/index/"
-                    data-tooltip="index"
-                    aria-label="PREVIOUS: index"
+                    href="/2019/12/08/mysql-primary/"
+                    data-tooltip="mysql基础知识"
+                    aria-label="PREVIOUS: mysql基础知识"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -401,7 +401,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/python-primary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/python-primary/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -414,7 +414,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/python-primary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/python-primary/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -427,7 +427,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/python-primary/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/python-primary/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -489,9 +489,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/index/"
-                    data-tooltip="index"
-                    aria-label="PREVIOUS: index"
+                    href="/2019/12/08/mysql-primary/"
+                    data-tooltip="mysql基础知识"
+                    aria-label="PREVIOUS: mysql基础知识"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -530,7 +530,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/python-primary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/python-primary/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -543,7 +543,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/python-primary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/python-primary/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -556,7 +556,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/python-primary/"
+                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/python-primary/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -600,7 +600,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/python-primary/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/python-primary/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -613,7 +613,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/python-primary/"
+                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/python-primary/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -626,7 +626,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/python-primary/"
+                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/python-primary/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -691,7 +691,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://wangyangang.github.io/2019/12/08/python-primary/';
+            this.page.url = 'wangyangang.com/2019/12/08/python-primary/';
               
             this.page.identifier = '2019/12/08/python-primary/';
               
