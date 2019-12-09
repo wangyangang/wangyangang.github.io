@@ -279,71 +279,6 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/mysql-primary/"
-                            aria-label=": mysql基础知识"
-                        >
-                            mysql基础知识
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/mysql/">mysql</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1>
-
-<ul>
-<li>查看mysql数据库日志<br>查看mysql数据库日志可以查看对数据库的操作记录。 mysql日志文件默认没有产生，需要做如下配置：<br><code>sudo vi /etc/mysql/mysql.conf.d/mysqld.conf</code><br><img src="%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE.png" alt=""><br>把68，69行前面的#去除，然后保存并使用如下命令重启mysql服务。<br><code>sudo service mysql restart</code><br>使用如下命令打开mysql日志文件。<br><code>sudo tail -f /var/log/mysql/mysql.log #可以实时查看数据库的日志内容</code><blockquote>
-<p>适用于ubuntu</p>
-</blockquote>
-</li>
-</ul>
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/mysql-primary/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
                             href="/2019/12/08/python-primary/"
                             aria-label=": python基础"
                         >
@@ -509,7 +444,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -517,10 +452,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/css-primary/"
-                            aria-label=": css基础知识"
+                            href="/2019/12/08/django-admin/"
+                            aria-label=": django-admin的使用"
                         >
-                            css基础知识
+                            django-admin的使用
                         </a>
                     
                 </h1>
@@ -533,7 +468,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/css/">css</a>
+    <a class="category-link" href="/categories/django/">django</a>
 
 
     
@@ -541,30 +476,17 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">table</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border-collapse</span>: collapse;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">margin</span>:<span class="number">0</span> auto;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">300px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="selector-tag">td</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">height</span>:<span class="number">50px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">100px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">text-align</span>: center;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>table设置border-collapse为collapse即可。</p>
-</blockquote>
+                <div class="postShorten-excerpt">
+                    <p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p>
                     
+                        <a
+                            href="/2019/12/08/django-admin/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": django-admin的使用"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/css-primary/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
