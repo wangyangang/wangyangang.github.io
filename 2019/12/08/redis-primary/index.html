@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="WYG">
-    <title>django的安装和使用 - WYG</title>
+    <title>redis的数据类型和基本命令 - WYG</title>
     <meta name="author" content="王延刚">
     
-        <meta name="keywords" content="hexo,javascript,django,admin,python,virtualenv,虚拟环境">
+        <meta name="keywords" content="hexo,javascript,">
     
     
         <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
@@ -17,19 +17,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n虚拟环境的搭建\n为什么需要虚拟环境？django是一个用来开发python网站的框架。因为在开发过程中要用到很多的python包，而python包和django框架本身以来特定的python版本的，当系统的python版本改变的时候，对应的python包和django框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装django和python包来工作。（虚拟环境还能方便的管理项目依赖的python包）\n\n安装虚拟环境1sudo pip install virtualenv\n\n安装虚拟环境扩展包1sudo pip3 install virtualenvwrapper\n\n安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境\n配置虚拟环境修改用户家目录下的配置文件.bashrc，添加如下内容：\n1export WORKON_HOME=$HOME/.virtualenvs2source /usr/local/bin/virtualenvwrapper.sh\n\n使用source .bashrc命令使配置文件生效。创建python3虚拟环境的命令如下：\n1mkvirtualenv -p python3 虚拟环境名称2# 例如：3mkvirtualenv -p python3 test14# 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境\n\n查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键\n使用某个虚拟环境的命令如下：\n1workon 虚拟环境名称2例如：3workon test1\n\n删除虚拟环境，需要先退出再删除\n\n退出：\n\n1deactivate\n\n\n删除：\n\n1rmvirtualenv test1\n\n\n在虚拟环境中安装python包\n\n1pip install 包名称\n\n\n注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里\n\n\n安装django\n\n1pip3 install django\n\n创建django项目终端创建django项目\n创建django项目\n\n1django-admin startproject 项目名\n\n\n创建应用\n\n1python3 manage.py startapp app名\n\n\n注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里\n\n\n启动django开发服务器\n\n1python3 manage.py runserver\n\npycharm创建django项目新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T22:06:35+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。","headline":"django的安装和使用","image":["django.jpeg"],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-primary/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-primary/","keywords":"django","thumbnailUrl":"django.jpeg"}</script>
-    <meta name="description" content="Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。">
-<meta name="keywords" content="django,admin,python,virtualenv,虚拟环境">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n\nredis命令是原子操作，不会出现竟态。只能是字符串。不支持数据类型嵌套。\nredis数据类型：string，list，set，zset（有序集合），hash（散列）。用 type key 可以获取键值的数据类型。\nRedis的列表类型可以用来实现队列，并且支持阻塞式读取，可以很容易的实现一个高性能的优先级队列。同时在更高层面上，redis还支持发布/订阅的消息模式，可以基于此构建聊天室等系统。\nredis批量删除\n判断键是否存在：exists key\n\n\n数据类型\n字符串类型：Redis中最基本的数据类型，它能存储任何格式的字符串，包括二进制数据。可以存邮箱、json化的对象甚至是一张图片。一个字符串最大容量512MB。\n基本用法：SET key value，GET key\n递增数字：当存储的字符串是整数时，用INCR，让当前键值递增，返回递增后的值:INCR num ,返回1；INCR num，返回2.不是整数会报错。\n增加指定的整数：INCRBY key increment，与INCR不同的是，可以通过increment指定增加的数值。INCRBY bar 2，返回2；INCRBY bar 3，返回5.\n减少指定的整数：DECR key；DECRBY key decrement。\n增加指定浮点数：INCRBYFLOAT key increment. INCRBYFLOAT bar 2.7;INCRBYFLOAT bar 5E+4. increment可为负数.\n向尾部追加值：APPEND key value.不存在则设为value。返回值是追加后字符串总长度。SET key hello;APPEND key ‘ world!’.\n获取字符串长度：STRLEN key.键不存在返回0.\n同时设置/获取多个键值：MSET key value [key value…];MGET key [key…]\n位操作\n\n\n散列类型（hash）\n基本用法：HSET key field value;HGET key field;HMSET key field value [field value…];HMGET key field [field…];HGETALL key\n判断字段是否存在:HEXISTS key field\n当字段不存在时赋值：HSETNX key field value.与HSET的区别是如果字段已存在，HSETNX命令将不执行任何操作。\n增加数字：HINCRBY key field increment:hash类型没有HINCR命令，可以通过HINCRBY key field 1来实现。\n删除字段：HDEL key field [field…]\n只获取字段名或字段值：HKEYS key;HKEYS key\n获取字段数量：HLEN key\n\n\n列表类型(list):有序、不唯一。内部是使用双向链表实现的，所以向列表两端添加元素的时间复杂度为O(1)，获取越接近两端的元素速度就越快。借助列表类型，Redis还可以作为队列使用。最多容纳2^32-1个元素\n向列表两端增加元素：LPUSH key value;RPUSH key value\n从列表两端弹出元素：LPOP key;RPPO key\n获取列表中元素的个数：LLEN key：时间复杂度O(1)，是直接读取现成的值，不需要遍历再统计数量\n获取列表片段：LRANGE key start stop:支持负索引。取的值包括起始元素和结束元素。起始索引为0。如LRANGE numbers 0 2;LRANGE numbers -2 -1。LRANGE numbers 0 -1,可以返回所有。\n如果start的索引位置比stop位置靠后，则会返回空列表\n如果stop大于实际的索引范围，则会返回列表最后遍的元素\n\n\n删除列表中指定的值：LREM key count value:删除列表中前count个值为value的元素，返回值是实际删除的元素个数\n当count&gt;0时，LREM从列表的左边开始删除前count个值为value的元素\n当count&lt;0时，LREM从列表的右边开始删除前|cout|个值为value的元素\n当count=0时，LREM删除所有值为value的元素\n\n\n获取/设置指定索引的元素值：index为负，表示从右边计算的索引。\n获取：LINDEX key index\n设置：LSET key index value\n\n\n只保留列表指定片段：LTRIM key start end。eg：LTRIM numbers 1 2\n向列表中插入元素：LINSERT key BEFORE/AFTER pivot value.LINSERT命令首先会从列表中从左向右查找值为pivot的元素，然后根据第二个参数是BEFORE还是AFTER来决定将value插入到该元素的前面还是后面。\n将元素从一个列表转到另一个列表：RPOPLPUSH source destination.RPOPLPUSH是一个很有意思的命令，从名字就可以看出他的功能：先执行RPOP命令再执行LPUSH命令。RPOPLPUSH命令会先从source列表的右边弹出一个元素，然后将其加入到destination列表列表类型键的左边，并返回这个元素的值，整个过程是原子的。\n当把列表类型作为队列使用时，RPOPLPUSH命令可以很直观的在多个队列中传递数据。当source和destination相同时，RPOPLPUSH命令会不断地将队尾的元素移到队首，借助这个特性我们可以实现一个网站监控系统：使用一个队列存储需要监控的网址，然后监控程序不断地使用RPOPLPUSH命令循环取出一个网址来测试可用性。这里使用RPOPLPUSH命令的好处在于在程序执行过程中仍然可以不断地向网址列表中加入新网址，并且整个系统容易扩展，允许多个客户端同时处理队列。\n\n\n\n\n集合类型(set)：无序、唯一。内部是使用值为空的散列表（hash table）实现的。\n增加、删除元素：SADD key member [number…];SREM key member [member…]\n获取集合中所有元素：SMEMBERS key\n判断元素是否在集合中：SISMEMBER key member\n集合间运算：\nSDIFF key [key …]:差集。SDIFF s1 s2，表示s1-s2，即属于s1不属于s2的元素。可传入多个key：SDIFF s1 s2 s3,先计算s1-s2，用s1-s2的结果去减s3\nSINTER key [key…]：交集。也支持传多个key\nSUNION key [key…]:并集。也支持传多个key\n\n\n获取集合中元素的个数：SCARD key\n进行集合运算并将结果存储：\nSDIFFSTORE destination key [key…]把SDIFF的运算结果存在key中\nSINTERSTORE destination key [key…]\nSUNIONSTORE destination key [key…]\n\n\n随机获得集合中的元素：SRANDMEMBER key [count]:\n没有count表示从集合中随机获取一个元素\ncount为正，从集合中随机选取count个不重复的元素。如果count大于集合的个数，则返回集合中的全部元素\ncount为负，从集合中随机选取|count|个元素，这些元素可能重复。\n\n\n从集合中弹出一个元素：SPOP key\n\n\n有序集合（sorted set）：为集合中的每个元素都关联了一个分数，可以获得分数最高或最低的前N个元素、获得指定分数范围内的元素等。它与列表有很大不同：\n列表是通过链表实现的，获取靠近两端的数据速度极快，当元素增多后获取中间位置的元素的速度会变慢，所以它更适合实现如’新鲜事’或’日志’这样很少访问中间元素的应用。\n有序集合类型是使用散列表和跳跃表（skip list）实现的，即使读取位于中间位置的元素的速度也极快（时间复杂度是O(log(N))）\n列表中不能简单地调整某个元素的位置，但是有序集合可以（通过更改这个元素的分数）\n有序集合要比列表更耗费内存\n1.增加元素：ZADD key score member [score member…].分数不仅可以是整数，还支持双精度浮点数：ZADD testboard 17E+307 a; ZADD testboard 1.5 b; ZADD testboard +inf c; ZADD testboard -inf d;其中+inf和-inf分别表示正无穷和负无穷。\n2.获取元素的分数：ZSCORE key member\n3.获得排名在某个范围内的元素列表：\nZRANGE key start stop [WITHSCORES];ZREVRANGE key start stop [WITHSCORES].\nZRANGE scoreboard 0 2.\nZRANGE scoreboard 0 2 WITHSCORES:返回0-2的元素和元素的分数。\n\n\nZREVRANGE key start stop [WITHSCORES]:按照元素分数从大到小给出结果。\n\n\n4.获得指定分数范围的元素：\nZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]\nEg:ZRANGEBYSCORE scoreboard 80 100,按照元素分数从小到大的顺序返回分数在80-100之间的元素（包含80和100）\n如果希望分数不包含端点可以在分数前加上’(’符号：ZRANGEBYSCORE scoreboard 80 (100\nmax和min还支持无穷大和无穷小，用+inf和-info表示\nEg:ZRANGEBYSCORE scoreboard 60 +inf LIMIT 1 3:获取分数大于60的从第二个人开始的三个人\n\n\nZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset cout]:从大到小，max在前min在后\n\n\n5.增加某个元素的分数：ZINCRBY key increment member Eg:给Jerry加4分：ZINCRBY scoreboard 4 Jerry\n6.获得集合中元素的数量：ZCARD key\n7.获得指定分数范围内的元素个数：ZCOUNT key min max\n8.删除一个或多个元素：ZREM key member [member…]\n9.按照排名范围删除元素：ZREMRANGEBYRANK key start stop\n10.按照分数范围删除元素：ZREMRANGEBYSCORE key min max\n11.获得元素的排名：ZRANK key member;ZREVRANK key member\n12.计算有序集合的交集、并集、补集：ZINTERSCORE destination numkeys key [key…] [WEIGHTS weight [weight…]] [AGGREGATE SUM|MIN|MAX]\n\n\n\nSORT命令SORT是Redis中最强大最复杂的命令之一，如果使用不好很容易成为性能瓶颈。SORT命令的时间复杂度为O(n+mlogm)，其中n表示要排序的列表（集合或有序集合）中的元素个数，m表示要返回的元素个数。当n较大的时候SORT命令的性能相对较低，并且Redis在排序前会建立一个长度为n的容器来存储待排序的元素，虽然是一个临时的过程，但如果同时进行较多的大数据量排序操作则会严重影响性能。所以在开发中使用SORT命令需要注意一下几点：        1. 尽可能减少待排序键中元素的数量（使n尽可能小）        2. 使用LIMIT参数只获取需要的数据（使m尽可能小）        3. 如果要排序的数据数量较大，尽可能使用STORE参数将结果缓存    1. 对列表类型、集合类型和有序集合类型键进行排序（键必须能转为double类型，string类型不行）,对有序集合排序忽略分数，只对值排序。    2. 加上ALPHA参数，就可以对非数字元素进行排序。如s1为c a b，EG:sort s1=&gt; a,b,c    3. 加上DESC参数可从大到小排序    4. 支持分页：LIMIT offset count    5. BY参数：按什么进行排序。BY 参考键，参考键可以使字符串类型键或者散列类型键的某个字段        1. 根据散列类型的某个字段：SORT tag:ruby:posts BY post:-&gt;time DESC ：读取post:2,post:3,post:6等散列键中的time字段并以此决定tag:ruby:posts的排列顺序        2. 根据字符串类型：SORT sortbylist BY itemscore: DESC ：根据键为itemscore:匹配的几个键的值来排序sortbylist    6. GET参数：使SORT命令的返回结果不再是元素自身的值，而是GET参数中指定的键值。GET参数也支持字符串类型和散列类型的键，使用*作为占位符。如：SORT tag:ruby:posts BY post:-&gt;time DESC GET post:*-&gt;title. 可以写多个GET参数。 GET # 会返回元素本身的值。    7. STORE参数：STORE key，把排序结果保存到key中。key为列表类型。\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-10T00:22:13+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"redis的数据类型和基本命令","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/redis-primary/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/redis-primary/","keywords":"redis, 数据库"}</script>
+    <meta name="description" content="redis命令是原子操作，不会出现竟态。只能是字符串。不支持数据类型嵌套。 redis数据类型：string，list，set，zset（有序集合），hash（散列）。用 type key 可以获取键值的数据类型。 Redis的列表类型可以用来实现队列，并且支持阻塞式读取，可以很容易的实现一个高性能的优先级队列。同时在更高层面上，redis还支持发布&#x2F;订阅的消息模式，可以基于此构建聊天室等">
+<meta name="keywords" content="redis,数据库">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="django的安装和使用">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-primary&#x2F;index.html">
+<meta property="og:title" content="redis的数据类型和基本命令">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;redis-primary&#x2F;index.html">
 <meta property="og:site_name" content="WYG">
-<meta property="og:description" content="Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。">
+<meta property="og:description" content="redis命令是原子操作，不会出现竟态。只能是字符串。不支持数据类型嵌套。 redis数据类型：string，list，set，zset（有序集合），hash（散列）。用 type key 可以获取键值的数据类型。 Redis的列表类型可以用来实现队列，并且支持阻塞式读取，可以很容易的实现一个高性能的优先级队列。同时在更高层面上，redis还支持发布&#x2F;订阅的消息模式，可以基于此构建聊天室等">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-primary&#x2F;1.png">
-<meta property="og:updated_time" content="2019-12-09T14:06:35.347Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;redis-primary&#x2F;redis-batch-delete.jpg">
+<meta property="og:updated_time" content="2019-12-09T16:22:13.178Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-primary&#x2F;1.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;redis-primary&#x2F;redis-batch-delete.jpg">
 <meta name="twitter:creator" content="@yangangwang">
     
     
@@ -38,9 +38,6 @@
     
         <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
-    
-        <meta property="og:image" content="https://wangyangang.github.io/2019/12/08/django-primary/django.jpeg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://wangyangang.github.io/2019/12/08/django-primary/django.jpeg"/>
     
     
     
@@ -246,16 +243,16 @@
             
             <div id="main" data-behavior="4"
                  class="
-                        hasCoverMetaOut
+                        hasCoverMetaIn
                         ">
                 
 <article class="post">
     
     
-        <div class="post-header main-content-wrap text-center">
+        <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            django的安装和使用
+            redis的数据类型和基本命令
         </h1>
     
     
@@ -268,7 +265,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/django/">django</a>
+    <a class="category-link" href="/categories/redis/">redis</a>, <a class="category-link" href="/categories/redis/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
 
 
     
@@ -280,70 +277,134 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <!-- excerpt -->
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟环境的搭建"><span class="toc-text">虚拟环境的搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装虚拟环境"><span class="toc-text">安装虚拟环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装虚拟环境扩展包"><span class="toc-text">安装虚拟环境扩展包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置虚拟环境"><span class="toc-text">配置虚拟环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建django项目"><span class="toc-text">创建django项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#终端创建django项目"><span class="toc-text">终端创建django项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pycharm创建django项目"><span class="toc-text">pycharm创建django项目</span></a></li></ol></li></ol>
-
-<h2 id="虚拟环境的搭建"><a href="#虚拟环境的搭建" class="headerlink" title="虚拟环境的搭建"></a>虚拟环境的搭建</h2><blockquote>
-<p>为什么需要虚拟环境？<br><code>django</code>是一个用来开发<code>python</code>网站的框架。因为在开发过程中要用到很多的<code>python</code>包，而<code>python</code>包和<code>django</code>框架本身以来特定的<code>python</code>版本的，当系统的<code>python</code>版本改变的时候，对应的<code>python</code>包和<code>django</code>框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装<code>django</code>和python包来工作。（虚拟环境还能方便的管理项目依赖的<code>python</code>包）</p>
-</blockquote>
-<h3 id="安装虚拟环境"><a href="#安装虚拟环境" class="headerlink" title="安装虚拟环境"></a>安装虚拟环境</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo pip install virtualenv</span></pre></td></tr></table></figure>
-
-<h3 id="安装虚拟环境扩展包"><a href="#安装虚拟环境扩展包" class="headerlink" title="安装虚拟环境扩展包"></a>安装虚拟环境扩展包</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo pip3 install virtualenvwrapper</span></pre></td></tr></table></figure>
-
-<p>安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境</p>
-<h3 id="配置虚拟环境"><a href="#配置虚拟环境" class="headerlink" title="配置虚拟环境"></a>配置虚拟环境</h3><p>修改用户家目录下的配置文件.bashrc，添加如下内容：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">export WORKON_HOME=$HOME/.virtualenvs</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">source /usr/local/bin/virtualenvwrapper.sh</span></pre></td></tr></table></figure>
-
-<p>使用<code>source .bashrc</code>命令使配置文件生效。<br>创建python3虚拟环境的命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mkvirtualenv -p python3 虚拟环境名称</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 例如：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">mkvirtualenv -p python3 test1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境</span></span></pre></td></tr></table></figure>
-
-<p>查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键<br><img src="1.png" alt="1.png"></p>
-<p>使用某个虚拟环境的命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">workon 虚拟环境名称</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">例如：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">workon test1</span></pre></td></tr></table></figure>
-
-<p>删除虚拟环境，需要先退出再删除</p>
-<ul>
-<li>退出：</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">deactivate</span></pre></td></tr></table></figure>
+            <a id="more"></a>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SORT命令"><span class="toc-text">SORT命令</span></a></li></ol>
 
 <ul>
-<li>删除：</li>
+<li>redis命令是原子操作，不会出现竟态。只能是字符串。不支持数据类型嵌套。</li>
+<li>redis数据类型：string，list，set，zset（有序集合），hash（散列）。用 type key 可以获取键值的数据类型。</li>
+<li>Redis的列表类型可以用来实现队列，并且支持阻塞式读取，可以很容易的实现一个高性能的优先级队列。同时在更高层面上，redis还支持发布/订阅的消息模式，可以基于此构建聊天室等系统。</li>
+<li>redis批量删除<br><img src="redis-batch-delete.jpg" alt="redis批量删除"></li>
+<li>判断键是否存在：exists key</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">rmvirtualenv test1</span></pre></td></tr></table></figure>
-
-<ul>
-<li>在虚拟环境中安装python包</li>
+<hr>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><ol>
+<li>字符串类型：Redis中最基本的数据类型，它能存储任何格式的字符串，包括二进制数据。可以存邮箱、json化的对象甚至是一张图片。一个字符串最大容量512MB。<ol>
+<li>基本用法：SET key value，GET key</li>
+<li>递增数字：当存储的字符串是整数时，用INCR，让当前键值递增，返回递增后的值:INCR num ,返回1；INCR num，返回2.不是整数会报错。</li>
+<li>增加指定的整数：INCRBY key increment，与INCR不同的是，可以通过increment指定增加的数值。INCRBY bar 2，返回2；INCRBY bar 3，返回5.</li>
+<li>减少指定的整数：DECR key；DECRBY key decrement。</li>
+<li>增加指定浮点数：INCRBYFLOAT key increment. INCRBYFLOAT bar 2.7;INCRBYFLOAT bar 5E+4. increment可为负数.</li>
+<li>向尾部追加值：APPEND key value.不存在则设为value。返回值是追加后字符串总长度。SET key hello;APPEND key ‘ world!’.</li>
+<li>获取字符串长度：STRLEN key.键不存在返回0.</li>
+<li>同时设置/获取多个键值：MSET key value [key value…];MGET key [key…]</li>
+<li>位操作</li>
+</ol>
+</li>
+<li>散列类型（hash）<ol>
+<li>基本用法：HSET key field value;HGET key field;HMSET key field value [field value…];HMGET key field [field…];HGETALL key</li>
+<li>判断字段是否存在:HEXISTS key field</li>
+<li>当字段不存在时赋值：HSETNX key field value.与HSET的区别是如果字段已存在，HSETNX命令将不执行任何操作。</li>
+<li>增加数字：HINCRBY key field increment:hash类型没有HINCR命令，可以通过HINCRBY key field 1来实现。</li>
+<li>删除字段：HDEL key field [field…]</li>
+<li>只获取字段名或字段值：HKEYS key;HKEYS key</li>
+<li>获取字段数量：HLEN key</li>
+</ol>
+</li>
+<li>列表类型(list):有序、不唯一。内部是使用双向链表实现的，所以向列表两端添加元素的时间复杂度为O(1)，获取越接近两端的元素速度就越快。借助列表类型，Redis还可以作为队列使用。最多容纳2^32-1个元素<ol>
+<li>向列表两端增加元素：LPUSH key value;RPUSH key value</li>
+<li>从列表两端弹出元素：LPOP key;RPPO key</li>
+<li>获取列表中元素的个数：LLEN key：时间复杂度O(1)，是直接读取现成的值，不需要遍历再统计数量</li>
+<li>获取列表片段：LRANGE key start stop:支持负索引。取的值包括起始元素和结束元素。起始索引为0。如LRANGE numbers 0 2;LRANGE numbers -2 -1。LRANGE numbers 0 -1,可以返回所有。<ol>
+<li>如果start的索引位置比stop位置靠后，则会返回空列表</li>
+<li>如果stop大于实际的索引范围，则会返回列表最后遍的元素</li>
+</ol>
+</li>
+<li>删除列表中指定的值：LREM key count value:删除列表中前count个值为value的元素，返回值是实际删除的元素个数<ol>
+<li>当count&gt;0时，LREM从列表的左边开始删除前count个值为value的元素</li>
+<li>当count&lt;0时，LREM从列表的右边开始删除前|cout|个值为value的元素</li>
+<li>当count=0时，LREM删除所有值为value的元素</li>
+</ol>
+</li>
+<li>获取/设置指定索引的元素值：index为负，表示从右边计算的索引。<ol>
+<li>获取：LINDEX key index</li>
+<li>设置：LSET key index value</li>
+</ol>
+</li>
+<li>只保留列表指定片段：LTRIM key start end。eg：LTRIM numbers 1 2</li>
+<li>向列表中插入元素：LINSERT key BEFORE/AFTER pivot value.LINSERT命令首先会从列表中从左向右查找值为pivot的元素，然后根据第二个参数是BEFORE还是AFTER来决定将value插入到该元素的前面还是后面。<ol>
+<li>将元素从一个列表转到另一个列表：RPOPLPUSH source destination.RPOPLPUSH是一个很有意思的命令，从名字就可以看出他的功能：先执行RPOP命令再执行LPUSH命令。RPOPLPUSH命令会先从source列表的右边弹出一个元素，然后将其加入到destination列表列表类型键的左边，并返回这个元素的值，整个过程是原子的。</li>
+<li>当把列表类型作为队列使用时，RPOPLPUSH命令可以很直观的在多个队列中传递数据。当source和destination相同时，RPOPLPUSH命令会不断地将队尾的元素移到队首，借助这个特性我们可以实现一个网站监控系统：使用一个队列存储需要监控的网址，然后监控程序不断地使用RPOPLPUSH命令循环取出一个网址来测试可用性。这里使用RPOPLPUSH命令的好处在于在程序执行过程中仍然可以不断地向网址列表中加入新网址，并且整个系统容易扩展，允许多个客户端同时处理队列。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>集合类型(set)：无序、唯一。内部是使用值为空的散列表（hash table）实现的。<ol>
+<li>增加、删除元素：SADD key member [number…];SREM key member [member…]</li>
+<li>获取集合中所有元素：SMEMBERS key</li>
+<li>判断元素是否在集合中：SISMEMBER key member</li>
+<li>集合间运算：<ol>
+<li>SDIFF key [key …]:差集。SDIFF s1 s2，表示s1-s2，即属于s1不属于s2的元素。可传入多个key：SDIFF s1 s2 s3,先计算s1-s2，用s1-s2的结果去减s3</li>
+<li>SINTER key [key…]：交集。也支持传多个key</li>
+<li>SUNION key [key…]:并集。也支持传多个key</li>
+</ol>
+</li>
+<li>获取集合中元素的个数：SCARD key</li>
+<li>进行集合运算并将结果存储：<ol>
+<li>SDIFFSTORE destination key [key…]把SDIFF的运算结果存在key中</li>
+<li>SINTERSTORE destination key [key…]</li>
+<li>SUNIONSTORE destination key [key…]</li>
+</ol>
+</li>
+<li>随机获得集合中的元素：SRANDMEMBER key [count]:<ol>
+<li>没有count表示从集合中随机获取一个元素</li>
+<li>count为正，从集合中随机选取count个不重复的元素。如果count大于集合的个数，则返回集合中的全部元素</li>
+<li>count为负，从集合中随机选取|count|个元素，这些元素可能重复。</li>
+</ol>
+</li>
+<li>从集合中弹出一个元素：SPOP key</li>
+</ol>
+</li>
+<li>有序集合（sorted set）：为集合中的每个元素都关联了一个分数，可以获得分数最高或最低的前N个元素、获得指定分数范围内的元素等。它与列表有很大不同：<ul>
+<li>列表是通过链表实现的，获取靠近两端的数据速度极快，当元素增多后获取中间位置的元素的速度会变慢，所以它更适合实现如’新鲜事’或’日志’这样很少访问中间元素的应用。</li>
+<li>有序集合类型是使用散列表和跳跃表（skip list）实现的，即使读取位于中间位置的元素的速度也极快（时间复杂度是O(log(N))）</li>
+<li>列表中不能简单地调整某个元素的位置，但是有序集合可以（通过更改这个元素的分数）</li>
+<li>有序集合要比列表更耗费内存</li>
+<li>1.增加元素：ZADD key score member [score member…].分数不仅可以是整数，还支持双精度浮点数：ZADD testboard 17E+307 a; ZADD testboard 1.5 b; ZADD testboard +inf c; ZADD testboard -inf d;其中+inf和-inf分别表示正无穷和负无穷。</li>
+<li>2.获取元素的分数：ZSCORE key member</li>
+<li>3.获得排名在某个范围内的元素列表：<ul>
+<li>ZRANGE key start stop [WITHSCORES];ZREVRANGE key start stop [WITHSCORES].<ul>
+<li>ZRANGE scoreboard 0 2.</li>
+<li>ZRANGE scoreboard 0 2 WITHSCORES:返回0-2的元素和元素的分数。</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pip install 包名称</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里</p>
-</blockquote>
-<ul>
-<li>安装django</li>
+</li>
+<li>ZREVRANGE key start stop [WITHSCORES]:按照元素分数从大到小给出结果。</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pip3 install django</span></pre></td></tr></table></figure>
-
-<h2 id="创建django项目"><a href="#创建django项目" class="headerlink" title="创建django项目"></a>创建django项目</h2><h3 id="终端创建django项目"><a href="#终端创建django项目" class="headerlink" title="终端创建django项目"></a>终端创建django项目</h3><ul>
-<li>创建django项目</li>
+</li>
+<li>4.获得指定分数范围的元素：<ul>
+<li>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]<ul>
+<li>Eg:ZRANGEBYSCORE scoreboard 80 100,按照元素分数从小到大的顺序返回分数在80-100之间的元素（包含80和100）</li>
+<li>如果希望分数不包含端点可以在分数前加上’(’符号：ZRANGEBYSCORE scoreboard 80 (100</li>
+<li>max和min还支持无穷大和无穷小，用+inf和-info表示</li>
+<li>Eg:ZRANGEBYSCORE scoreboard 60 +inf LIMIT 1 3:获取分数大于60的从第二个人开始的三个人</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">django-admin startproject 项目名</span></pre></td></tr></table></figure>
-
-<ul>
-<li>创建应用</li>
+</li>
+<li>ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset cout]:从大到小，max在前min在后</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py startapp app名</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里</p>
-</blockquote>
-<ul>
-<li>启动django开发服务器</li>
+</li>
+<li>5.增加某个元素的分数：ZINCRBY key increment member Eg:给Jerry加4分：ZINCRBY scoreboard 4 Jerry</li>
+<li>6.获得集合中元素的数量：ZCARD key</li>
+<li>7.获得指定分数范围内的元素个数：ZCOUNT key min max</li>
+<li>8.删除一个或多个元素：ZREM key member [member…]</li>
+<li>9.按照排名范围删除元素：ZREMRANGEBYRANK key start stop</li>
+<li>10.按照分数范围删除元素：ZREMRANGEBYSCORE key min max</li>
+<li>11.获得元素的排名：ZRANK key member;ZREVRANK key member</li>
+<li>12.计算有序集合的交集、并集、补集：ZINTERSCORE destination numkeys key [key…] [WEIGHTS weight [weight…]] [AGGREGATE SUM|MIN|MAX]</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py runserver</span></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="SORT命令"><a href="#SORT命令" class="headerlink" title="SORT命令"></a>SORT命令</h2><p>SORT是Redis中最强大最复杂的命令之一，如果使用不好很容易成为性能瓶颈。SORT命令的时间复杂度为O(n+mlogm)，其中n表示要排序的列表（集合或有序集合）中的元素个数，m表示要返回的元素个数。当n较大的时候SORT命令的性能相对较低，并且Redis在排序前会建立一个长度为n的容器来存储待排序的元素，虽然是一个临时的过程，但如果同时进行较多的大数据量排序操作则会严重影响性能。所以在开发中使用SORT命令需要注意一下几点：<br>        1. 尽可能减少待排序键中元素的数量（使n尽可能小）<br>        2. 使用LIMIT参数只获取需要的数据（使m尽可能小）<br>        3. 如果要排序的数据数量较大，尽可能使用STORE参数将结果缓存<br>    1. 对列表类型、集合类型和有序集合类型键进行排序（键必须能转为double类型，string类型不行）,对有序集合排序忽略分数，只对值排序。<br>    2. 加上ALPHA参数，就可以对非数字元素进行排序。如s1为c a b，EG:sort s1=&gt; a,b,c<br>    3. 加上DESC参数可从大到小排序<br>    4. 支持分页：LIMIT offset count<br>    5. BY参数：按什么进行排序。BY 参考键，参考键可以使字符串类型键或者散列类型键的某个字段<br>        1. 根据散列类型的某个字段：SORT tag:ruby:posts BY post:<em>-&gt;time DESC ：读取post:2,post:3,post:6等散列键中的time字段并以此决定tag:ruby:posts的排列顺序<br>        2. 根据字符串类型：SORT sortbylist BY itemscore:</em> DESC ：根据键为itemscore:<em>匹配的几个键的值来排序sortbylist<br>    6. GET参数：使SORT命令的返回结果不再是元素自身的值，而是GET参数中指定的键值。GET参数也支持字符串类型和散列类型的键，使用*作为占位符。如：SORT tag:ruby:posts BY post:</em>-&gt;time DESC GET post:*-&gt;title. 可以写多个GET参数。 GET # 会返回元素本身的值。<br>    7. STORE参数：STORE key，把排序结果保存到key中。key为列表类型。</p>
 
-<h3 id="pycharm创建django项目"><a href="#pycharm创建django项目" class="headerlink" title="pycharm创建django项目"></a>pycharm创建django项目</h3><p>新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）</p>
             
 
 
@@ -354,7 +415,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/redis/" rel="tag">redis</a> <a class="tag tag--primary tag--small t-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
 
             </div>
         
@@ -367,9 +428,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/mysql-primary/"
-                    data-tooltip="mysql基础知识"
-                    aria-label="PREVIOUS: mysql基础知识"
+                    href="/2019/12/08/docker/"
+                    data-tooltip="docker基本操作"
+                    aria-label="PREVIOUS: docker基本操作"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -381,9 +442,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-form-component/"
-                    data-tooltip="django form 组件"
-                    aria-label="NEXT: django form 组件"
+                    href="/2019/12/08/kubernetes/"
+                    data-tooltip="kubernetes"
+                    aria-label="NEXT: kubernetes"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -408,7 +469,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-primary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/redis-primary/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -421,7 +482,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-primary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/redis-primary/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -434,7 +495,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-primary/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/redis-primary/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -496,9 +557,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/mysql-primary/"
-                    data-tooltip="mysql基础知识"
-                    aria-label="PREVIOUS: mysql基础知识"
+                    href="/2019/12/08/docker/"
+                    data-tooltip="docker基本操作"
+                    aria-label="PREVIOUS: docker基本操作"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -510,9 +571,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-form-component/"
-                    data-tooltip="django form 组件"
-                    aria-label="NEXT: django form 组件"
+                    href="/2019/12/08/kubernetes/"
+                    data-tooltip="kubernetes"
+                    aria-label="NEXT: kubernetes"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -537,7 +598,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-primary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/redis-primary/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -550,7 +611,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-primary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/redis-primary/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -563,7 +624,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-primary/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/redis-primary/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -607,7 +668,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-primary/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/redis-primary/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -620,7 +681,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-primary/"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/redis-primary/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -633,7 +694,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-primary/"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/redis-primary/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -991,9 +1052,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-primary/';
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/redis-primary/';
               
-            this.page.identifier = '2019/12/08/django-primary/';
+            this.page.identifier = '2019/12/08/redis-primary/';
               
           };
           (function() {
