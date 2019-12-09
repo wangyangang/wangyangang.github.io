@@ -1023,8 +1023,18 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-top">
         <div class="postShorten-wrap">
+            
+                <a
+                    href="/2019/12/08/django-primary/"
+                    aria-label=": django基础1"
+                >
+                    <div class="postShorten-thumbnailimg">
+                        <img alt="" src="https://wangyangang.github.io/2019/12/08/django-primary/django.png"/>
+                    </div>
+                </a>
+                
             
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
@@ -1055,89 +1065,20 @@
 
             </div>
             
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-虚拟环境的搭建"><span class="toc-text">1.虚拟环境的搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#django基础"><span class="toc-text">django基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-终端创建django项目"><span class="toc-text">1.终端创建django项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pycharm创建django项目"><span class="toc-text">2.pycharm创建django项目</span></a></li></ol></li></ol>
-
-<h2 id="1-虚拟环境的搭建"><a href="#1-虚拟环境的搭建" class="headerlink" title="1.虚拟环境的搭建"></a>1.虚拟环境的搭建</h2><ul>
-<li>为什么需要虚拟环境</li>
-</ul>
-<blockquote>
-<p><code>django</code>是一个用来开发<code>python</code>网站的框架。因为在开发过程中要用到很多的<code>python</code>包，而<code>python</code>包和<code>django</code>框架本身以来特定的<code>python</code>版本的，当系统的<code>python</code>版本改变的时候，对应的<code>python</code>包和<code>django</code>框架可能出现兼容的问题，所以在开发的时候，我们一般会创建一个隔离的python虚拟环境，在虚拟环境里安装<code>django</code>和python包来工作。（虚拟环境还能方便的管理项目依赖的<code>python</code>包）</p>
-</blockquote>
-<ul>
-<li><p>安装虚拟环境</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo pip install virtualenv</span></pre></td></tr></table></figure>
-</li>
-<li><p>安装虚拟环境扩展包</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">sudo pip3 install virtualenvwrapper</span></pre></td></tr></table></figure>
-
-<p>安装虚拟环境扩展包的目的是使用更加简单的命令来管理虚拟环境</p>
-<ul>
-<li>配置虚拟环境<br>修改用户家目录下的配置文件.bashrc，添加如下内容：<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">export WORKON_HOME=$HOME/.virtualenvs</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">source /usr/local/bin/virtualenvwrapper.sh</span></pre></td></tr></table></figure>
-使用<code>source .bashrc</code>命令使配置文件生效。<br>创建python3虚拟环境的命令如下：</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">mkvirtualenv -p python3 虚拟环境名称</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 例如：</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">mkvirtualenv -p python3 test1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 这样就在用户家目录的.virtualenvs目录下创建了一个新的目录test1，test1下保存的就是虚拟环境</span></span></pre></td></tr></table></figure>
-<p>查看当前有哪些虚拟环境，在终端输入workon，然后按3次tab键，或者输入workon加一个空格，然后按两下tab键<br><img src="1.png" alt=""><br>使用某个虚拟环境的命令如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">workon 虚拟环境名称</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">例如：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">workon test1</span></pre></td></tr></table></figure>
-<p>删除虚拟环境，需要先退出再删除</p>
-<ul>
-<li>退出：</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">deactivate</span></pre></td></tr></table></figure>
-<ul>
-<li>删除：</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">rmvirtualenv test1</span></pre></td></tr></table></figure>
-<ul>
-<li>在虚拟环境中安装python包</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pip install 包名称</span></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：在虚拟环境中安装python包不需要用sudo，否则会安装到主机里，而不是虚拟环境里</p>
-</blockquote>
-<ul>
-<li>安装django</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pip3 install django</span></pre></td></tr></table></figure>
-
-<h2 id="django基础"><a href="#django基础" class="headerlink" title="django基础"></a>django基础</h2><h3 id="1-终端创建django项目"><a href="#1-终端创建django项目" class="headerlink" title="1.终端创建django项目"></a>1.终端创建django项目</h3><ul>
-<li>创建django项目</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">django-admin startproject 项目名</span></pre></td></tr></table></figure>
-<ul>
-<li>创建应用<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py startapp app名</span></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<blockquote>
-<p>注意：使用终端创建的项目，需要手动把创建的应用名称写到setting.py文件的installed_apps配置项里</p>
-</blockquote>
-<ul>
-<li>启动django开发服务器</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">python3 manage.py runserver</span></pre></td></tr></table></figure>
-
-<h3 id="2-pycharm创建django项目"><a href="#2-pycharm创建django项目" class="headerlink" title="2.pycharm创建django项目"></a>2.pycharm创建django项目</h3><blockquote>
-<p>直接新建django项目，选择解释器的时候，可以选择一个虚拟环境的python解释器的位置。如果虚拟环境没有django框架的话，会先安装django框架（这样安装django框架比较慢，不如直接在终端中启动虚拟环境然后安装django框架的速度快）</p>
-</blockquote>
-
+                <div class="postShorten-excerpt">
+                    <p>Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。</p>
+<p>Django是一个开放源代码的Web应用框架，由Python写成。</p>
+<p>Django遵守BSD版权，初次发布于2005年7月, 并于2008年9月发布了第一个正式版本1.0 。</p>
+<p>Django采用了MVC的软件设计模式，即模型M，视图V和控制器C。</p>
                     
+                        <a
+                            href="/2019/12/08/django-primary/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": django基础1"
+                        >
+                            Continue reading
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-primary/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
