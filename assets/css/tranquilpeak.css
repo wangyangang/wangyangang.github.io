@@ -2255,6 +2255,9 @@ a.fancybox {
     width: calc(100% - 140px - 20px); }
   .postShorten.postShorten--thumbnailimg-top .postShorten-thumbnailimg {
     margin-top: 5px; }
+    .postShorten.postShorten--thumbnailimg-top .postShorten-thumbnailimg img {
+      width: 100%;
+    }
   .postShorten.postShorten--thumbnailimg-bottom .postShorten-wrap {
     display: block;
     width: 100%; }

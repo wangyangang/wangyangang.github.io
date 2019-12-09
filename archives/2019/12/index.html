@@ -330,10 +330,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/django-primary2/"
-                            aria-label=": django基础2"
+                            href="/2019/12/08/django-router/"
+                            aria-label=": django路由url分发"
                         >
-                            django基础2
+                            django路由url分发
                         </a>
                     
                 </h1>
@@ -355,79 +355,25 @@
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Django多表操作之多对多查询记录"><span class="toc-text">Django多表操作之多对多查询记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Django多表操作之多对多关系"><span class="toc-text">Django多表操作之多对多关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-通过ManyToManyField建立-推荐"><span class="toc-text">1.通过ManyToManyField建立(推荐)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-通过在models-py文件里新建第三张表建立"><span class="toc-text">2.通过在models.py文件里新建第三张表建立</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分页"><span class="toc-text">分页</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Paginator类实例对象"><span class="toc-text">Paginator类实例对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Page类实例对象"><span class="toc-text">Page类实例对象</span></a></li></ol></li></ol></li></ol>
+                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本使用"><span class="toc-text">1. 基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-获取参数"><span class="toc-text">2. 获取参数</span></a></li></ol>
 
-<h2 id="Django多表操作之多对多查询记录"><a href="#Django多表操作之多对多查询记录" class="headerlink" title="Django多表操作之多对多查询记录"></a>Django多表操作之多对多查询记录</h2><ul>
-<li>正向查找</li>
+<h2 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1. 基本使用"></a>1. 基本使用</h2><ul>
+<li>项目的urls.py文件</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.get(id=<span class="number">3</span>).authors.all(i)</span></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, re_path, include</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^app01/'</span>, include((<span class="string">'app01.urls'</span>, <span class="string">'app01'</span>), namespace=<span class="string">'app01'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
 
 <ul>
-<li>反向查找</li>
+<li>应用的urls.py文件</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Author.objects.get(id=<span class="number">2</span>).book_set.all()</span></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, re_path</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01.views <span class="keyword">import</span> IndexView, BookInfoListView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^index'</span>, IndexView.as_view(), name=<span class="string">'index'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^books'</span>, BookInfoListView.as_view(template_name=<span class="string">'books.html'</span>), name=<span class="string">'books'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
 
+<h2 id="2-获取参数"><a href="#2-获取参数" class="headerlink" title="2. 获取参数"></a>2. 获取参数</h2><ul>
+<li>位置参数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^delete(\d+)/$'</span>,views.show_arg),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_arg</span><span class="params">(request,id)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'show arg %s'</span>%id)</span></pre></td></tr></table></figure></li>
+<li>关键字参数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^delete(?P&lt;id1&gt;\d+)/$'</span>,views.show_arg),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_arg</span><span class="params">(request,id1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'show %s'</span>%id1)</span></pre></td></tr></table></figure>
 <blockquote>
-<p>利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果<br>  如果不想放到缓存里，可以这么写</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ret.exists():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ... <span class="comment"># 这样写不会把ret放到缓存里</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>或者使用迭代器 (iterator)</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=ret.iterator()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    print(i.name)   <span class="comment"># 这样不会用缓存</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>querySet的cache是用于减少程序对数据库的查询，在通常的使用下会保证只有在需要的时候才会查询数据库。<br>使用exists()和iterator()方法可以优化程序对内存的使用。不过由于他们并不会生成queryet cache,可能会造成额外的数据库查询。</p>
-</blockquote>
-<ul>
-<li>聚合函数 aggregate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models <span class="keyword">import</span> Avg, Min, Sum, Max</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Sum(<span class="string">'price'</span>))  <span class="comment"># 所有书的价格总和</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Avg(<span class="string">'price'</span>))  <span class="comment"># 所有书的平均价格</span></span></pre></td></tr></table></figure></li>
-<li>分组函数 anonotate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.values(<span class="string">'authors__name'</span>).anonotate(Sum(<span class="string">'price'</span>))    <span class="comment"># 计算每一个人出版的所有书的总价格</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Publish.objects.values(<span class="string">'name'</span>).anonotate(Min())</span></pre></td></tr></table></figure></li>
-<li>F查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.all().update(price=F(<span class="string">'price'</span>)+<span class="number">10</span>)  <span class="comment">#把每本书的价格加10</span></span></pre></td></tr></table></figure></li>
-<li>Q查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(~Q(name=<span class="string">'GO'</span>)|Q(price=<span class="number">100</span>)) <span class="comment">#把所有的书，name不等于GO或price等于100的，全查出来</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>如果要用Q查询和关键字查询一起用，那么Q查询要放在前面</p>
+<p>注意：视图show_arg此时必须要有一个参数名为id1，否则报错。</p>
 </blockquote>
 </li>
-</ul>
-<hr>
-<h3 id="Django多表操作之多对多关系"><a href="#Django多表操作之多对多关系" class="headerlink" title="Django多表操作之多对多关系"></a>Django多表操作之多对多关系</h3><ul>
-<li>添加多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.add(*author_objs)</span></pre></td></tr></table></figure></li>
-<li>删除多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(*author_objs)   <span class="comment"># 删除所有的关系</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(<span class="number">2</span>)              <span class="comment"># 删除id=2的作者关系</span></span></pre></td></tr></table></figure></li>
-<li>建立多对的关系</li>
-</ul>
-<h4 id="1-通过ManyToManyField建立-推荐"><a href="#1-通过ManyToManyField建立-推荐" class="headerlink" title="1.通过ManyToManyField建立(推荐)"></a>1.通过ManyToManyField建立(推荐)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    author=models.ManyToManyField(<span class="string">'Author'</span>)</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>此时会自动在数据库创建第三张表，来存放Book和Author的对应关系<br>  这时候查询这么用<br>  eg:查询alex写过的所有书的name和price</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(authors__name=<span class="string">'alex'</span>).values(<span class="string">'name'</span>,<span class="string">'price'</span>)</span></pre></td></tr></table></figure>
-<h4 id="2-通过在models-py文件里新建第三张表建立"><a href="#2-通过在models-py文件里新建第三张表建立" class="headerlink" title="2.通过在models.py文件里新建第三张表建立"></a>2.通过在models.py文件里新建第三张表建立</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book_Author</span><span class="params">(models.Model)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    book=models.ForeignKey("Book")</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    author=models.ForeignKey(<span class="string">"Author"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Book_Author.objects.create(book_id=<span class="number">2</span>,author_id=<span class="number">2</span>)</span></pre></td></tr></table></figure>
-<blockquote>
-<p>这时候查询这么用：</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">obj=Book.objects.get(id=<span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">obj.book_author_set.all()[<span class="number">0</span>].author</span></pre></td></tr></table></figure>
-<blockquote>
-<p>或者</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(book_author__author_name=<span class="string">'alex'</span>)</span></pre></td></tr></table></figure>
-<blockquote>
-<p>推荐使用第一种方法，即ManyToMany的方式建立关系</p>
-</blockquote>
-<h1 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h1><p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p>
-<h4 id="Paginator类实例对象"><a href="#Paginator类实例对象" class="headerlink" title="Paginator类实例对象"></a>Paginator类实例对象</h4><ul>
-<li>方法<em>init</em>(列表,int)：返回分页对象，第一个参数为列表数据，第二个参数为每页数据的条数。</li>
-<li>属性count：返回对象总数。</li>
-<li>属性num_pages：返回页面总数。</li>
-<li>属性page_range：返回页码列表，从1开始，例如[1, 2, 3, 4]。</li>
-<li>方法page(m)：返回Page类实例对象，表示第m页的数据，下标以1开始。</li>
-</ul>
-<h4 id="Page类实例对象"><a href="#Page类实例对象" class="headerlink" title="Page类实例对象"></a>Page类实例对象</h4><ul>
-<li>调用Paginator对象的page()方法返回Page对象，不需要手动构造。</li>
-<li>属性object_list：返回当前页对象的列表。</li>
-<li>属性number：返回当前是第几页，从1开始。</li>
-<li>属性paginator：当前页对应的Paginator对象。</li>
-<li>方法has_next()：如果有下一页返回True。</li>
-<li>方法has_previous()：如果有上一页返回True。</li>
-<li>方法len()：返回当前页面对象的个数。</li>
 </ul>
 
                     
@@ -438,7 +384,7 @@
                     
                         <p>
                             <a
-                                href="/2019/12/08/django-primary2/#post-footer"
+                                href="/2019/12/08/django-router/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
@@ -832,7 +778,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -840,212 +786,10 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/django-orm-1/"
-                            aria-label=": Django ORM 操作1"
+                            href="/2019/12/08/django-pagination/"
+                            aria-label=": django分页"
                         >
-                            Django ORM 操作1
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#正向查找和反向查找"><span class="toc-text">正向查找和反向查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给第三张表增加数据"><span class="toc-text">给第三张表增加数据</span></a></li></ol>
-
-<hr>
-<h2 id="正向查找和反向查找"><a href="#正向查找和反向查找" class="headerlink" title="正向查找和反向查找"></a>正向查找和反向查找</h2><ol>
-<li>正向查</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">obj=Classes.objects.filter(id=<span class="number">1</span>).first()  <span class="comment"># id=1的班级有哪些老师</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=obj.m.all()</span></pre></td></tr></table></figure>
-<ol start="2">
-<li>反向查</li>
-</ol>
-<p>如果student的外键是class，通过class反向查student：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Class.objects.filter(id=<span class="number">1</span>).first().student_set.all()</span></pre></td></tr></table></figure>
-<p>‘student_set’这个关联名可以自定义，在student类定义的时候这样写：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">cs=models.ForeignKey(class,related_name='abc')</span></pre></td></tr></table></figure>
-<p>以后反向查就可以写成：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Class.objects.filter(id=<span class="number">1</span>).first().abc.all()</span></pre></td></tr></table></figure>
-<h2 id="给第三张表增加数据"><a href="#给第三张表增加数据" class="headerlink" title="给第三张表增加数据"></a>给第三张表增加数据</h2><ul>
-<li>给第三张表增加数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">obj=Classes.objects.filter(id=<span class="number">1</span>).first()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">obj.m.add(<span class="number">1</span>)  <span class="comment"># 给id=1的class增加一个id=1的老师行</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">obj.m.add(<span class="number">2</span>)  <span class="comment"># 给id=1的class增加一个id=2的老师行</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">obj.m.remove(<span class="number">1</span>) <span class="comment"># 把id=1的class的id=1的老师去掉</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">obj.m.clear() <span class="comment"># 清除</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">obj.m.set([<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>])  <span class="comment"># 把老师设置为2，3，5.如果原来存在就不动，没有就新增</span></span></pre></td></tr></table></figure>
-
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-orm-1/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-orm-2/"
-                            aria-label=": Django ORM 操作2"
-                        >
-                            Django ORM 操作2
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Django多表操作之多对多查询记录"><span class="toc-text">Django多表操作之多对多查询记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Django多表操作之多对多关系"><span class="toc-text">Django多表操作之多对多关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-通过ManyToManyField建立-推荐"><span class="toc-text">1.通过ManyToManyField建立(推荐)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-通过在models-py文件里新建第三张表建立"><span class="toc-text">2.通过在models.py文件里新建第三张表建立</span></a></li></ol></li></ol></li></ol>
-
-<h2 id="Django多表操作之多对多查询记录"><a href="#Django多表操作之多对多查询记录" class="headerlink" title="Django多表操作之多对多查询记录"></a>Django多表操作之多对多查询记录</h2><ul>
-<li>正向查找</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.get(id=<span class="number">3</span>).authors.all(i)</span></pre></td></tr></table></figure>
-
-<ul>
-<li>反向查找</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Author.objects.get(id=<span class="number">2</span>).book_set.all()</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>利用filter()查询出来的结果会放到缓存里，如果在程序里对数据库作了修改，那么需要重新查询才能找到正确的结果<br>  如果不想放到缓存里，可以这么写</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ret.exists():</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    ... <span class="comment"># 这样写不会把ret放到缓存里</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>或者使用迭代器 (iterator)</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=ret.iterator()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ret:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    print(i.name)   <span class="comment"># 这样不会用缓存</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>querySet的cache是用于减少程序对数据库的查询，在通常的使用下会保证只有在需要的时候才会查询数据库。<br>使用exists()和iterator()方法可以优化程序对内存的使用。不过由于他们并不会生成queryet cache,可能会造成额外的数据库查询。</p>
-</blockquote>
-<ul>
-<li>聚合函数 aggregate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db.models <span class="keyword">import</span> Avg, Min, Sum, Max</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Sum(<span class="string">'price'</span>))  <span class="comment"># 所有书的价格总和</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">ret=Book.objects.all().aggregate(Avg(<span class="string">'price'</span>))  <span class="comment"># 所有书的平均价格</span></span></pre></td></tr></table></figure></li>
-<li>分组函数 anonotate<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.values(<span class="string">'authors__name'</span>).anonotate(Sum(<span class="string">'price'</span>))    <span class="comment"># 计算每一个人出版的所有书的总价格</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Publish.objects.values(<span class="string">'name'</span>).anonotate(Min())</span></pre></td></tr></table></figure></li>
-<li>F查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.all().update(price=F(<span class="string">'price'</span>)+<span class="number">10</span>)  <span class="comment">#把每本书的价格加10</span></span></pre></td></tr></table></figure></li>
-<li>Q查询<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(~Q(name=<span class="string">'GO'</span>)|Q(price=<span class="number">100</span>)) <span class="comment">#把所有的书，name不等于GO或price等于100的，全查出来</span></span></pre></td></tr></table></figure>
-<blockquote>
-<p>如果要用Q查询和关键字查询一起用，那么Q查询要放在前面</p>
-</blockquote>
-</li>
-</ul>
-<hr>
-<h3 id="Django多表操作之多对多关系"><a href="#Django多表操作之多对多关系" class="headerlink" title="Django多表操作之多对多关系"></a>Django多表操作之多对多关系</h3><ul>
-<li>添加多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.add(*author_objs)</span></pre></td></tr></table></figure></li>
-<li>删除多对多关系<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">book_obj=Book.objects.get(id=<span class="number">4</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">author_objs=Author.objects.all()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(*author_objs)   <span class="comment"># 删除所有的关系</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">book_obj.authors.remove(<span class="number">2</span>)              <span class="comment"># 删除id=2的作者关系</span></span></pre></td></tr></table></figure></li>
-<li>建立多对的关系</li>
-</ul>
-<h4 id="1-通过ManyToManyField建立-推荐"><a href="#1-通过ManyToManyField建立-推荐" class="headerlink" title="1.通过ManyToManyField建立(推荐)"></a>1.通过ManyToManyField建立(推荐)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    author=models.ManyToManyField(<span class="string">'Author'</span>)</span></pre></td></tr></table></figure>
-
-<blockquote>
-<p>此时会自动在数据库创建第三张表，来存放Book和Author的对应关系<br>  这时候查询这么用<br>  eg:查询alex写过的所有书的name和price</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(authors__name=<span class="string">'alex'</span>).values(<span class="string">'name'</span>,<span class="string">'price'</span>)</span></pre></td></tr></table></figure>
-<h4 id="2-通过在models-py文件里新建第三张表建立"><a href="#2-通过在models-py文件里新建第三张表建立" class="headerlink" title="2.通过在models.py文件里新建第三张表建立"></a>2.通过在models.py文件里新建第三张表建立</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book_Author</span><span class="params">(models.Model)</span></span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    book=models.ForeignKey("Book")</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    author=models.ForeignKey(<span class="string">"Author"</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Book_Author.objects.create(book_id=<span class="number">2</span>,author_id=<span class="number">2</span>)</span></pre></td></tr></table></figure>
-<blockquote>
-<p>这时候查询这么用：</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">obj=Book.objects.get(id=<span class="number">2</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">obj.book_author_set.all()[<span class="number">0</span>].author</span></pre></td></tr></table></figure>
-<blockquote>
-<p>或者</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Book.objects.filter(book_author__author_name=<span class="string">'alex'</span>)</span></pre></td></tr></table></figure>
-<blockquote>
-<p>推荐使用第一种方法，即ManyToMany的方式建立关系</p>
-</blockquote>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/12/08/django-orm-2/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-top">
-        <div class="postShorten-wrap">
-            
-                <a
-                    href="/2019/12/08/django-primary/"
-                    aria-label=": django基础1"
-                >
-                    <div class="postShorten-thumbnailimg">
-                        <img alt="" src="https://wangyangang.github.io/2019/12/08/django-primary/django.png"/>
-                    </div>
-                </a>
-                
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-primary/"
-                            aria-label=": django基础1"
-                        >
-                            django基础1
+                            django分页
                         </a>
                     
                 </h1>
@@ -1067,19 +811,141 @@
             </div>
             
                 <div class="postShorten-excerpt">
-                    <p>Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。</p>
-<p>Django是一个开放源代码的Web应用框架，由Python写成。</p>
-<p>Django遵守BSD版权，初次发布于2005年7月, 并于2008年9月发布了第一个正式版本1.0 。</p>
-<p>Django采用了MVC的软件设计模式，即模型M，视图V和控制器C。</p>
+                    <p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p>
                     
                         <a
-                            href="/2019/12/08/django-primary/"
+                            href="/2019/12/08/django-pagination/"
                             class="postShorten-excerpt_link link"
-                            aria-label=": django基础1"
+                            aria-label=": django分页"
                         >
                             Continue reading
                         </a>
                         
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-top">
+        <div class="postShorten-wrap">
+            
+                <a
+                    href="/2019/12/08/django-primary/"
+                    aria-label=": django的安装和使用"
+                >
+                    <div class="postShorten-thumbnailimg">
+                        <img alt="" src="https://wangyangang.github.io/2019/12/08/django-primary/django.png"/>
+                    </div>
+                </a>
+                
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2019/12/08/django-primary/"
+                            aria-label=": django的安装和使用"
+                        >
+                            django的安装和使用
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/django/">django</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。<br>Django是一个开放源代码的Web应用框架，由Python写成。<br>Django遵守BSD版权，初次发布于2005年7月, 并于2008年9月发布了第一个正式版本1.0 。<br>Django采用了MVC的软件设计模式，即模型M，视图V和控制器C。</p>
+                    
+                        <a
+                            href="/2019/12/08/django-primary/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": django的安装和使用"
+                        >
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2019/12/08/css-primary/"
+                            aria-label=": css基础知识"
+                        >
+                            css基础知识
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-12-08T12:11:06+08:00">
+	
+		    Dec 08, 2019
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/css/">css</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="table-of-contents">Table of Contents</h1>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">table</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border-collapse</span>: collapse;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">margin</span>:<span class="number">0</span> auto;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">300px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="selector-tag">td</span>&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">height</span>:<span class="number">50px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">width</span>:<span class="number">100px</span>;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            <span class="attribute">text-align</span>: center;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr></table></figure>
+
+<blockquote>
+<p>table设置border-collapse为collapse即可。</p>
+</blockquote>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2019/12/08/css-primary/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
                     
                 </div>
             
@@ -1102,7 +968,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">page 1 of 3</li>
+        <li class="pagination-number">page 1 of 2</li>
     </ul>
 </div>
 
