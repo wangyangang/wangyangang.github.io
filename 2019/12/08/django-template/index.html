@@ -5,11 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hexo">
-    <title>django路由url分发 - Hexo</title>
+    <meta name="generator" content="WYG">
+    <title>django模板 - WYG</title>
     <meta name="author" content="王延刚">
     
-        <meta name="keywords" content="hexo,javascript,">
+        <meta name="keywords" content="hexo,javascript,django,template">
     
     
         <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
@@ -17,17 +17,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n1. 基本使用\n项目的urls.py文件\n\n1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns = [5    path('admin/', admin.site.urls),6    re_path(r'^app01/', include(('app01.urls', 'app01'), namespace='app01'))7]\n\n\n应用的urls.py文件\n\n1from django.urls import path, re_path2from app01.views import IndexView, BookInfoListView34urlpatterns = [5    re_path(r'^index', IndexView.as_view(), name='index'),6    re_path(r'^books', BookInfoListView.as_view(template_name='books.html'), name='books'),7]\n\n2. 获取参数\n位置参数1url(r'^delete(\\d+)/$',views.show_arg),23def show_arg(request,id):4    return HttpResponse('show arg %s'%id)\n关键字参数1url(r'^delete(?P&lt;id1&gt;\\d+)/$',views.show_arg),23def show_arg(request,id1):4    return HttpResponse('show %s'%id1)\n\n注意：视图show_arg此时必须要有一个参数名为id1，否则报错。\n\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:05:40+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django路由url分发","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-router/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-router/","keywords":"django"}</script>
-    <meta name="description" content="1. 基本使用 项目的urls.py文件  1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns &#x3D; [5    path(&amp;apos;admin&#x2F;&amp;apos;, admin.site.urls),6    re_path(r&amp;apos;^app01&#x2F;&amp;apos;, include((&amp;apos;app01.u">
-<meta name="keywords" content="django">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n这里只介绍模板里的高级用法：自定义标签和过滤器\n\n在app下创建一个python包，须包含__init__.py文件\n在包内建一个py文件，用来定义标签和过滤器\n\n1from django import template23register = template.Library()45@register.filter6def mod2(num1):7    if num1 % 2 == 0:8        return True9    else:10        return False1112@register.filter13def mod4(num1, num2):14    if num1 % num2 == 0:15        return True16    else:17        return False1819@register.simple_tag20def mod3(num1, num2, num3):21    return num1 + num2 + num3\n\n\n在html文件里的开头处，导入要用到的python包里的py文件\n\n1&#123;% mod3 1 3 5 %&#125; # 自定义标签23&#123;% if book.id|mod2 %&#125; # 自定义过滤器4&#123;&#123; book.id|mod2 &#125;&#125; # 自定义过滤器\n\n\n注意：\n\n自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数\n也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。\n自定义过滤器必须有返回值\n自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-09T21:15:07+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django模板","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-template/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-template/","keywords":"django, template"}</script>
+    <meta name="description" content="这里只介绍模板里的高级用法：自定义标签和过滤器  在app下创建一个python包，须包含__init__.py文件 在包内建一个py文件，用来定义标签和过滤器  1from django import template23register &#x3D; template.Library()45@register.filter6def mod2(num1):7    if num1 % 2 &#x3D;&#x3D; 0:8">
+<meta name="keywords" content="django,template">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="django路由url分发">
-<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-router&#x2F;index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. 基本使用 项目的urls.py文件  1from django.contrib import admin2from django.urls import path, re_path, include34urlpatterns &#x3D; [5    path(&amp;apos;admin&#x2F;&amp;apos;, admin.site.urls),6    re_path(r&amp;apos;^app01&#x2F;&amp;apos;, include((&amp;apos;app01.u">
+<meta property="og:title" content="django模板">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-template&#x2F;index.html">
+<meta property="og:site_name" content="WYG">
+<meta property="og:description" content="这里只介绍模板里的高级用法：自定义标签和过滤器  在app下创建一个python包，须包含__init__.py文件 在包内建一个py文件，用来定义标签和过滤器  1from django import template23register &#x3D; template.Library()45@register.filter6def mod2(num1):7    if num1 % 2 &#x3D;&#x3D; 0:8">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-08T10:05:40.439Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-template&#x2F;django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png">
+<meta property="og:updated_time" content="2019-12-09T13:15:07.768Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-template&#x2F;django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png">
 <meta name="twitter:creator" content="@yangangwang">
     
     
@@ -75,7 +77,7 @@
             href="/"
             aria-label=""
         >
-        Hexo
+        WYG
         </a>
     </div>
     
@@ -280,7 +282,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            django路由url分发
+            django模板
         </h1>
     
     
@@ -305,27 +307,29 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基本使用"><span class="toc-text">1. 基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-获取参数"><span class="toc-text">2. 获取参数</span></a></li></ol>
+            <!-- excerpt -->
+<h1 id="table-of-contents">Table of Contents</h1>
+<p>这里只介绍模板里的高级用法：自定义标签和过滤器</p>
+<ol>
+<li>在app下创建一个python包，须包含<code>__init__.py</code>文件<br><img src="django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png" alt="django自定义标签和过滤器"></li>
+<li>在包内建一个py文件，用来定义标签和过滤器</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> template</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">register = template.Library()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod2</span><span class="params">(num1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % <span class="number">2</span> == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.filter</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod4</span><span class="params">(num1, num2)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">if</span> num1 % num2 == <span class="number">0</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">else</span>:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"><span class="meta">@register.simple_tag</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mod3</span><span class="params">(num1, num2, num3)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> num1 + num2 + num3</span></pre></td></tr></table></figure>
 
-<h2 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1. 基本使用"></a>1. 基本使用</h2><ul>
-<li>项目的urls.py文件</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, re_path, include</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^app01/'</span>, include((<span class="string">'app01.urls'</span>, <span class="string">'app01'</span>), namespace=<span class="string">'app01'</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
+<ol start="3">
+<li>在html文件里的开头处，导入要用到的python包里的py文件</li>
+</ol>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">mod3</span> 1 3 5 %&#125;</span><span class="xml"> # 自定义标签</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name"><span class="name">if</span></span> book.id|mod2 %&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="template-variable">&#123;&#123; book.id|mod2 &#125;&#125;</span><span class="xml"> # 自定义过滤器</span></span></pre></td></tr></table></figure>
 
-<ul>
-<li>应用的urls.py文件</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, re_path</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app01.views <span class="keyword">import</span> IndexView, BookInfoListView</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^index'</span>, IndexView.as_view(), name=<span class="string">'index'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    re_path(<span class="string">r'^books'</span>, BookInfoListView.as_view(template_name=<span class="string">'books.html'</span>), name=<span class="string">'books'</span>),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">]</span></pre></td></tr></table></figure>
-
-<h2 id="2-获取参数"><a href="#2-获取参数" class="headerlink" title="2. 获取参数"></a>2. 获取参数</h2><ul>
-<li>位置参数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^delete(\d+)/$'</span>,views.show_arg),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_arg</span><span class="params">(request,id)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'show arg %s'</span>%id)</span></pre></td></tr></table></figure></li>
-<li>关键字参数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">url(<span class="string">r'^delete(?P&lt;id1&gt;\d+)/$'</span>,views.show_arg),</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_arg</span><span class="params">(request,id1)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">'show %s'</span>%id1)</span></pre></td></tr></table></figure>
 <blockquote>
-<p>注意：视图show_arg此时必须要有一个参数名为id1，否则报错。</p>
-</blockquote>
-</li>
+<p>注意：</p>
+<ul>
+<li>自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数</li>
+<li>也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。</li>
+<li>自定义过滤器必须有返回值</li>
+<li>自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用</li>
 </ul>
-
+</blockquote>
             
 
 
@@ -336,7 +340,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/django/" rel="tag">django</a> <a class="tag tag--primary tag--small t-link" href="/tags/template/" rel="tag">template</a>
 
             </div>
         
@@ -349,9 +353,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
-                    data-tooltip="算法基础"
-                    aria-label="PREVIOUS: 算法基础"
+                    href="/2019/12/08/django-primary/"
+                    data-tooltip="django的安装和使用"
+                    aria-label="PREVIOUS: django的安装和使用"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -363,9 +367,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="django-admin的使用1"
-                    aria-label="NEXT: django-admin的使用1"
+                    href="/2019/12/08/gist/"
+                    data-tooltip="Gist"
+                    aria-label="NEXT: Gist"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -390,7 +394,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-template/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -403,7 +407,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-template/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -416,7 +420,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-template/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -478,9 +482,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/%E7%AE%97%E6%B3%95/"
-                    data-tooltip="算法基础"
-                    aria-label="PREVIOUS: 算法基础"
+                    href="/2019/12/08/django-primary/"
+                    data-tooltip="django的安装和使用"
+                    aria-label="PREVIOUS: django的安装和使用"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -492,9 +496,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2019/12/08/django-admin/"
-                    data-tooltip="django-admin的使用1"
-                    aria-label="NEXT: django-admin的使用1"
+                    href="/2019/12/08/gist/"
+                    data-tooltip="Gist"
+                    aria-label="NEXT: Gist"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -519,7 +523,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-template/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -532,7 +536,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-template/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -545,7 +549,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-router/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-template/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -589,7 +593,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-router/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-template/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -602,7 +606,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-router/"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-template/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -615,7 +619,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-router/"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-template/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -680,9 +684,9 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-router/';
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-template/';
               
-            this.page.identifier = '2019/12/08/django-router/';
+            this.page.identifier = '2019/12/08/django-template/';
               
           };
           (function() {
