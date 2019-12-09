@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n向前端返回json格式的数据1def get_house_index():2    try:3        ret = redis_store.get('home_page_data')4    except Exception as e:5        current_app.logger.error(e)6        ret = None78    if ret:9        current_app.logger.info('hit house index info redis')10        return '&#123;\"errno\": 0, \"errmsg\": \"OK\", \"data\": %s&#125;' % ret, 200, &#123;\"Content-Type\": \"application/json\"&#125;\n\ndjango中ajax的使用*post：*1$('#btn2').click(function () &#123;2      var new_session_value = $('#new_session_value').val();3      var csrf = $('input[name=\"csrfmiddlewaretoken\"]').val();4      &#123;#var args = &#123;'name': new_session_value, 'csrfmiddlewaretoken': csrf&#125;;#&#125;5      var args = &#123;name: new_session_value&#125;;6      var json_args = JSON.stringify(args);7      console.log(json_args);8      $.ajax(&#123;9            url: '/app01/sessions/',10            type: 'post',11            data: json_args,12            &#123;#contentType:'application/json',#&#125;13            dataType: 'json',14            headers:&#123;15              'X-CSRFTOKEN': csrf16            &#125;,17            success: function (data) &#123;18                  var resno = data['resno'];19                  if(resno == 1)&#123;20                    var val = data['name'];21                    $('#session_value').val(val);22                  &#125;else if(resno == 0)&#123;23                    $('#session_value').val(data['errmsg']);24                  &#125;25            &#125;26      &#125;)27&#125;)\n\nurl地址前要有 “/“\n\n1$.post('/order/pay', params, function (data), 'json')2  ...3// 以下是jquery中ajax post的部分定义：4// jQuery[ method ] = function( url, data, callback, type ) &#123;&#125;\n\n关于ajax的csrf验证：\n传的数据不是json，那么可以把csrfmiddlewaretoken作为键放到参数里\n传的数据是json，不能把csrfmiddlewaretoken放到参数里，放进去也不起作用。只能用ajax的常规写法，把csrf放到请求头里。\n后台获取json数据，用1json_body = json.loads(request.body)\n获取单个数据也可以用1name = request.POST.get('name')\n\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:05:32+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Gist","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/gist/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/gist/","keywords":"gist"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n向前端返回json格式的数据1def get_house_index():2    try:3        ret = redis_store.get('home_page_data')4    except Exception as e:5        current_app.logger.error(e)6        ret = None78    if ret:9        current_app.logger.info('hit house index info redis')10        return '&#123;\"errno\": 0, \"errmsg\": \"OK\", \"data\": %s&#125;' % ret, 200, &#123;\"Content-Type\": \"application/json\"&#125;\n\ndjango中ajax的使用*post：*1$('#btn2').click(function () &#123;2      var new_session_value = $('#new_session_value').val();3      var csrf = $('input[name=\"csrfmiddlewaretoken\"]').val();4      &#123;#var args = &#123;'name': new_session_value, 'csrfmiddlewaretoken': csrf&#125;;#&#125;5      var args = &#123;name: new_session_value&#125;;6      var json_args = JSON.stringify(args);7      console.log(json_args);8      $.ajax(&#123;9            url: '/app01/sessions/',10            type: 'post',11            data: json_args,12            &#123;#contentType:'application/json',#&#125;13            dataType: 'json',14            headers:&#123;15              'X-CSRFTOKEN': csrf16            &#125;,17            success: function (data) &#123;18                  var resno = data['resno'];19                  if(resno == 1)&#123;20                    var val = data['name'];21                    $('#session_value').val(val);22                  &#125;else if(resno == 0)&#123;23                    $('#session_value').val(data['errmsg']);24                  &#125;25            &#125;26      &#125;)27&#125;)\n\nurl地址前要有 “/“\n\n1$.post('/order/pay', params, function (data), 'json')2  ...3// 以下是jquery中ajax post的部分定义：4// jQuery[ method ] = function( url, data, callback, type ) &#123;&#125;\n\n关于ajax的csrf验证：\n传的数据不是json，那么可以把csrfmiddlewaretoken作为键放到参数里\n传的数据是json，不能把csrfmiddlewaretoken放到参数里，放进去也不起作用。只能用ajax的常规写法，把csrf放到请求头里。\n后台获取json数据，用1json_body = json.loads(request.body)\n获取单个数据也可以用1name = request.POST.get('name')\n\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:05:32+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"Gist","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/gist/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/gist/","keywords":"gist"}</script>
     <meta name="description" content="向前端返回json格式的数据1def get_house_index():2    try:3        ret &#x3D; redis_store.get(&amp;apos;home_page_data&amp;apos;)4    except Exception as e:5        current_app.logger.error(e)6        ret &#x3D; None78    if ret:9">
 <meta name="keywords" content="gist">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Gist">
-<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;gist&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;gist&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="向前端返回json格式的数据1def get_house_index():2    try:3        ret &#x3D; redis_store.get(&amp;apos;home_page_data&amp;apos;)4    except Exception as e:5        current_app.logger.error(e)6        ret &#x3D; None78    if ret:9">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -388,7 +388,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/gist/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/gist/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -401,7 +401,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/gist/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/gist/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -414,7 +414,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/gist/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/gist/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -517,7 +517,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/gist/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/gist/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -530,7 +530,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/gist/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/gist/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -543,7 +543,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/gist/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/gist/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -587,7 +587,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/gist/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/gist/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -600,7 +600,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/gist/"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/gist/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -613,7 +613,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/gist/"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/gist/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -678,7 +678,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'wangyangang.com/2019/12/08/gist/';
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/gist/';
               
             this.page.identifier = '2019/12/08/gist/';
               

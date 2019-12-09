@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n把网页的照片保存\n\n1import requests2from bs4 import BeautifulSoup34response = requests.get(5    url='https://movie.douban.com/chart'6)7response.encoding = response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要8soup = BeautifulSoup(response.text, features='html.parser')9target = soup.find(id='content')  # 根据id找标签10tables = target.find_all('table') # 根据类型找标签.也可以组合查:soup.find('div',id='abc')1112for tb in tables:13    if tb:14        a_tags = tb.find_all('a')15        for a_tag in a_tags:16            title = a_tag.attrs.get('title')  # 用attrs来获取属性;用.text来获取文本17            if title:18                img = a_tag.find('img')19                file_path = img.attrs.get('src')20                img_response = requests.get(url=file_path)21                print(title, file_path)22                with open(title+'.jpg', 'wb') as f:23                    f.write(img_response.content)\n\n爬虫requests\n1. 参数\n\nrequests.request\nmethod:提交方式\nurl:    提交地址\nheaders:请求头.里面有个referer,是上次访问的网站\ncookies:放在请求头里\nfiles：在请求体里上传文件\nparams: 在url中传递的参数，GET\n\n1request.request(2    method='GET',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;5)\n\n\ndata  在请求体里传里数据\n\n1request.request(2    method='POST',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;,5    data=&#123;'user':'alex','pwd':'123'&#125;    # 或者data=\"user=alex&amp;pwd=123\"6)\n\n\njson 在请求体里传递数据\n\n1request.request(2    method='POST',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;,5    json=&#123;'user':'alex','pwd':'123'&#125;6)\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:02:39+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"初识爬虫","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/spider-primary/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/spider-primary/","keywords":"爬虫"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n把网页的照片保存\n\n1import requests2from bs4 import BeautifulSoup34response = requests.get(5    url='https://movie.douban.com/chart'6)7response.encoding = response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要8soup = BeautifulSoup(response.text, features='html.parser')9target = soup.find(id='content')  # 根据id找标签10tables = target.find_all('table') # 根据类型找标签.也可以组合查:soup.find('div',id='abc')1112for tb in tables:13    if tb:14        a_tags = tb.find_all('a')15        for a_tag in a_tags:16            title = a_tag.attrs.get('title')  # 用attrs来获取属性;用.text来获取文本17            if title:18                img = a_tag.find('img')19                file_path = img.attrs.get('src')20                img_response = requests.get(url=file_path)21                print(title, file_path)22                with open(title+'.jpg', 'wb') as f:23                    f.write(img_response.content)\n\n爬虫requests\n1. 参数\n\nrequests.request\nmethod:提交方式\nurl:    提交地址\nheaders:请求头.里面有个referer,是上次访问的网站\ncookies:放在请求头里\nfiles：在请求体里上传文件\nparams: 在url中传递的参数，GET\n\n1request.request(2    method='GET',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;5)\n\n\ndata  在请求体里传里数据\n\n1request.request(2    method='POST',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;,5    data=&#123;'user':'alex','pwd':'123'&#125;    # 或者data=\"user=alex&amp;pwd=123\"6)\n\n\njson 在请求体里传递数据\n\n1request.request(2    method='POST',3    url='http://abc.com',4    params=&#123;'k1':'v1','k2':'v2'&#125;,5    json=&#123;'user':'alex','pwd':'123'&#125;6)\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:02:39+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"初识爬虫","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/spider-primary/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/spider-primary/","keywords":"爬虫"}</script>
     <meta name="description" content="把网页的照片保存  1import requests2from bs4 import BeautifulSoup34response &#x3D; requests.get(5    url&#x3D;&amp;apos;https:&#x2F;&#x2F;movie.douban.com&#x2F;chart&amp;apos;6)7response.encoding &#x3D; response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要">
 <meta name="keywords" content="爬虫">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="初识爬虫">
-<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;spider-primary&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;spider-primary&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="把网页的照片保存  1import requests2from bs4 import BeautifulSoup34response &#x3D; requests.get(5    url&#x3D;&amp;apos;https:&#x2F;&#x2F;movie.douban.com&#x2F;chart&amp;apos;6)7response.encoding &#x3D; response.apparent_encoding  # 根据来源网站的编码方式进行解码,一般不需要">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -399,7 +399,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/spider-primary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/spider-primary/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -412,7 +412,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/spider-primary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/spider-primary/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -425,7 +425,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/spider-primary/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/spider-primary/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -528,7 +528,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/spider-primary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/spider-primary/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -541,7 +541,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/spider-primary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/spider-primary/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -554,7 +554,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/spider-primary/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/spider-primary/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -598,7 +598,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/spider-primary/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/spider-primary/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -611,7 +611,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/spider-primary/"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/spider-primary/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -624,7 +624,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/spider-primary/"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/spider-primary/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -689,7 +689,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'wangyangang.com/2019/12/08/spider-primary/';
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/spider-primary/';
               
             this.page.identifier = '2019/12/08/spider-primary/';
               

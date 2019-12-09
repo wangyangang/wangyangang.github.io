@@ -12,17 +12,17 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\nlocalhost:port/admin 是Django框架管理数据库的界面\n\n创建超级用户1python3 manage.py createsuperuser # 创建管理员账户\n自定义admin界面的显示内容\n要想管理数据库，要把模型类注册进去配置admin.py\n\n\n\n1from app01 import models23class BookAdmin(admin.ModelAdmin):4    list_display=('id','name','price')  # book表显示哪些字段5    list_editable=('name','price')      # book表哪些字段可编辑6    filter_horizontal = ('author',)     # 编辑book的时候，作者以水平方向进行展示7    list_per_page = 4                   # 每页显示的记录个数8    # filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示9    search_fields = ('id', 'name', 'price', 'publish__name')    # 搜索框可以进行哪些字段的搜索10    list_filter = ('pub_date', 'publish')   # 指定列表过滤器11    ordering = ('price',)   # 根据什么来默认排序12    fieldsets = [13        (None, &#123;'fields': ['name']&#125;),14        ('show all', &#123;'fields': ['price', 'publish', 'author'], 'classes': ['collapse']&#125;)15    ]   # 在编辑book的时候，默认只显示name，price和publish折叠1617admin.site.register(models.Book,BookAdmin)  # Book表可在admin中管理，且自定义book的显示方式18admin.site.register(models.Publish) # Publish表可在admin中管理19admin.site.register(models.Author)  # Author表可在admin中管理\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:08:15+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django-admin的使用1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/django-admin/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/django-admin/","keywords":"django admin"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\nlocalhost:port/admin 是Django框架管理数据库的界面\n\n创建超级用户1python3 manage.py createsuperuser # 创建管理员账户\n自定义admin界面的显示内容\n要想管理数据库，要把模型类注册进去配置admin.py\n\n\n\n1from app01 import models23class BookAdmin(admin.ModelAdmin):4    list_display=('id','name','price')  # book表显示哪些字段5    list_editable=('name','price')      # book表哪些字段可编辑6    filter_horizontal = ('author',)     # 编辑book的时候，作者以水平方向进行展示7    list_per_page = 4                   # 每页显示的记录个数8    # filter_vertical = ('author',)     # 编辑book的时候，作者以水平方向进行展示9    search_fields = ('id', 'name', 'price', 'publish__name')    # 搜索框可以进行哪些字段的搜索10    list_filter = ('pub_date', 'publish')   # 指定列表过滤器11    ordering = ('price',)   # 根据什么来默认排序12    fieldsets = [13        (None, &#123;'fields': ['name']&#125;),14        ('show all', &#123;'fields': ['price', 'publish', 'author'], 'classes': ['collapse']&#125;)15    ]   # 在编辑book的时候，默认只显示name，price和publish折叠1617admin.site.register(models.Book,BookAdmin)  # Book表可在admin中管理，且自定义book的显示方式18admin.site.register(models.Publish) # Publish表可在admin中管理19admin.site.register(models.Author)  # Author表可在admin中管理\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:08:15+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django-admin的使用1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-admin/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-admin/","keywords":"django admin"}</script>
     <meta name="description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin)">
 <meta name="keywords" content="django admin">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="django-admin的使用1">
-<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-admin&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-admin&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="localhost:port&#x2F;admin 是Django框架管理数据库的界面  创建超级用户1python3 manage.py createsuperuser # 创建管理员账户 自定义admin界面的显示内容 要想管理数据库，要把模型类注册进去配置admin.py    1from app01 import models23class BookAdmin(admin.ModelAdmin)">
 <meta property="og:locale" content="en">
@@ -34,7 +34,7 @@
         
     
     
-        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -382,7 +382,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-admin/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -395,7 +395,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-admin/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -408,7 +408,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-admin/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -511,7 +511,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-admin/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -524,7 +524,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-admin/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -537,7 +537,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-admin/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -581,7 +581,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-admin/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-admin/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -594,7 +594,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-admin/"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-admin/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -607,7 +607,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-admin/"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-admin/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -672,7 +672,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'wangyangang.com/2019/12/08/django-admin/';
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-admin/';
               
             this.page.identifier = '2019/12/08/django-admin/';
               

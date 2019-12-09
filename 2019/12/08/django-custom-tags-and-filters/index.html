@@ -12,31 +12,31 @@
         <meta name="keywords" content="hexo,javascript,">
     
     
-        <link rel="icon" href="wangyangang.com/assets/images/avatar.jpg">
+        <link rel="icon" href="https://wangyangang.github.io/assets/images/avatar.jpg">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用\n\n\n在app下创建一个python包，须包含__init__.py文件\n在包内建一个py文件，用来定义标签和过滤器\n\n1from django import template23register = template.Library()45@register.filter6def mod2(num1):7    if num1 % 2 == 0:8        return True9    else:10        return False1112@register.filter13def mod4(num1, num2):14    if num1 % num2 == 0:15        return True16    else:17        return False1819@register.simple_tag20def mod3(num1, num2, num3):21    return num1 + num2 + num3\n\n\n在html文件里的开头处，导入要用到的python包里的py文件\n\n1&#123;% mod3 1 3 5 %&#125; # 自定义标签23&#123;% if book.id|mod2 %&#125; # 自定义过滤器4&#123;&#123; book.id|mod2 &#125;&#125; # 自定义过滤器\n\n\n注意：\n\n自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数\n也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。\n自定义过滤器必须有返回值\n自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:07:57+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django自定义标签和过滤器","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/wangyangang.com/2019/12/08/django-custom-tags-and-filters/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/wangyangang.com/2019/12/08/django-custom-tags-and-filters/","keywords":"django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg"},"articleBody":"\n\n\n当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用\n\n\n在app下创建一个python包，须包含__init__.py文件\n在包内建一个py文件，用来定义标签和过滤器\n\n1from django import template23register = template.Library()45@register.filter6def mod2(num1):7    if num1 % 2 == 0:8        return True9    else:10        return False1112@register.filter13def mod4(num1, num2):14    if num1 % num2 == 0:15        return True16    else:17        return False1819@register.simple_tag20def mod3(num1, num2, num3):21    return num1 + num2 + num3\n\n\n在html文件里的开头处，导入要用到的python包里的py文件\n\n1&#123;% mod3 1 3 5 %&#125; # 自定义标签23&#123;% if book.id|mod2 %&#125; # 自定义过滤器4&#123;&#123; book.id|mod2 &#125;&#125; # 自定义过滤器\n\n\n注意：\n\n自定义过滤器可以传一个参数，这个参数就是django模板语言传过来的那个参数\n也可以传两个参数，第一个是模板语言传过来的那个，第二个是自己传的。\n自定义过滤器必须有返回值\n自定义标签主要用作数据处理，不可以用在if判断。自定义过滤器可以在if判断里使用\n\n\n","dateCreated":"2019-12-08T12:11:06+08:00","dateModified":"2019-12-08T18:07:57+08:00","datePublished":"2019-12-08T12:11:06+08:00","description":"","headline":"django自定义标签和过滤器","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/https:/wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"},"publisher":{"@type":"Organization","name":"王延刚","sameAs":["https://github.com/wangyangang","https://stackoverflow.com/users/6239464/yangang","https://twitter.com/yangangwang","https://www.facebook.com/yangangwang1991/","mailto:yangangwang1991@gmail.com"],"image":"avatar.jpg","logo":{"@type":"ImageObject","url":"avatar.jpg"}},"url":"/https:/wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/","keywords":"django"}</script>
     <meta name="description" content="当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用   在app下创建一个python包，须包含__init__.py文件 在包内建一个py文件，用来定义标签和过滤器  1from django import template23register &#x3D; template.Library()45@register.filter6def mod2(num1):7">
 <meta name="keywords" content="django">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="django自定义标签和过滤器">
-<meta property="og:url" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-custom-tags-and-filters&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-custom-tags-and-filters&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="当django自带的标签和过滤器不够用时，我们可以自定义自己的标签和过滤器供模板使用   在app下创建一个python包，须包含__init__.py文件 在包内建一个py文件，用来定义标签和过滤器  1from django import template23register &#x3D; template.Library()45@register.filter6def mod2(num1):7">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-custom-tags-and-filters&#x2F;django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-custom-tags-and-filters&#x2F;django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png">
 <meta property="og:updated_time" content="2019-12-08T10:07:57.229Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="wangyangang.com&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-custom-tags-and-filters&#x2F;django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;wangyangang.github.io&#x2F;2019&#x2F;12&#x2F;08&#x2F;django-custom-tags-and-filters&#x2F;django%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8.png">
 <meta name="twitter:creator" content="@yangangwang">
     
     
         
     
     
-        <meta property="og:image" content="wangyangang.com/assets/images/avatar.jpg"/>
+        <meta property="og:image" content="https://wangyangang.github.io/assets/images/avatar.jpg"/>
     
     
     
@@ -397,7 +397,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -410,7 +410,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -423,7 +423,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -526,7 +526,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -539,7 +539,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -552,7 +552,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                    target="new" href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                     title="Share on Google+"
                     aria-label="Share on Google+"
                 >
@@ -596,7 +596,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -609,7 +609,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                        href="https://twitter.com/intent/tweet?text=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
@@ -622,7 +622,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=wangyangang.com/2019/12/08/django-custom-tags-and-filters/"
+                        href="https://plus.google.com/share?url=https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/"
                         aria-label="Share on Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>Share on Google+</span>
@@ -687,7 +687,7 @@
     
         <script>
           var disqus_config = function() {
-            this.page.url = 'wangyangang.com/2019/12/08/django-custom-tags-and-filters/';
+            this.page.url = 'https://wangyangang.github.io/2019/12/08/django-custom-tags-and-filters/';
               
             this.page.identifier = '2019/12/08/django-custom-tags-and-filters/';
               
