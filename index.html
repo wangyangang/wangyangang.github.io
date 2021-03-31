@@ -239,568 +239,131 @@
                         hasCoverMetaIn
                         ">
                 <section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
+    <% page.posts.each(function(post) { %>
+    <%
+        var tableOfContents = null;
+        var thumbnailImageUrl = post.thumbnailImageUrl;
+        var postContent = post.content;
+        // Define default position for the thumbnail image
+        var thumbnailImagePosition = theme.thumbnail_image_position;
+        /* Define thumbnail image */
+
+        // Define position of the thumbnail image
+        if (!post.excerpt && !post.link) {
+            thumbnailImagePosition = "bottom";
+        } else if (thumbnailImageUrl !== null) {
+            if (post.thumbnailImagePosition && post.thumbnailImagePosition.length)  {
+                thumbnailImagePosition = post.thumbnailImagePosition;
+            }
+        }
+
+        // Generate and insert table of contents in post content
+        if (!post.excerpt && (/<!--(\s*)[t|T][o|O][c|C](\s*)-->/).test(postContent)) {
+            if (__('post.toc_title')) {
+                tableOfContents = '<h1 id=\"table-of-contents\">' + __('post.toc') + '</h1>';
+            } else {
+                tableOfContents = '<span id="table-of-contents"></span>';
+            }
+            tableOfContents += toc(postContent, {list_number: false})
+            postContent = postContent.replace(/<!--(\s*)[t|T][o|O][c|C](\s*)-->/, tableOfContents)
+        }
+    %>
+    <article class="postShorten postShorten--thumbnailimg-<%= thumbnailImagePosition %>">
         <div class="postShorten-wrap">
-            
+            <% if (thumbnailImageUrl !== null && thumbnailImagePosition === "top") { %>
+                <a
+                    href="<%- url_for(post.path) %>"
+                    aria-label="<% __('global.open_post') %>: <%= post.title %>"
+                >
+                    <div class="postShorten-thumbnailimg">
+                        <img alt="" src="<%= thumbnailImageUrl %>"/>
+                    </div>
+                </a>
+                <% thumbnailImageUrl = null; %>
+            <% } %>
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
-                    
+                    <% if (post.link) { %>
                         <a
                             class="link-unstyled"
-                            href="/2021/03/31/ubuntu-use-clash/"
-                            aria-label=": ubuntu使用clash的使用"
+                            href="<%- url_for(post.link) %>"
+                            aria-label="<% __('global.open_post') %>: <%= post.title %>"
                         >
-                            ubuntu使用clash的使用
+                            <%= post.title || '(' + __('post.no_title') + ')' %>
                         </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2021-03-31T12:11:06+08:00">
-	
-		    Mar 31, 2021
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/ubuntu/">ubuntu</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>ubuntu使用clash</p>
-                    
-                        <a
-                            href="/2021/03/31/ubuntu-use-clash/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": ubuntu使用clash的使用"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
+                    <% } else { %>
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/%E7%AE%97%E6%B3%95/"
-                            aria-label=": 算法基础"
+                            href="<%- url_for(post.path) %>"
+                            aria-label="<% __('global.open_post') %>: <%= post.title %>"
                         >
-                            算法基础
+                            <%= post.title || '(' + __('post.no_title') + ')' %>
                         </a>
-                    
+                    <% } %>
                 </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T16:08:49+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-
-
-    
-</div>
-
+                <%- partial('post/meta', {post: post, classes: ['postShorten-meta']}) %>
             </div>
-            
+            <% if (post.excerpt || post.link) { %>
                 <div class="postShorten-excerpt">
-                    <!-- toc -->
-                    
+                    <%- post.excerpt %>
+                    <% if (post.link && _('post.go_to_website')) { %>
                         <a
-                            href="/2019/12/08/%E7%AE%97%E6%B3%95/"
+                            href="<%- url_for(post.link) %>"
+                            target="new"
                             class="postShorten-excerpt_link link"
-                            aria-label=": 算法基础"
+                            aria-label="<% __('global.open_link') %>: <%= post.title %>"
                         >
-                            Continue reading
+                            <%= __('post.go_to_website') %>
                         </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
+                    <% } else if (__('post.read_more')) { %>
                         <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-admin/"
-                            aria-label=": django-admin的使用"
-                        >
-                            django-admin的使用
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>django-admin是一个用来管理django站点后台数据库的应用，是django自带的。<br>我们用pycharm创建django应用的时候，默认就把admin这个应用加入到settngs.py的installed app里了。</p>
-                    
-                        <a
-                            href="/2019/12/08/django-admin/"
+                            href="<%- url_for(post.path) %>"
                             class="postShorten-excerpt_link link"
-                            aria-label=": django-admin的使用"
+                            aria-label="<% __('global.open_post') %>: <%= post.title %>"
                         >
-                            Continue reading
+                            <%- __('post.read_more') %>
                         </a>
-                        
-                    
+                        <% if (post.readingtime) { %>
+                            <span class="postShorten-readingtime">
+                                <%= ' - ' + post.readingtime + ' min read' %>
+                            </span>
+                        <% } %>
+                    <% } %>
                 </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-cookie-session/"
-                            aria-label=": Django Cookie Session 操作"
-                        >
-                            Django Cookie Session 操作
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <!-- toc -->
-                    
-                        <a
-                            href="/2019/12/08/django-cookie-session/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Django Cookie Session 操作"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
+            <% } else { %>
+                <div class="postShorten-content">
+                    <%- postContent %>
+                    <% if (theme.image_gallery) { %>
+                        <%- partial('post/gallery', {photos: post.photos, post: post})%>
+                    <% } %>
+                    <% if (__('post.comment_and_share')) { %>
+                        <p>
+                            <a
+                                href="<%- url_for(post.path + '#post-footer') %>"
+                                class="postShorten-excerpt_link link"
+                                aria-label="<% __('post.comment_and_share') %>"
+                            >
+                                <%- __('post.comment_and_share') %>
+                            </a>
+                        </p>
+                    <% } %>
                 </div>
-            
+            <% } %>
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-form-component/"
-                            aria-label=": django form 组件"
-                        >
-                            django form 组件
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <!-- toc -->
-                    
-                        <a
-                            href="/2019/12/08/django-form-component/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": django form 组件"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-pagination/"
-                            aria-label=": django分页"
-                        >
-                            django分页
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p>
-                    
-                        <a
-                            href="/2019/12/08/django-pagination/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": django分页"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
+        <% if (thumbnailImageUrl !== null && thumbnailImagePosition !== "top") { %>
             <a
-                href="/2019/12/08/django-pagination/"
-                aria-label=": django分页"
+                href="<%- url_for(post.path) %>"
+                aria-label="<% __('global.open_post') %>: <%= post.title %>"
             >
                 <div class="postShorten-thumbnailimg">
-                    <img alt="" src="https://wangyangang.github.io/2019/12/08/django-pagination/分页.jpeg"/>
+                    <img alt="" src="<%= thumbnailImageUrl %>"/>
                 </div>
             </a>
-            
-        
+            <% thumbnailImageUrl = null; %>
+        <% } %>
     </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-models/"
-                            aria-label=": django模型models的使用"
-                        >
-                            django模型models的使用
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>在MVC框架中的Model模块中都包括ORM:实现了数据模型与数据库的解耦。只需要面向对象编程，不需要面向数据库编写代码。在Model中定义的类，通过ORM与数据表对应，对象的属性体现对象间的关系，这种关系也被映射到数据表中。</p>
-                    
-                        <a
-                            href="/2019/12/08/django-models/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": django模型models的使用"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-            <a
-                href="/2019/12/08/django-models/"
-                aria-label=": django模型models的使用"
-            >
-                <div class="postShorten-thumbnailimg">
-                    <img alt="" src="https://wangyangang.github.io/2019/12/08/django-models/orm.png"/>
-                </div>
-            </a>
-            
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-primary/"
-                            aria-label=": django的安装和使用"
-                        >
-                            django的安装和使用
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。</p>
-                    
-                        <a
-                            href="/2019/12/08/django-primary/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": django的安装和使用"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-            <a
-                href="/2019/12/08/django-primary/"
-                aria-label=": django的安装和使用"
-            >
-                <div class="postShorten-thumbnailimg">
-                    <img alt="" src="https://wangyangang.github.io/2019/12/08/django-primary/django.jpeg"/>
-                </div>
-            </a>
-            
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-rest-framework/"
-                            aria-label=": django rest_framework"
-                        >
-                            django rest_framework
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>, <a class="category-link" href="/categories/django/rest-framework/">rest_framework</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>django rest_framework</p>
-                    
-                        <a
-                            href="/2019/12/08/django-rest-framework/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": django rest_framework"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/12/08/django-template/"
-                            aria-label=": django模板"
-                        >
-                            django模板
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/django/">django</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <!-- toc -->
-
-<p>这里只介绍模板里的高级用法：自定义标签和过滤器</p>
-                    
-                        <a
-                            href="/2019/12/08/django-template/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": django模板"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-          <li class="pagination-next">
-            <a
-                class="btn btn--default btn--small"
-                href="/page/2/"
-                aria-label="OLDER POSTS"
-            >
-              <span>OLDER POSTS</span>
-              <i class="fa fa-angle-right text-base icon-ml"></i>
-            </a>
-          </li>
-        
-        <li class="pagination-number">page 1 of 2</li>
-    </ul>
-</div>
-
+    <% }) %>
+    <%- partial('pagination', {type: 'page'}) %>
 </section>
 
 
@@ -919,29 +482,6 @@
                 
                 <div class="media">
                     
-                    <div class="media-body">
-                        <a
-                            class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/django-form-component/"
-                            aria-label=": django form 组件"
-                        >
-                            <h3 class="media-heading">django form 组件</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Dec 8, 2019
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
                     <div class="media-left">
                         <a
                             class="link-unstyled"
@@ -968,6 +508,29 @@
                             </span>
                         </span>
                         <div class="media-content hide-xs font-merryweather"><p>Django提供了数据分页的类，这些类被定义在django/core/paginator.py中。 类Paginator用于对列进行一页n条数据的分页运算。类Page用于表示第m页的数据。</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-form-component/"
+                            aria-label=": django form 组件"
+                        >
+                            <h3 class="media-heading">django form 组件</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -1044,29 +607,6 @@
                     <div class="media-body">
                         <a
                             class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/django-rest-framework/"
-                            aria-label=": django rest_framework"
-                        >
-                            <h3 class="media-heading">django rest_framework</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Dec 8, 2019
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"><p>django rest_framework</p></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a
-                            class="link-unstyled"
                             href="https://wangyangang.github.io/2019/12/08/django-template/"
                             aria-label=": django模板"
                         >
@@ -1082,6 +622,29 @@
                         <div class="media-content hide-xs font-merryweather"><!-- toc -->
 
 <p>这里只介绍模板里的高级用法：自定义标签和过滤器</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/gist/"
+                            aria-label=": Gist"
+                        >
+                            <h3 class="media-heading">Gist</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
