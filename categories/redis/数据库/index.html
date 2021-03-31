@@ -240,83 +240,138 @@
                         ">
                 
     <section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
+    <% page.posts.each(function(post) { %>
+    <%
+        var tableOfContents = null;
+        var thumbnailImageUrl = post.thumbnailImageUrl;
+        var postContent = post.content;
+        // Define default position for the thumbnail image
+        var thumbnailImagePosition = theme.thumbnail_image_position;
+        /* Define thumbnail image */
+
+        // Define position of the thumbnail image
+        if (!post.excerpt && !post.link) {
+            thumbnailImagePosition = "bottom";
+        } else if (thumbnailImageUrl !== null) {
+            if (post.thumbnailImagePosition && post.thumbnailImagePosition.length)  {
+                thumbnailImagePosition = post.thumbnailImagePosition;
+            }
+        }
+
+        // Generate and insert table of contents in post content
+        if (!post.excerpt && (/<!--(\s*)[t|T][o|O][c|C](\s*)-->/).test(postContent)) {
+            if (__('post.toc_title')) {
+                tableOfContents = '<h1 id=\"table-of-contents\">' + __('post.toc') + '</h1>';
+            } else {
+                tableOfContents = '<span id="table-of-contents"></span>';
+            }
+            tableOfContents += toc(postContent, {list_number: false})
+            postContent = postContent.replace(/<!--(\s*)[t|T][o|O][c|C](\s*)-->/, tableOfContents)
+        }
+    %>
+    <article class="postShorten postShorten--thumbnailimg-<%= thumbnailImagePosition %>">
         <div class="postShorten-wrap">
-            
+            <% if (thumbnailImageUrl !== null && thumbnailImagePosition === "top") { %>
+                <a
+                    href="<%- url_for(post.path) %>"
+                    aria-label="<% __('global.open_post') %>: <%= post.title %>"
+                >
+                    <div class="postShorten-thumbnailimg">
+                        <img alt="" src="<%= thumbnailImageUrl %>"/>
+                    </div>
+                </a>
+                <% thumbnailImageUrl = null; %>
+            <% } %>
             <div class="postShorten-header">
                 <h1 class="postShorten-title">
-                    
+                    <% if (post.link) { %>
                         <a
                             class="link-unstyled"
-                            href="/2019/12/08/redis-primary/"
-                            aria-label=": redis的数据类型和基本命令"
+                            href="<%- url_for(post.link) %>"
+                            aria-label="<% __('global.open_post') %>: <%= post.title %>"
                         >
-                            redis的数据类型和基本命令
+                            <%= post.title || '(' + __('post.no_title') + ')' %>
                         </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-12-08T12:11:06+08:00">
-	
-		    Dec 08, 2019
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/redis/">redis</a>, <a class="category-link" href="/categories/redis/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>redis</p>
-                    
+                    <% } else { %>
                         <a
-                            href="/2019/12/08/redis-primary/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": redis的数据类型和基本命令"
+                            class="link-unstyled"
+                            href="<%- url_for(post.path) %>"
+                            aria-label="<% __('global.open_post') %>: <%= post.title %>"
                         >
-                            Continue reading
+                            <%= post.title || '(' + __('post.no_title') + ')' %>
                         </a>
-                        
-                    
+                    <% } %>
+                </h1>
+                <%- partial('post/meta', {post: post, classes: ['postShorten-meta']}) %>
+            </div>
+            <% if (post.excerpt || post.link) { %>
+                <div class="postShorten-excerpt">
+                    <%- post.excerpt %>
+                    <% if (post.link && _('post.go_to_website')) { %>
+                        <a
+                            href="<%- url_for(post.link) %>"
+                            target="new"
+                            class="postShorten-excerpt_link link"
+                            aria-label="<% __('global.open_link') %>: <%= post.title %>"
+                        >
+                            <%= __('post.go_to_website') %>
+                        </a>
+                    <% } else if (__('post.read_more')) { %>
+                        <a
+                            href="<%- url_for(post.path) %>"
+                            class="postShorten-excerpt_link link"
+                            aria-label="<% __('global.open_post') %>: <%= post.title %>"
+                        >
+                            <%- __('post.read_more') %>
+                        </a>
+                        <% if (post.readingtime) { %>
+                            <span class="postShorten-readingtime">
+                                <%= ' - ' + post.readingtime + ' min read' %>
+                            </span>
+                        <% } %>
+                    <% } %>
                 </div>
-            
+            <% } else { %>
+                <div class="postShorten-content">
+                    <%- postContent %>
+                    <% if (theme.image_gallery) { %>
+                        <%- partial('post/gallery', {photos: post.photos, post: post})%>
+                    <% } %>
+                    <% if (__('post.comment_and_share')) { %>
+                        <p>
+                            <a
+                                href="<%- url_for(post.path + '#post-footer') %>"
+                                class="postShorten-excerpt_link link"
+                                aria-label="<% __('post.comment_and_share') %>"
+                            >
+                                <%- __('post.comment_and_share') %>
+                            </a>
+                        </p>
+                    <% } %>
+                </div>
+            <% } %>
         </div>
-        
+        <% if (thumbnailImageUrl !== null && thumbnailImagePosition !== "top") { %>
             <a
-                href="/2019/12/08/redis-primary/"
-                aria-label=": redis的数据类型和基本命令"
+                href="<%- url_for(post.path) %>"
+                aria-label="<% __('global.open_post') %>: <%= post.title %>"
             >
                 <div class="postShorten-thumbnailimg">
-                    <img alt="" src="https://wangyangang.github.io/2019/12/08/redis-primary/redis.jpg"/>
+                    <img alt="" src="<%= thumbnailImageUrl %>"/>
                 </div>
             </a>
-            
-        
+            <% thumbnailImageUrl = null; %>
+        <% } %>
     </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">page 1 of 1</li>
-    </ul>
-</div>
-
+    <% }) %>
+    <%- partial('pagination', {type: 'page'}) %>
 </section>
 
 
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 王延刚. All Rights Reserved.
+        Copyrights &copy; 2021 王延刚. All Rights Reserved.
     </span>
 </footer>
 
@@ -386,29 +441,6 @@
                     <div class="media-body">
                         <a
                             class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/mysql-primary/"
-                            aria-label=": mysql基础知识"
-                        >
-                            <h3 class="media-heading">mysql基础知识</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Dec 8, 2019
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a
-                            class="link-unstyled"
                             href="https://wangyangang.github.io/2019/12/08/django-admin/"
                             aria-label=": django-admin的使用"
                         >
@@ -432,6 +464,29 @@
                     <div class="media-body">
                         <a
                             class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-cookie-session/"
+                            aria-label=": Django Cookie Session 操作"
+                        >
+                            <h3 class="media-heading">Django Cookie Session 操作</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
                             href="https://wangyangang.github.io/2019/12/08/django-form-component/"
                             aria-label=": django form 组件"
                         >
@@ -445,6 +500,39 @@
                             </span>
                         </span>
                         <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-models/"
+                            aria-label=": django模型models的使用"
+                        >
+                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/django-models/orm.png" width="90" height="90"/>
+                        </a>
+                    </div>
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-models/"
+                            aria-label=": django模型models的使用"
+                        >
+                            <h3 class="media-heading">django模型models的使用</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>在MVC框架中的Model模块中都包括ORM:实现了数据模型与数据库的解耦。只需要面向对象编程，不需要面向数据库编写代码。在Model中定义的类，通过ORM与数据表对应，对象的属性体现对象间的关系，这种关系也被映射到数据表中。</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -521,6 +609,29 @@
                     <div class="media-body">
                         <a
                             class="link-unstyled"
+                            href="https://wangyangang.github.io/2019/12/08/django-rest-framework/"
+                            aria-label=": django rest_framework"
+                        >
+                            <h3 class="media-heading">django rest_framework</h3>
+                        </a>
+                        <span class="media-meta">
+                            <span class="media-date text-small">
+                                
+                                    Dec 8, 2019
+                                
+                            </span>
+                        </span>
+                        <div class="media-content hide-xs font-merryweather"><p>django rest_framework</p></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <hr>
+                </div>
+                
+                <div class="media">
+                    
+                    <div class="media-body">
+                        <a
+                            class="link-unstyled"
                             href="https://wangyangang.github.io/2019/12/08/django-template/"
                             aria-label=": django模板"
                         >
@@ -566,46 +677,23 @@
                 
                 <div class="media">
                     
-                    <div class="media-body">
-                        <a
-                            class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/gist/"
-                            aria-label=": Gist"
-                        >
-                            <h3 class="media-heading">Gist</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Dec 8, 2019
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
                     <div class="media-left">
                         <a
                             class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/index/"
-                            aria-label=": index"
+                            href="https://wangyangang.github.io/2019/12/08/docker/"
+                            aria-label=": docker基本操作"
                         >
-                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/index/python.jpg" width="90" height="90"/>
+                            <img class="media-image" src="https://wangyangang.github.io/2019/12/08/docker/docker.png" width="90" height="90"/>
                         </a>
                     </div>
                     
                     <div class="media-body">
                         <a
                             class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/index/"
-                            aria-label=": index"
+                            href="https://wangyangang.github.io/2019/12/08/docker/"
+                            aria-label=": docker基本操作"
                         >
-                            <h3 class="media-heading">index</h3>
+                            <h3 class="media-heading">docker基本操作</h3>
                         </a>
                         <span class="media-meta">
                             <span class="media-date text-small">
@@ -614,30 +702,7 @@
                                 
                             </span>
                         </span>
-                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
-                    </div>
-                    <div style="clear:both;"></div>
-                    <hr>
-                </div>
-                
-                <div class="media">
-                    
-                    <div class="media-body">
-                        <a
-                            class="link-unstyled"
-                            href="https://wangyangang.github.io/2019/12/08/django-cookie-session/"
-                            aria-label=": Django Cookie Session 操作"
-                        >
-                            <h3 class="media-heading">Django Cookie Session 操作</h3>
-                        </a>
-                        <span class="media-meta">
-                            <span class="media-date text-small">
-                                
-                                    Dec 8, 2019
-                                
-                            </span>
-                        </span>
-                        <div class="media-content hide-xs font-merryweather"><!-- toc --></div>
+                        <div class="media-content hide-xs font-merryweather"><p>去年开始接触docker容器，当然只是处于一个观望的状态。今年有幸开始进行浅尝，特将过程记录下来，供自己以及将要使用docker的小伙伴们参考。</p></div>
                     </div>
                     <div style="clear:both;"></div>
                     <hr>
@@ -650,7 +715,7 @@
                 data-message-zero="no post found"
                 data-message-one="1 post found"
                 data-message-other="{n} posts found">
-                19 posts found
+                20 posts found
             </p>
         </div>
     </div>
